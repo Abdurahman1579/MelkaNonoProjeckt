@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="om">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sadarkaa — Malka Noonoo</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body data-page-title="progress.title">
+    <header class="header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">☪</div>
+          <div class="logo-text">
+            <strong data-i18n="brand.name">Malka Noonoo</strong>
+            <span data-i18n="brand.subtitle"
+              >Mana Marii Dhimmoota Islaamummaa</span
+            >
+          </div>
+        </a>
+        <nav class="nav" id="nav">
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="progress.html" class="active" data-i18n="nav.progress"
+            >Sadarkaa</a
+          >
+          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <div class="mobile-langs">
+            <button class="lang-mobile" data-lang="om">Oromiffa</button>
+            <button class="lang-mobile" data-lang="am">አማርኛ</button>
+            <button class="lang-mobile" data-lang="en">English</button>
+          </div>
+        </nav>
+        <div class="header-actions">
+          <div class="lang-switcher" id="langSwitcher"></div>
+          <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
+            >Gumaachi</a
+          >
+          <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <h1 data-i18n="progress.title">Sadarkaa Raawwii</h1>
+        <p data-i18n="progress.subtitle">
+          Piroojektiin kun akkaataa itti fufaa jiru ilaali.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="summary-grid">
+          <div class="summary-card">
+            <span class="summary-label" data-i18n="progress.raised"
+              >Walitti Qabame</span
+            >
+            <strong class="summary-value" id="sumRaised">0 ETB</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label" data-i18n="progress.goal">Galma</span>
+            <strong class="summary-value">190,000,000 ETB</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label" data-i18n="progress.percent"
+              >Dhibbeentaa</span
+            >
+            <strong class="summary-value" id="sumPercent">0%</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label" data-i18n="progress.donors"
+              >Gumaachitoota</span
+            >
+            <strong class="summary-value" id="sumDonors">0</strong>
+          </div>
+        </div>
+
+        <div class="progress-hero">
+          <div class="progress-hero-bar" id="heroProgressBar"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="progress.milestones">Qabeenya Karoorfame</h2>
+        </div>
+        <div class="cards" id="milestonesGrid">
+          <div class="loading" data-i18n="loading">Fe'amaa jira...</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="progress.recent">Gumaachitoota Dhiyoo</h2>
+        </div>
+        <div class="donations-list" id="donationsList">
+          <div class="loading" data-i18n="loading">Fe'amaa jira...</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4 data-i18n="brand.name">Malka Noonoo</h4>
+          <p data-i18n-html="footer.address">
+            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+          </p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.links">Geessituu</h4>
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
+          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.support">Deeggarsa</h4>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <a href="login.html" data-i18n="nav.login">Seensa</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
+      </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/progress.js"></script>
+  </body>
+</html>

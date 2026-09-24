@@ -1,0 +1,197 @@
+/* ============================================
+   PAGE HERO
+   ============================================ */
+.page-hero {
+  background: linear-gradient(135deg, var(--green-900), var(--green-700));
+  color: var(--white);
+  padding: 60px 0;
+  text-align: center;
+}
+.page-hero h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 12px; }
+.page-hero p { opacity: 0.9; font-size: 16px; max-width: 640px; margin: 0 auto; }
+
+/* ============================================
+   CONTENT NARROW
+   ============================================ */
+.content-narrow { max-width: 780px; margin: 0 auto; }
+.content-narrow h2 { margin-bottom: 16px; color: var(--green-900); font-size: 26px; }
+.content-narrow p { font-size: 16px; color: var(--neutral-700); margin-bottom: 16px; }
+.list-check { list-style: none; padding: 0; margin: 20px 0; }
+.list-check li { padding: 10px 0 10px 32px; position: relative; font-size: 15px; border-bottom: 1px solid var(--neutral-100); }
+.list-check li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green-500);
+  font-weight: 700;
+  font-size: 18px;
+}
+.list-simple { padding-left: 18px; }
+.list-simple li { font-size: 14px; color: var(--neutral-700); padding: 4px 0; }
+.cta-inline { margin-top: 30px; text-align: center; }
+
+/* ============================================
+   DONATE PAGE
+   ============================================ */
+.donate-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: flex-start; }
+.donate-form-wrap {
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+.quick-amounts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.quick-amounts button {
+  padding: 6px 14px;
+  border: 1px solid var(--neutral-300);
+  background: var(--white);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-700);
+  transition: all 0.2s;
+}
+.quick-amounts button:hover {
+  background: var(--green-100);
+  border-color: var(--green-500);
+  color: var(--green-900);
+}
+.donate-info { display: flex; flex-direction: column; gap: 20px; }
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+.info-card.highlight { background: var(--green-100); border-color: var(--green-300); }
+.info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--green-900); }
+.big-amount { font-size: 24px; color: var(--green-700); font-weight: 800; display: block; margin-bottom: 12px; }
+.donate-progress { background: var(--neutral-100); height: 10px; border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+.donate-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-500), var(--gold-500));
+  width: 0;
+  transition: width 1.5s ease;
+}
+.small { font-size: 13px; color: var(--neutral-500); }
+
+/* ============================================
+   PROGRESS PAGE
+   ============================================ */
+.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+.summary-card { background: var(--white); border: 1px solid var(--neutral-100); border-radius: var(--radius-md); padding: 22px; text-align: center; }
+.summary-label { font-size: 13px; color: var(--neutral-500); display: block; margin-bottom: 6px; }
+.summary-value { font-size: 22px; color: var(--green-700); font-weight: 800; }
+.progress-hero { background: var(--neutral-100); height: 20px; border-radius: 999px; overflow: hidden; }
+.progress-hero-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--green-500), var(--gold-500));
+  transition: width 2s ease;
+}
+.donations-list { display: flex; flex-direction: column; gap: 10px; }
+.donation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-sm);
+}
+.donation-row .name { font-weight: 600; font-size: 14px; }
+.donation-row .amount { font-weight: 700; color: var(--green-700); font-family: 'Inter', monospace; }
+
+/* ============================================
+   MASJIDOTTA
+   ============================================ */
+.filter-bar { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.filter-bar input, .filter-bar select {
+  padding: 12px 14px;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+}
+.filter-bar input { flex: 1; min-width: 220px; }
+.masjid-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.masjid-card {
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.masjid-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--green-300); }
+.masjid-icon { font-size: 32px; margin-bottom: 10px; }
+.masjid-card h3 { font-size: 15px; margin-bottom: 6px; color: var(--green-900); }
+.masjid-loc { font-size: 12px; color: var(--neutral-500); }
+.masjid-members { font-size: 12px; color: var(--green-700); margin-top: 6px; font-weight: 600; }
+
+/* ============================================
+   CONTACT PAGE
+   ============================================ */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: flex-start; }
+.contact-info h2, .contact-form h2 { color: var(--green-900); font-size: 22px; margin-bottom: 20px; }
+.contact-item { margin-bottom: 20px; }
+.contact-item strong { display: block; font-size: 14px; margin-bottom: 4px; }
+.contact-item p { color: var(--neutral-500); font-size: 14px; }
+.contact-form {
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+
+/* ============================================
+   AUTH PAGE
+   ============================================ */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--green-900), var(--green-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.auth-wrap { width: 100%; max-width: 420px; }
+.auth-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  position: relative;
+}
+.auth-lang { position: absolute; top: 16px; right: 16px; }
+.auth-logo {
+  display: inline-flex;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  color: var(--white);
+  border-radius: 16px;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.auth-card h1 { font-size: 24px; color: var(--green-900); margin-bottom: 6px; }
+.auth-sub { font-size: 14px; color: var(--neutral-500); margin-bottom: 28px; }
+.auth-card form { text-align: left; }
+.auth-footer { margin-top: 20px; font-size: 13px; }
+.auth-footer a { color: var(--green-700); font-weight: 600; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .donate-grid, .contact-grid { grid-template-columns: 1fr; }
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .donate-form-wrap { padding: 24px 20px; }
+}
