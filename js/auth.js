@@ -1,9 +1,9 @@
 // ============================================
-// AUTH + DASHBOARD (FIXED)
+// AUTH + DASHBOARD — Malka Noonoo (FULL)
 // ============================================
 
 // ============================================
-// LOGIN PAGE
+// 1. LOGIN PAGE
 // ============================================
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
@@ -11,7 +11,7 @@ if (loginForm) {
   (async () => {
     const { data: { session } } = await db.auth.getSession();
     if (session) {
-      console.log('✅ Already logged in, redirecting...');
+      console.log('✅ Already logged in, redirecting to dashboard...');
       window.location.href = 'dashboard.html';
     }
   })();
@@ -37,7 +37,7 @@ if (loginForm) {
       msg.textContent = '❌ ' + (error.message || 'Seensa hin milkoofne');
       msg.classList.add('error');
       btn.disabled = false;
-      btn.textContent = t('login.submit') || 'Seeni';
+      btn.textContent = 'Seeni';
       return;
     }
 
@@ -50,7 +50,7 @@ if (loginForm) {
 }
 
 // ============================================
-// DASHBOARD PAGE
+// 2. DASHBOARD PAGE
 // ============================================
 const dashBody = document.querySelector('.dash-body');
 if (dashBody) {
@@ -58,7 +58,9 @@ if (dashBody) {
 
   (async function initDashboard() {
     try {
-      // 1. Session check
+      // ----------------------------------------
+      // 2.1 Session check
+      // ----------------------------------------
       const { data: { session }, error: sessionErr } = await db.auth.getSession();
 
       if (sessionErr) {
@@ -76,7 +78,9 @@ if (dashBody) {
       console.log('✅ Session found:', session.user.email);
       document.getElementById('dashUser').textContent = session.user.email;
 
-      // 2. Check profile role
+      // ----------------------------------------
+      // 2.2 Check profile
+      // ----------------------------------------
       const { data: profile, error: profileErr } = await db
         .from('mn_profiles')
         .select('*')
@@ -88,8 +92,7 @@ if (dashBody) {
       }
 
       if (!profile) {
-        console.warn('⚠️ No profile row. Creating default...');
-        // Auto-create profile as admin (kana booda haqii)
+        console.warn('⚠️ No profile row. Creating default admin...');
         const { error: insertErr } = await db
           .from('mn_profiles')
           .insert({
@@ -101,16 +104,20 @@ if (dashBody) {
         if (insertErr) {
           console.error('❌ Auto-create profile failed:', insertErr);
         } else {
-          console.log('✅ Auto-created profile');
+          console.log('✅ Auto-created profile as admin');
         }
       } else {
         console.log('👤 Profile:', profile.role, '-', profile.full_name);
       }
 
-      // 3. Load overview
+      // ----------------------------------------
+      // 2.3 Load overview
+      // ----------------------------------------
       await loadOverview();
 
-      // 4. Tab navigation
+      // ----------------------------------------
+      // 2.4 Tab navigation
+      // ----------------------------------------
       document.querySelectorAll('.dash-nav a').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
@@ -134,14 +141,18 @@ if (dashBody) {
         });
       });
 
-      // 5. Logout
+      // ----------------------------------------
+      // 2.5 Logout
+      // ----------------------------------------
       document.getElementById('logoutBtn')?.addEventListener('click', async () => {
         console.log('👋 Logging out...');
         await db.auth.signOut();
         window.location.href = 'login.html';
       });
 
-      // 6. Language change re-render
+      // ----------------------------------------
+      // 2.6 Language change re-render
+      // ----------------------------------------
       window.addEventListener('languageChanged', () => {
         const active = document.querySelector('.dash-nav a.active');
         if (active) {
@@ -161,13 +172,13 @@ if (dashBody) {
 }
 
 // ============================================
-// OVERVIEW
+// 3. LOAD OVERVIEW
 // ============================================
 async function loadOverview() {
   try {
     console.log('📊 Loading overview...');
 
-    // Galii waliigalaa
+    // 3.1 Galii waliigalaa
     const { data: donations, error: dErr } = await db
       .from('mn_donations')
       .select('amount, donor_phone')
@@ -183,7 +194,7 @@ async function loadOverview() {
     setText('kpiPercent', pct + '%');
     setText('kpiDonors', uniqueDonors);
 
-    // Baasii
+    // 3.2 Baasii
     const { data: expenses, error: eErr } = await db
       .from('mn_expenses')
       .select('amount');
@@ -192,21 +203,21 @@ async function loadOverview() {
     const totalExp = (expenses || []).reduce((s, e) => s + Number(e.amount), 0);
     setText('kpiExpenses', formatETB(totalExp));
 
-    // Qabeenya
+    // 3.3 Qabeenya
     const { data: assets, error: aErr } = await db
       .from('mn_assets')
       .select('id');
     if (aErr) console.error('❌ Assets error:', aErr);
     setText('kpiAssets', (assets || []).length);
 
-    console.log('✅ Overview loaded');
+    console.log('✅ Overview loaded — Raised:', formatETB(raised), '| Donors:', uniqueDonors);
   } catch (err) {
     console.error('❌ loadOverview error:', err);
   }
 }
 
 // ============================================
-// TABS
+// 4. LOAD TABS
 // ============================================
 async function loadTab(tab) {
   try {
@@ -267,7 +278,7 @@ async function loadTab(tab) {
 }
 
 // ============================================
-// RENDERERS
+// 5. RENDERERS
 // ============================================
 function badge(s) {
   return `<span class="badge-status ${s}">${s}</span>`;
@@ -277,7 +288,7 @@ function renderDonationsTable(list) {
   const tb = document.querySelector('#donationsTable tbody');
   if (!tb) return;
   if (!list.length) {
-    tb.innerHTML = `<tr><td colspan="8">${t('table.empty')}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="9">${t('table.empty')}</td></tr>`;
     return;
   }
   tb.innerHTML = list.map((d, i) => `
@@ -290,6 +301,12 @@ function renderDonationsTable(list) {
       <td>${d.payment_method || '—'}</td>
       <td>${badge(d.status)}</td>
       <td>${new Date(d.created_at).toLocaleDateString()}</td>
+      <td>
+        ${d.status === 'pending' 
+          ? `<button onclick="confirmDonation(${d.id})" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px;">✓ Confirm</button>`
+          : '—'
+        }
+      </td>
     </tr>
   `).join('');
 }
@@ -354,7 +371,7 @@ function renderMasjidosTable(list) {
   const tb = document.querySelector('#masjidosTable tbody');
   if (!tb) return;
   if (!list.length) {
-    tb.innerHTML = `<tr><td colspan="5">${t('table.empty')}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="6">${t('table.empty')}</td></tr>`;
     return;
   }
   tb.innerHTML = list.map((m, i) => `
@@ -363,7 +380,13 @@ function renderMasjidosTable(list) {
       <td>${m.name}</td>
       <td>${m.woreda}</td>
       <td>${m.kebele || '—'}</td>
-      <td>${m.member_count}</td>
+      <td>${m.member_count || 0}</td>
+      <td>
+        <button onclick="deleteMasjid(${m.id})" class="btn" 
+                style="padding: 4px 10px; font-size: 12px; background: #fee2e2; color: #991b1b; border: none; border-radius: 6px; cursor: pointer;">
+          🗑
+        </button>
+      </td>
     </tr>
   `).join('');
 }
@@ -385,7 +408,111 @@ function renderAnnouncementsTable(list) {
   `).join('');
 }
 
+// ============================================
+// 6. ACTIONS — Donations Confirm
+// ============================================
+async function confirmDonation(id) {
+  if (!confirm('Gumaacha kana mirkaneessuu?')) return;
+
+  console.log('✅ Confirming donation:', id);
+
+  const { error } = await db
+    .from('mn_donations')
+    .update({
+      status: 'confirmed',
+      payment_ref: 'MANUAL-' + Date.now()
+    })
+    .eq('id', id);
+
+  if (error) {
+    console.error('❌ Confirm error:', error);
+    alert('❌ Dogoggora: ' + error.message);
+    return;
+  }
+
+  console.log('✅ Donation confirmed');
+  alert('✅ Gumaachni mirkanaa\'e!');
+  loadTab('donations');
+  loadOverview();
+}
+
+// ============================================
+// 7. ACTIONS — Masjid Add / Delete
+// ============================================
+const addMasjidForm = document.getElementById('addMasjidForm');
+if (addMasjidForm) {
+  addMasjidForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const msg = document.getElementById('masjidMsg');
+    const btn = addMasjidForm.querySelector('button[type="submit"]');
+
+    const masjid = {
+      name: fd.get('name').trim(),
+      woreda: fd.get('woreda'),
+      kebele: fd.get('kebele')?.trim() || null,
+      member_count: Number(fd.get('member_count')) || 0
+    };
+
+    if (!masjid.name || !masjid.woreda) {
+      msg.textContent = '❌ Maqaa fi Aanaa barbaachisu';
+      msg.className = 'form-message error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Dabalamaa jira...';
+    msg.className = 'form-message';
+
+    console.log('🕌 Adding masjid:', masjid);
+
+    const { error } = await db.from('mn_masjidos').insert([masjid]);
+
+    if (error) {
+      console.error('❌ Add masjid error:', error);
+      msg.textContent = '❌ ' + error.message;
+      msg.className = 'form-message error';
+      btn.disabled = false;
+      btn.textContent = '➕ Masgiida Dabali';
+      return;
+    }
+
+    console.log('✅ Masjid added');
+    msg.textContent = '✅ Masgiida dabalameera!';
+    msg.className = 'form-message success';
+    addMasjidForm.reset();
+    btn.disabled = false;
+    btn.textContent = '➕ Masgiida Dabali';
+
+    loadTab('masjidos');
+  });
+}
+
+async function deleteMasjid(id) {
+  if (!confirm('Masgiida kana balleessuu? Kun deebi\'uu hin danda\'u!')) return;
+
+  console.log('🗑 Deleting masjid:', id);
+
+  const { error } = await db.from('mn_masjidos').delete().eq('id', id);
+
+  if (error) {
+    console.error('❌ Delete error:', error);
+    alert('❌ Dogoggora: ' + error.message);
+    return;
+  }
+
+  console.log('✅ Masjid deleted');
+  loadTab('masjidos');
+}
+
+// ============================================
+// 8. HELPERS
+// ============================================
 function setText(id, text) {
   const el = document.getElementById(id);
   if (el) el.textContent = text;
 }
+
+// Global scope
+window.confirmDonation = confirmDonation;
+window.deleteMasjid = deleteMasjid;

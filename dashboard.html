@@ -5,19 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daashboordii — Malka Noonoo</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
+
+    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
   </head>
   <body class="dash-body" data-page-title="dash.title">
+    <!-- ==========================================
+       SIDEBAR
+       ========================================== -->
     <aside class="dash-sidebar">
       <div class="dash-logo">
         <span>☪</span>
         <strong data-i18n="brand.name">Malka Noonoo</strong>
       </div>
+
       <nav class="dash-nav">
         <a href="#" class="active" data-tab="overview">
           📊 <span data-i18n="dash.overview">Waliigalaa</span>
@@ -40,12 +50,19 @@
         <a href="#" data-tab="announcements">
           📢 <span data-i18n="dash.announcements">Beeksisa</span>
         </a>
+        <a href="#" data-tab="activity">
+          📋 <span data-i18n="dash.activity">Sochii</span>
+        </a>
       </nav>
+
       <button id="logoutBtn" class="dash-logout" data-i18n="dash.logout">
         ← Ba'i
       </button>
     </aside>
 
+    <!-- ==========================================
+       MAIN
+       ========================================== -->
     <main class="dash-main">
       <header class="dash-header">
         <h1 id="dashTitle" data-i18n="dash.title">Waliigalaa</h1>
@@ -55,7 +72,11 @@
         </div>
       </header>
 
+      <!-- ========================================
+         OVERVIEW TAB
+         ======================================== -->
       <section class="dash-tab active" data-tab="overview">
+        <!-- KPI GRID -->
         <div class="kpi-grid">
           <div class="kpi">
             <span data-i18n="dash.kpi.raised">Galii Waliigalaa</span>
@@ -82,65 +103,319 @@
             <strong id="kpiAssets">0</strong>
           </div>
         </div>
+
+        <!-- CHARTS -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3 data-i18n="dash.chart.revenue">📈 Galii Ji'aan</h3>
+            <div class="chart-wrap">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3 data-i18n="dash.chart.tiers">🥧 Sadarkaa Gumaachaa</h3>
+            <div class="chart-wrap">
+              <canvas id="tiersChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3 data-i18n="dash.chart.expenses">📊 Baasii Ramaddii</h3>
+            <div class="chart-wrap">
+              <canvas id="expensesChart"></canvas>
+            </div>
+          </div>
+        </div>
       </section>
 
+      <!-- ========================================
+         DONATIONS TAB
+         ======================================== -->
       <section class="dash-tab" data-tab="donations">
+        <!-- FILTERS -->
+        <div class="filter-bar">
+          <input
+            type="search"
+            id="donSearch"
+            placeholder="Maqaa / Bilbila barbaadi..."
+          />
+          <select id="donTier">
+            <option value="">Sadarkaa hunda</option>
+            <option value="tier1">Sadarkaa 1</option>
+            <option value="tier2">Sadarkaa 2</option>
+            <option value="community">Hawaasa</option>
+            <option value="masjid">Masgiida</option>
+            <option value="business">Daldala</option>
+          </select>
+          <select id="donStatus">
+            <option value="">Haala hunda</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="failed">Failed</option>
+          </select>
+          <input type="date" id="donFrom" />
+          <input type="date" id="donTo" />
+          <button type="button" class="btn btn-outline" id="donClear">
+            Haqi
+          </button>
+        </div>
+
+        <!-- ACTION BAR -->
+        <div class="action-bar">
+          <span class="selected-count" id="donSelectedCount">0 filatame</span>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="bulkConfirmBtn"
+              disabled
+            >
+              ✓ Confirm Filatame
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="exportDonationsPDF()"
+            >
+              📄 PDF
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="exportDonationsExcel()"
+            >
+              📊 Excel
+            </button>
+          </div>
+        </div>
+
         <div class="table-wrap">
           <table id="donationsTable">
             <thead>
               <tr>
-                <th data-i18n="table.number">#</th>
-                <th data-i18n="table.name">Maqaa</th>
-                <th data-i18n="table.phone">Bilbila</th>
-                <th data-i18n="table.tier">Sadarkaa</th>
-                <th data-i18n="table.amount">Gumaacha</th>
-                <th data-i18n="table.method">Mala</th>
-                <th data-i18n="table.status">Haala</th>
-                <th data-i18n="table.date">Guyyaa</th>
+                <th><input type="checkbox" id="donSelectAll" /></th>
+                <th>#</th>
+                <th>Maqaa</th>
+                <th>Bilbila</th>
+                <th>Imeelii</th>
+                <th>Sadarkaa</th>
+                <th>Gumaacha</th>
+                <th>Yeroo</th>
+                <th>Mala</th>
+                <th>Haala</th>
+                <th>Guyyaa</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="8" class="loading">Fe'amaa jira...</td>
+                <td colspan="12" class="loading">Fe'amaa jira...</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
+      <!-- ========================================
+         EXPENSES TAB
+         ======================================== -->
       <section class="dash-tab" data-tab="expenses">
+        <!-- FORM -->
+        <div class="form-card">
+          <h3>💸 Baasii Haaraa Galmeessi</h3>
+          <form id="addExpenseForm" class="inline-form">
+            <input
+              type="text"
+              name="category"
+              placeholder="Ramaddii *"
+              required
+            />
+            <input type="text" name="description" placeholder="Ibsa" />
+            <input
+              type="number"
+              name="amount"
+              placeholder="Baasii (ETB) *"
+              required
+              min="1"
+              step="1"
+            />
+            <select name="status">
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+          </form>
+          <div id="expenseMsg" class="form-message"></div>
+        </div>
+
         <div class="table-wrap">
           <table id="expensesTable">
             <thead>
               <tr>
-                <th data-i18n="table.number">#</th>
-                <th data-i18n="table.category">Ramaddii</th>
-                <th data-i18n="table.description">Ibsa</th>
-                <th data-i18n="table.amount">Baasii</th>
-                <th data-i18n="table.status">Haala</th>
-                <th data-i18n="table.date">Guyyaa</th>
+                <th>#</th>
+                <th>Ramaddii</th>
+                <th>Ibsa</th>
+                <th>Baasii</th>
+                <th>Haala</th>
+                <th>Guyyaa</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading">Fe'amaa jira...</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
+      <!-- ========================================
+         ASSETS TAB
+         ======================================== -->
       <section class="dash-tab" data-tab="assets">
+        <div class="form-card">
+          <h3>🏢 Qabeenya Haaraa Galmeessi</h3>
+          <form id="addAssetForm" class="inline-form">
+            <input type="text" name="name" placeholder="Maqaa *" required />
+            <input type="text" name="category" placeholder="Ramaddii" />
+            <input
+              type="number"
+              name="quantity"
+              placeholder="Baay'ina"
+              min="1"
+              value="1"
+            />
+            <input
+              type="number"
+              name="purchase_price"
+              placeholder="Gatii (ETB)"
+              min="0"
+              step="1"
+            />
+            <input type="date" name="purchase_date" />
+            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+          </form>
+          <div id="assetMsg" class="form-message"></div>
+        </div>
+
         <div class="table-wrap">
           <table id="assetsTable">
             <thead>
               <tr>
-                <th data-i18n="table.number">#</th>
-                <th data-i18n="table.name">Maqaa</th>
-                <th data-i18n="table.category">Ramaddii</th>
-                <th data-i18n="table.quantity">Baay'ina</th>
-                <th data-i18n="table.price">Gatii</th>
-                <th data-i18n="table.date">Guyyaa</th>
+                <th>#</th>
+                <th>Maqaa</th>
+                <th>Ramaddii</th>
+                <th>Baay'ina</th>
+                <th>Gatii</th>
+                <th>Guyyaa</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="7" class="loading">Fe'amaa jira...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================
+         RENTALS TAB
+         ======================================== -->
+      <section class="dash-tab" data-tab="rentals">
+        <div class="form-card">
+          <h3>🏪 Kireeffannaa Haaraa Galmeessi</h3>
+          <form id="addRentalForm" class="inline-form">
+            <input
+              type="text"
+              name="tenant_name"
+              placeholder="Kireeffataa *"
+              required
+            />
+            <input type="tel" name="tenant_phone" placeholder="Bilbila" />
+            <input
+              type="text"
+              name="space_description"
+              placeholder="Ibsa bakka"
+            />
+            <input
+              type="number"
+              name="monthly_rent"
+              placeholder="Kireeffannaa (ETB)"
+              min="0"
+              step="1"
+            />
+            <input type="date" name="start_date" />
+            <select name="status">
+              <option value="active">Active</option>
+              <option value="terminated">Terminated</option>
+              <option value="expired">Expired</option>
+            </select>
+            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+          </form>
+          <div id="rentalMsg" class="form-message"></div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="rentalsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Kireeffataa</th>
+                <th>Bilbila</th>
+                <th>Bakka</th>
+                <th>Kireeffannaa</th>
+                <th>Haala</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="7" class="loading">Fe'amaa jira...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================
+         MASJIDOS TAB
+         ======================================== -->
+      <section class="dash-tab" data-tab="masjidos">
+        <div class="form-card">
+          <h3>🕌 Masgiida Haaraa Dabali</h3>
+          <form id="addMasjidForm" class="inline-form">
+            <input type="text" name="name" placeholder="Maqaa *" required />
+            <select name="woreda" required>
+              <option value="">— Aanaa Filadhu —</option>
+              <option value="Malka Gafarsa">Malka Gafarsa</option>
+              <option value="Bero">Bero</option>
+              <option value="Nono">Nono</option>
+            </select>
+            <input type="text" name="kebele" placeholder="Kebele" />
+            <input
+              type="number"
+              name="member_count"
+              placeholder="Miseensota"
+              min="0"
+            />
+            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+          </form>
+          <div id="masjidMsg" class="form-message"></div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="masjidosTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Maqaa</th>
+                <th>Aanaa</th>
+                <th>Kebele</th>
+                <th>Miseensota</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -152,62 +427,88 @@
         </div>
       </section>
 
-      <section class="dash-tab" data-tab="rentals">
-        <div class="table-wrap">
-          <table id="rentalsTable">
-            <thead>
-              <tr>
-                <th data-i18n="table.number">#</th>
-                <th data-i18n="table.tenant">Kireeffataa</th>
-                <th data-i18n="table.space">Bakka</th>
-                <th data-i18n="table.rent">Kireeffannaa</th>
-                <th data-i18n="table.status">Haala</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colspan="5" class="loading">Fe'amaa jira...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="dash-tab" data-tab="masjidos">
-        <div class="table-wrap">
-          <table id="masjidosTable">
-            <thead>
-              <tr>
-                <th data-i18n="table.number">#</th>
-                <th data-i18n="table.name">Maqaa</th>
-                <th data-i18n="table.woreda">Aanaa</th>
-                <th data-i18n="table.kebele">Kebele</th>
-                <th data-i18n="table.members">Miseensota</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colspan="5" class="loading">Fe'amaa jira...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
+      <!-- ========================================
+         ANNOUNCEMENTS TAB
+         ======================================== -->
       <section class="dash-tab" data-tab="announcements">
+        <div class="form-card">
+          <h3>📢 Beeksisa Haaraa Uumi</h3>
+          <form id="addAnnouncementForm" class="stack-form">
+            <input
+              type="text"
+              name="title"
+              placeholder="Mata-duree *"
+              required
+            />
+            <textarea name="body" rows="4" placeholder="Qabiyyee..."></textarea>
+            <label class="checkbox-row">
+              <input type="checkbox" name="is_public" checked />
+              <span>Public — hawaasa hundaaf mul'ata</span>
+            </label>
+            <button type="submit" class="btn btn-primary">➕ Maxxansi</button>
+          </form>
+          <div id="announcementMsg" class="form-message"></div>
+        </div>
+
         <div class="table-wrap">
           <table id="announcementsTable">
             <thead>
               <tr>
-                <th data-i18n="table.number">#</th>
-                <th data-i18n="table.title">Mata-duree</th>
-                <th data-i18n="table.body">Qabiyyee</th>
-                <th data-i18n="table.date">Guyyaa</th>
+                <th>#</th>
+                <th>Mata-duree</th>
+                <th>Qabiyyee</th>
+                <th>Public</th>
+                <th>Guyyaa</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="4" class="loading">Fe'amaa jira...</td>
+                <td colspan="6" class="loading">Fe'amaa jira...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================
+         ACTIVITY LOG TAB
+         ======================================== -->
+      <section class="dash-tab" data-tab="activity">
+        <div class="filter-bar">
+          <select id="activityType">
+            <option value="">Sochii hunda</option>
+            <option value="donation">Gumaacha</option>
+            <option value="expense">Baasii</option>
+            <option value="asset">Qabeenya</option>
+            <option value="rental">Kireeffannaa</option>
+            <option value="masjid">Masgiida</option>
+            <option value="announcement">Beeksisa</option>
+          </select>
+          <button
+            type="button"
+            class="btn btn-outline"
+            onclick="loadTab('activity')"
+          >
+            🔄 Haaromsi
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table id="activityTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Yeroo</th>
+                <th>Actor</th>
+                <th>Sochii</th>
+                <th>Ibsa</th>
+                <th>IP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6" class="loading">Fe'amaa jira...</td>
               </tr>
             </tbody>
           </table>
@@ -215,10 +516,12 @@
       </section>
     </main>
 
+    <!-- SCRIPTS -->
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/supabase.js"></script>
+    <script src="js/dashboard.js"></script>
     <script src="js/auth.js"></script>
   </body>
 </html>

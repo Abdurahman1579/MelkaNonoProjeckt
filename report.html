@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="om">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gabaasa — Malka Noonoo</title>
+    <meta
+      name="description"
+      content="Gabaasa waggaa, ji'aa fi auditii Malka Noonoo"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <link rel="stylesheet" href="css/reports.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body data-page-title="reports.title">
+    <header class="header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">☪</div>
+          <div class="logo-text">
+            <strong data-i18n="brand.name">Malka Noonoo</strong>
+            <span data-i18n="brand.subtitle"
+              >Mana Marii Dhimmoota Islaamummaa</span
+            >
+          </div>
+        </a>
+        <nav class="nav" id="nav">
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
+          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="reports.html" class="active" data-i18n="nav.reports"
+            >Gabaasa</a
+          >
+          <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <div class="mobile-langs">
+            <button class="lang-mobile" type="button" data-lang="om">
+              Oromiffa
+            </button>
+            <button class="lang-mobile" type="button" data-lang="am">
+              አማርኛ
+            </button>
+            <button class="lang-mobile" type="button" data-lang="en">
+              English
+            </button>
+          </div>
+        </nav>
+        <div class="header-actions">
+          <div class="lang-switcher" id="langSwitcher"></div>
+          <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
+            >Gumaachi</a
+          >
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <h1 data-i18n="reports.title">Gabaasa fi Iftoomina</h1>
+        <p data-i18n="reports.subtitle">
+          Galii, baasii, qabeenya fi gabaasa auditii — ifa ta'een.
+        </p>
+      </div>
+    </section>
+
+    <!-- SUMMARY CARDS -->
+    <section class="section">
+      <div class="container">
+        <div class="reports-summary">
+          <div class="report-card">
+            <div class="report-icon">💰</div>
+            <span class="report-label" data-i18n="reports.total_raised"
+              >Galii Waliigalaa</span
+            >
+            <strong class="report-value" id="repRaised">0 ETB</strong>
+          </div>
+          <div class="report-card">
+            <div class="report-icon">💸</div>
+            <span class="report-label" data-i18n="reports.total_expenses"
+              >Baasii Waliigalaa</span
+            >
+            <strong class="report-value" id="repExpenses">0 ETB</strong>
+          </div>
+          <div class="report-card">
+            <div class="report-icon">🏢</div>
+            <span class="report-label" data-i18n="reports.total_assets"
+              >Qabeenya</span
+            >
+            <strong class="report-value" id="repAssets">0</strong>
+          </div>
+          <div class="report-card">
+            <div class="report-icon">📊</div>
+            <span class="report-label" data-i18n="reports.percent"
+              >Raawwii</span
+            >
+            <strong class="report-value" id="repPercent">0%</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARTS -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="reports.charts.title">Gabaasa Suuraa (Charts)</h2>
+        </div>
+        <div class="report-charts">
+          <div class="chart-card">
+            <h3 data-i18n="reports.chart.revenue">📈 Galii Ji'aan</h3>
+            <div class="chart-wrap"><canvas id="repRevenueChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3 data-i18n="reports.chart.tiers">🥧 Sadarkaa Gumaachaa</h3>
+            <div class="chart-wrap"><canvas id="repTiersChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3 data-i18n="reports.chart.expenses">📊 Baasii Ramaddii</h3>
+            <div class="chart-wrap">
+              <canvas id="repExpensesChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOWNLOADS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="reports.downloads.title">Gabaasa Buusi</h2>
+          <p data-i18n="reports.downloads.sub">
+            Gabaasa PDF fi Excel buusuu dandeessa.
+          </p>
+        </div>
+        <div class="reports-downloads">
+          <button class="download-card" onclick="downloadReportPDF()">
+            <span class="download-icon">📄</span>
+            <strong data-i18n="reports.download.pdf">Gabaasa PDF</strong>
+            <small data-i18n="reports.download.pdf.sub">Guutuu waggaa</small>
+          </button>
+          <button class="download-card" onclick="downloadReportExcel()">
+            <span class="download-icon">📊</span>
+            <strong data-i18n="reports.download.excel">Gabaasa Excel</strong>
+            <small data-i18n="reports.download.excel.sub">Data guutuu</small>
+          </button>
+          <button class="download-card" onclick="downloadAuditPDF()">
+            <span class="download-icon">🔍</span>
+            <strong data-i18n="reports.download.audit">Audit Report</strong>
+            <small data-i18n="reports.download.audit.sub"
+              >Gabaasa auditii</small
+            >
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSPARENCY NOTE -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <h2 data-i18n="reports.transparency.title">
+          Ifa Ta'e fi Itti Gaafatamummaa
+        </h2>
+        <p data-i18n="reports.transparency.desc">
+          Gumaachni keessan hundi galmee ifa ta'een hordofama. Gabaasni waggaa
+          fi auditii maxxanfama.
+        </p>
+        <a
+          href="contact.html"
+          class="btn btn-primary btn-lg"
+          data-i18n="nav.contact"
+          >Nu Quunnamaa</a
+        >
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4 data-i18n="brand.name">Malka Noonoo</h4>
+          <p data-i18n-html="footer.address">
+            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+          </p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.links">Geessituu</h4>
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
+          <a href="gallery.html" data-i18n="nav.gallery">Suuraa</a>
+          <a href="reports.html" data-i18n="nav.reports">Gabaasa</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.support">Deeggarsa</h4>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <a href="volunteer.html" data-i18n="nav.volunteer">Fedhii</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
+      </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/reports.js"></script>
+  </body>
+</html>

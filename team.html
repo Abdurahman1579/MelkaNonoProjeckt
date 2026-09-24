@@ -3,16 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Waa'ee — Malka Noonoo</title>
+    <title>Koree — Malka Noonoo</title>
+    <meta
+      name="description"
+      content="Hoggansa fi koree piroojektii Malka Noonoo"
+    />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/home.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="css/pages.css" />
   </head>
-  <body data-page-title="nav.about">
+  <body data-page-title="team.title">
     <header class="header">
       <div class="container header-inner">
         <a href="index.html" class="logo">
@@ -31,7 +35,7 @@
           <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
           <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
           <a href="faq.html" data-i18n="nav.faq">FAQ</a>
-          <a href="team.html" data-i18n="nav.team">Koree</a>
+          <a href="team.html" class="active" data-i18n="nav.team">Koree</a>
           <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
           <div class="mobile-langs">
             <button class="lang-mobile" type="button" data-lang="om">
@@ -57,100 +61,53 @@
 
     <section class="page-hero">
       <div class="container">
-        <h1 data-i18n="about.hero.title">Waa'ee Piroojektii</h1>
-        <p data-i18n="about.hero.subtitle">
-          Mana Marii Dhimmoota Islaamummaa Malka Noonoo Kutaa Magaalaa —
-          dhaabbata zamaaneeffame.
+        <h1 data-i18n="team.title">Koree fi Hoggansa</h1>
+        <p data-i18n="team.subtitle">
+          Koree Mana Marii Dhimmoota Islaamummaa Malka Noonoo — tajaajila
+          hawaasaaf.
         </p>
       </div>
     </section>
 
+    <!-- LEADERSHIP -->
     <section class="section">
-      <div class="container content-narrow">
-        <h2 data-i18n="about.goal.title">Kaayyoo Piroojektii</h2>
-        <p data-i18n="about.goal.desc">
-          Piroojektiin kun Mana Marii Dhimmoota Islaamummaa Malka Noonoo Kutaa
-          Magaalaa keessatti dhaabbata dhaabbataa (permanent) uumuuf kan
-          karoorfameedha. Kaayyoon isaa:
-        </p>
-        <ul class="list-check">
-          <li data-i18n="about.goal.1">
-            Jaarmiyaa dhaabbataa G+3 uumuu (1,600 m²)
-          </li>
-          <li data-i18n="about.goal.2">
-            Konkolaataa tajaajilaa 1 fi konkolaataa elektirikii 2 bittaa
-          </li>
-          <li data-i18n="about.goal.3">
-            Bakka daldalaa galii dhaabbataa uumuuf qopheessuu
-          </li>
-          <li data-i18n="about.goal.4">
-            Raawwattoota 9 dhaabbataan mindeessuu
-          </li>
-          <li data-i18n="about.goal.5">
-            Masgiidota 85 tajaajila gaarii kennuuf
-          </li>
-          <li data-i18n="about.goal.6">
-            Galii dhaabbataa uumuu — gumaacha irratti hin hundaa'u
-          </li>
-        </ul>
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="team.leadership">Hoggansa Ol'aanaa</h2>
+          <p data-i18n="team.leadership.sub">
+            Hoggantoota piroojektii fi Mana Marii.
+          </p>
+        </div>
+
+        <div class="team-grid team-grid-featured" id="leadershipGrid"></div>
       </div>
     </section>
 
+    <!-- COMMITTEE -->
     <section class="section section-alt">
       <div class="container">
         <div class="section-head">
-          <h2 data-i18n="about.problems.title">Rakkoolee Jiran</h2>
+          <h2 data-i18n="team.committee">Koree Raawwattootaa</h2>
+          <p data-i18n="team.committee.sub">
+            Raawwattoota 9 — tajaajila hawaasaa full-time.
+          </p>
         </div>
-        <div class="cards">
-          <div class="card">
-            <div class="card-icon">🏢</div>
-            <h3 data-i18n="about.problem.1.title">
-              Waajjira Dhaabbataa Hin Qabu
-            </h3>
-            <p data-i18n="about.problem.1.desc">
-              Mana Mariin waajjira isaa kireeffannaa irraa jiraachaa jira.
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🚗</div>
-            <h3 data-i18n="about.problem.2.title">Konkolaataa Hin Qabu</h3>
-            <p data-i18n="about.problem.2.desc">
-              Masgiidota 85 daawwachuuf, tajaajila hawaasaa kennuuf konkolaataa
-              hin qabu.
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-icon">💰</div>
-            <h3 data-i18n="about.problem.3.title">Galii Dhaabbataa Hin Qabu</h3>
-            <p data-i18n="about.problem.3.desc">
-              Galii dhaabbataa waan hin qabneef, gumaacha irratti hundaa'a.
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-icon">👥</div>
-            <h3 data-i18n="about.problem.4.title">Raawwattoota Fedhii</h3>
-            <p data-i18n="about.problem.4.desc">
-              Raawwattoonni 9 fedhii (volunteer) ta'aniiru — mindaa hin qaban.
-            </p>
-          </div>
-        </div>
+
+        <div class="team-grid" id="committeeGrid"></div>
       </div>
     </section>
 
+    <!-- ADVISORY -->
     <section class="section">
-      <div class="container content-narrow">
-        <h2 data-i18n="about.solution.title">Furmaata: Piroojektii Kana</h2>
-        <p data-i18n="about.solution.desc">
-          Piroojektiin kun rakkoolee kanaaf furmaata dhaabbataa kenna.
-        </p>
-        <div class="cta-inline">
-          <a
-            href="donate.html"
-            class="btn btn-primary btn-lg"
-            data-i18n="hero.cta.primary"
-            >Hirmaadhu</a
-          >
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="team.advisory">Koree Gorsaa</h2>
+          <p data-i18n="team.advisory.sub">
+            Ogeeyyii gorsa kennan — seera, faayinaansii, fi ijaarsa.
+          </p>
         </div>
+
+        <div class="team-grid" id="advisoryGrid"></div>
       </div>
     </section>
 
@@ -168,6 +125,9 @@
           <a href="about.html" data-i18n="nav.about">Waa'ee</a>
           <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
           <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+          <a href="team.html" data-i18n="nav.team">Koree</a>
         </div>
         <div>
           <h4 data-i18n="footer.support">Deeggarsa</h4>
@@ -184,7 +144,7 @@
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
-    <script src="js/supabase.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/team.js"></script>
   </body>
 </html>

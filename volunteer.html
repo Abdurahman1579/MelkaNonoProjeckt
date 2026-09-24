@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="om">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fedhii — Malka Noonoo</title>
+    <meta
+      name="description"
+      content="Fedhii hirmaannaa piroojektii Malka Noonoo"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body data-page-title="volunteer.title">
+    <header class="header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">☪</div>
+          <div class="logo-text">
+            <strong data-i18n="brand.name">Malka Noonoo</strong>
+            <span data-i18n="brand.subtitle"
+              >Mana Marii Dhimmoota Islaamummaa</span
+            >
+          </div>
+        </a>
+        <nav class="nav" id="nav">
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
+          <a href="team.html" data-i18n="nav.team">Koree</a>
+          <a href="volunteer.html" class="active" data-i18n="nav.volunteer"
+            >Fedhii</a
+          >
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <div class="mobile-langs">
+            <button class="lang-mobile" type="button" data-lang="om">
+              Oromiffa
+            </button>
+            <button class="lang-mobile" type="button" data-lang="am">
+              አማርኛ
+            </button>
+            <button class="lang-mobile" type="button" data-lang="en">
+              English
+            </button>
+          </div>
+        </nav>
+        <div class="header-actions">
+          <div class="lang-switcher" id="langSwitcher"></div>
+          <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
+            >Gumaachi</a
+          >
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <h1 data-i18n="volunteer.title">Fedhii Hirmaannaa</h1>
+        <p data-i18n="volunteer.subtitle">
+          Yeroo, dandeettii, fi gargaarsa keessan nuuf kenni — piroojektii
+          waliin ijaarru.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================
+       WHY VOLUNTEER — CLICKABLE CARDS
+       ============================================ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="volunteer.why.title">Maaliif Fedhii Ta'uu?</h2>
+          <p data-i18n="volunteer.why.sub">
+            Card tokko tokko tuqi — odeeffannoo dabalataa argi.
+          </p>
+        </div>
+
+        <div class="volunteer-benefits">
+          <div
+            class="benefit-card clickable"
+            data-benefit="reward"
+            role="button"
+            tabindex="0"
+          >
+            <div class="benefit-icon">🤲</div>
+            <h3 data-i18n="volunteer.why.1.title">Ajira Guddaa</h3>
+            <p data-i18n="volunteer.why.1.desc">
+              Hawaasa keessan tajaajiluu — ajira Islaamaa fi hawaasaa argattu.
+            </p>
+            <span class="card-cta" data-i18n="volunteer.card.cta"
+              >Ilaali →</span
+            >
+          </div>
+
+          <div
+            class="benefit-card clickable"
+            data-benefit="experience"
+            role="button"
+            tabindex="0"
+          >
+            <div class="benefit-icon">🎓</div>
+            <h3 data-i18n="volunteer.why.2.title">Muuxannoo Argachuu</h3>
+            <p data-i18n="volunteer.why.2.desc">
+              Dandeettii haaraa barachuu — bulchiinsa, ijaarsa, faayinaansii.
+            </p>
+            <span class="card-cta" data-i18n="volunteer.card.cta"
+              >Ilaali →</span
+            >
+          </div>
+
+          <div
+            class="benefit-card clickable"
+            data-benefit="network"
+            role="button"
+            tabindex="0"
+          >
+            <div class="benefit-icon">🌐</div>
+            <h3 data-i18n="volunteer.why.3.title">Walitti Dhufeenya</h3>
+            <p data-i18n="volunteer.why.3.desc">
+              Namoota haaraa fi hawaasa adda addaa waliin hojjechuu.
+            </p>
+            <span class="card-cta" data-i18n="volunteer.card.cta"
+              >Ilaali →</span
+            >
+          </div>
+
+          <div
+            class="benefit-card clickable"
+            data-benefit="honor"
+            role="button"
+            tabindex="0"
+          >
+            <div class="benefit-icon">⭐</div>
+            <h3 data-i18n="volunteer.why.4.title">Kabaja</h3>
+            <p data-i18n="volunteer.why.4.desc">
+              Raseenii fi beekamtii hirmaannaa argachuu.
+            </p>
+            <span class="card-cta" data-i18n="volunteer.card.cta"
+              >Ilaali →</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+       ROLES
+       ============================================ -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="volunteer.roles.title">Gahee Filannoo</h2>
+          <p data-i18n="volunteer.roles.sub">
+            Dandeettii keessan fi fedhii keessan filadhu.
+          </p>
+        </div>
+        <div class="volunteer-roles">
+          <div class="role-card" data-role="promoter">
+            <div class="role-icon">📢</div>
+            <h3 data-i18n="volunteer.role.promoter">Beeksisaa</h3>
+            <p data-i18n="volunteer.role.promoter.desc">
+              Piroojektii hawaasa keessan beekkisi, gumaachitoota argadhu.
+            </p>
+          </div>
+          <div class="role-card" data-role="fundraiser">
+            <div class="role-icon">💼</div>
+            <h3 data-i18n="volunteer.role.fundraiser">Gumaacha Sassaabaa</h3>
+            <p data-i18n="volunteer.role.fundraiser.desc">
+              Gumaacha walitti qabuuf gargaari — sadarkaa adda addaa.
+            </p>
+          </div>
+          <div class="role-card" data-role="social">
+            <div class="role-icon">📱</div>
+            <h3 data-i18n="volunteer.role.social">Miidiyaa Hawaasaa</h3>
+            <p data-i18n="volunteer.role.social.desc">
+              Facebook, Telegram, TikTok irratti qabiyyee maxxansi.
+            </p>
+          </div>
+          <div class="role-card" data-role="accountant">
+            <div class="role-icon">📊</div>
+            <h3 data-i18n="volunteer.role.accountant">Herrega Gargaaraa</h3>
+            <p data-i18n="volunteer.role.accountant.desc">
+              Galii fi baasii galmeessuu keessatti gargaari.
+            </p>
+          </div>
+          <div class="role-card" data-role="engineer">
+            <div class="role-icon">🏗️</div>
+            <h3 data-i18n="volunteer.role.engineer">Ijaarsa Ogeessa</h3>
+            <p data-i18n="volunteer.role.engineer.desc">
+              Jaarmiyaa ilaaluu fi gorsa kennuu (ogeessa qofa).
+            </p>
+          </div>
+          <div class="role-card" data-role="writer">
+            <div class="role-icon">📝</div>
+            <h3 data-i18n="volunteer.role.writer">Barreessaa</h3>
+            <p data-i18n="volunteer.role.writer.desc">
+              Odeeffannoo, waraabbii, fi qabiyyee barreessuu.
+            </p>
+          </div>
+          <div class="role-card" data-role="media">
+            <div class="role-icon">🎥</div>
+            <h3 data-i18n="volunteer.role.media">Suuraa / Viidiyoo</h3>
+            <p data-i18n="volunteer.role.media.desc">
+              Suuraa fi viidiyoo waraabuu — sagantaa, ijaarsa.
+            </p>
+          </div>
+          <div class="role-card" data-role="driver">
+            <div class="role-icon">🚗</div>
+            <h3 data-i18n="volunteer.role.driver">Konkolaachisaa</h3>
+            <p data-i18n="volunteer.role.driver.desc">
+              Yeroo barbaachisuu konkolaataa oofuu — daawwannaa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+       FORM
+       ============================================ -->
+    <section class="section" id="volunteerFormSection">
+      <div class="container content-narrow">
+        <div class="section-head">
+          <h2 data-i18n="volunteer.form.title">Galmee Fedhii</h2>
+          <p data-i18n="volunteer.form.sub">
+            Odeeffannoo keessan guuti — nu quunnamna.
+          </p>
+        </div>
+
+        <form id="volunteerForm" class="stack-form volunteer-form">
+          <div class="form-row">
+            <label data-i18n="volunteer.form.name">Maqaa Guutuu *</label>
+            <input
+              type="text"
+              name="name"
+              required
+              placeholder="Maqaa keessan"
+            />
+          </div>
+          <div class="form-row">
+            <label data-i18n="volunteer.form.phone">Bilbila *</label>
+            <input type="tel" name="phone" required placeholder="09xxxxxxxx" />
+          </div>
+          <div class="form-row">
+            <label data-i18n="volunteer.form.email">Imeelii</label>
+            <input type="email" name="email" placeholder="email@example.com" />
+          </div>
+          <div class="form-row">
+            <label data-i18n="volunteer.form.woreda">Aanaa *</label>
+            <select name="woreda" required>
+              <option value="">— Filadhu —</option>
+              <option value="Malka Gafarsa">Malka Gafarsa</option>
+              <option value="Bero">Bero</option>
+              <option value="Nono">Nono</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label data-i18n="volunteer.form.role">Gahee Fedhii *</label>
+            <select name="role" id="volunteerRole" required>
+              <option value="">— Filadhu —</option>
+              <option value="promoter">Beeksisaa</option>
+              <option value="fundraiser">Gumaacha Sassaabaa</option>
+              <option value="social">Miidiyaa Hawaasaa</option>
+              <option value="accountant">Herrega Gargaaraa</option>
+              <option value="engineer">Ijaarsa Ogeessa</option>
+              <option value="writer">Barreessaa</option>
+              <option value="media">Suuraa / Viidiyoo</option>
+              <option value="driver">Konkolaachisaa</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label data-i18n="volunteer.form.hours">Sa'aatii Torbanitti</label>
+            <select name="hours">
+              <option value="1-5">1-5 sa'aatii</option>
+              <option value="5-10">5-10 sa'aatii</option>
+              <option value="10-20">10-20 sa'aatii</option>
+              <option value="20+">20+ sa'aatii</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label data-i18n="volunteer.form.skills"
+              >Dandeettii / Muuxannoo</label
+            >
+            <textarea
+              name="skills"
+              rows="4"
+              placeholder="Dandeettii keessan, muuxannoo, ykn waan gargaaruu dandeessan..."
+            ></textarea>
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" name="agree" required />
+            <span data-i18n="volunteer.form.agree"
+              >Waliigaltee fedhii fi imaammata iccitii fudhadheera</span
+            >
+          </label>
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg btn-block"
+            id="volunteerSubmit"
+          >
+            <span data-i18n="volunteer.form.submit">Galmee Galchi</span>
+          </button>
+
+          <div id="volunteerMsg" class="form-message"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================
+       CTA
+       ============================================ -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <h2 data-i18n="volunteer.cta.title">Waliin Piroojektii Ijaarru!</h2>
+        <p data-i18n="volunteer.cta.desc">
+          Yeroo keessan, dandeettii keessan, ykn deeggarsa keessan nuuf kenni.
+        </p>
+        <a
+          href="donate.html"
+          class="btn btn-primary btn-lg"
+          data-i18n="nav.donate"
+          >Gumaachuu Barbaadi</a
+        >
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4 data-i18n="brand.name">Malka Noonoo</h4>
+          <p data-i18n-html="footer.address">
+            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+          </p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.links">Geessituu</h4>
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="team.html" data-i18n="nav.team">Koree</a>
+          <a href="volunteer.html" data-i18n="nav.volunteer">Fedhii</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.support">Deeggarsa</h4>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
+      </div>
+    </footer>
+
+    <!-- ============================================
+       BENEFIT MODAL
+       ============================================ -->
+    <div class="modal" id="benefitModal">
+      <div class="modal-content modal-benefit">
+        <button class="modal-close" id="benefitModalClose" aria-label="Close">
+          ×
+        </button>
+        <div class="modal-body" id="benefitModalBody"></div>
+      </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/volunteer.js"></script>
+  </body>
+</html>

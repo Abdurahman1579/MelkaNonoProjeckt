@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="om">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Imaammata Iccitii — Malka Noonoo</title>
+    <meta
+      name="description"
+      content="Imaammata iccitii odeeffannoo fayyadamtootaa Malka Noonoo"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body data-page-title="privacy.title">
+    <header class="header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">☪</div>
+          <div class="logo-text">
+            <strong data-i18n="brand.name">Malka Noonoo</strong>
+            <span data-i18n="brand.subtitle"
+              >Mana Marii Dhimmoota Islaamummaa</span
+            >
+          </div>
+        </a>
+        <nav class="nav" id="nav">
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <div class="mobile-langs">
+            <button class="lang-mobile" type="button" data-lang="om">
+              Oromiffa
+            </button>
+            <button class="lang-mobile" type="button" data-lang="am">
+              አማርኛ
+            </button>
+            <button class="lang-mobile" type="button" data-lang="en">
+              English
+            </button>
+          </div>
+        </nav>
+        <div class="header-actions">
+          <div class="lang-switcher" id="langSwitcher"></div>
+          <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
+            >Gumaachi</a
+          >
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <h1 data-i18n="privacy.title">Imaammata Iccitii</h1>
+        <p data-i18n="privacy.subtitle">
+          Odeeffannoo keessan akkamitti fayyadamnu, eegnu fi eegsisnu.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-narrow">
+        <div class="legal-meta">
+          <span data-i18n="legal.last_updated">Yeroo dhumaa haaromfame</span>:
+          <strong id="lastUpdated"></strong>
+        </div>
+
+        <div class="legal-content">
+          <h2 data-i18n="privacy.s1.title">1. Odeeffannoo Walitti Qabnu</h2>
+          <p data-i18n="privacy.s1.desc">
+            Nu odeeffannoo armaan gadii walitti qabna:
+          </p>
+          <ul class="list-check">
+            <li data-i18n="privacy.s1.1">Maqaa guutuu — galmee fi raseenii</li>
+            <li data-i18n="privacy.s1.2">Lakkoofsa bilbilaa — nagahee SMS</li>
+            <li data-i18n="privacy.s1.3">Imeelii — raseenii PDF fi nagahee</li>
+            <li data-i18n="privacy.s1.4">
+              Odeeffannoo kaffaltii — mala fi galmee
+            </li>
+            <li data-i18n="privacy.s1.5">IP fi browser info — nageenya</li>
+          </ul>
+
+          <h2 data-i18n="privacy.s2.title">2. Akkaataa Fayyadamaa</h2>
+          <p data-i18n="privacy.s2.desc">
+            Odeeffannoo keessan kanaan fayyadamna:
+          </p>
+          <ul class="list-check">
+            <li data-i18n="privacy.s2.1">
+              Gumaacha keessan galmeessuu fi mirkaneessuu
+            </li>
+            <li data-i18n="privacy.s2.2">Raseenii fi nagahee erguu</li>
+            <li data-i18n="privacy.s2.3">Tajaajila fooyyessuu</li>
+            <li data-i18n="privacy.s2.4">Seeraan eeguu fi auditii</li>
+            <li data-i18n="privacy.s2.5">Beeksisa waa'ee piroojektii</li>
+          </ul>
+
+          <h2 data-i18n="privacy.s3.title">3. Eegumsa Odeeffannoo</h2>
+          <p data-i18n="privacy.s3.desc">
+            Odeeffannoon keessan sirriitti eegama:
+          </p>
+          <ul class="list-check">
+            <li data-i18n="privacy.s3.1">
+              Encryption (HTTPS/SSL) — yeroo dabarsuu
+            </li>
+            <li data-i18n="privacy.s3.2">Password hash — Supabase Auth</li>
+            <li data-i18n="privacy.s3.3">
+              Access control — fayyadamaa hayyama qabu qofa
+            </li>
+            <li data-i18n="privacy.s3.4">Backup guyyaa — kunuunsa</li>
+            <li data-i18n="privacy.s3.5">Audit log — sochii hunda hordoffii</li>
+          </ul>
+
+          <h2 data-i18n="privacy.s4.title">
+            4. Odeeffannoo Nama Sadaffaaf Kennuu
+          </h2>
+          <p data-i18n="privacy.s4.desc">
+            <strong
+              >Nuyi gonkumaa odeeffannoo keessan nama sadaffaaf hin
+              kenninu</strong
+            >
+            — daldalaaf, beeksisaaf, ykn kaayyoo biroof. Odeeffannoon keessan
+            kunneen qofaaf qoodama:
+          </p>
+          <ul class="list-check">
+            <li data-i18n="privacy.s4.1">
+              Supabase — odeeffannoo kuusuu (database)
+            </li>
+            <li data-i18n="privacy.s4.2">
+              Chapa / Baankii — kaffaltii raawwachuuf
+            </li>
+            <li data-i18n="privacy.s4.3">
+              Email provider (Resend) — raseenii erguuf
+            </li>
+            <li data-i18n="privacy.s4.4">
+              Seeraan yoo barbaachise — mootummaa
+            </li>
+          </ul>
+
+          <h2 data-i18n="privacy.s5.title">5. Mirga Keessan</h2>
+          <p data-i18n="privacy.s5.desc">Mirgoota armaan gadii qabdu:</p>
+          <ul class="list-check">
+            <li data-i18n="privacy.s5.1">Odeeffannoo keessan ilaaluu</li>
+            <li data-i18n="privacy.s5.2">Odeeffannoo sirreessuu</li>
+            <li data-i18n="privacy.s5.3">Herrega haquu</li>
+            <li data-i18n="privacy.s5.4">Nagahee dhaabuu</li>
+            <li data-i18n="privacy.s5.5">Yaada dhiyeessuu</li>
+          </ul>
+
+          <h2 data-i18n="privacy.s6.title">6. Cookies</h2>
+          <p data-i18n="privacy.s6.desc">
+            Marsariitiin keenya cookies xiqqaa fayidama — session, afaan
+            filannoo, fi nageenyaaf. Cookies balleessuu dandeessa browser
+            settings keessan irraa.
+          </p>
+
+          <h2 data-i18n="privacy.s7.title">7. Ijoollee Iccitii</h2>
+          <p data-i18n="privacy.s7.desc">
+            Tajaajilli keenya umurii 18 ol ta'aniif. Yoo ijoolleen odeeffannoo
+            nuuf kennite, nu quunnamaa — haquuf qophii dha.
+          </p>
+
+          <h2 data-i18n="privacy.s8.title">8. Jijjiirama Imaammataa</h2>
+          <p data-i18n="privacy.s8.desc">
+            Imaammanni kun yeroo biraa jijjiiramuu danda'a. Yeroo jijjiiramu,
+            fuula kana irratti beeksifama. Guyyaa dhumaa haaromsa fuula kana
+            irratti argita.
+          </p>
+
+          <h2 data-i18n="privacy.s9.title">9. Nu Quunnamaa</h2>
+          <p data-i18n="privacy.s9.desc">
+            Gaaffii ykn yaada qabaachuu yoo barbaadde, nu quunnami:
+          </p>
+          <ul class="list-simple">
+            <li>📧 Email: <strong>privacy@malkanoonoo.org</strong></li>
+            <li>📞 Bilbila: <strong>+251 9xx xxx xxx</strong></li>
+            <li>📍 Bakka: <strong>Sheger, Malka Noonoo</strong></li>
+          </ul>
+        </div>
+
+        <div class="legal-footer">
+          <a href="terms.html" class="btn btn-outline" data-i18n="terms.title"
+            >📜 Waliigaltee Tajaajilaa</a
+          >
+          <a href="contact.html" class="btn btn-primary" data-i18n="nav.contact"
+            >Nu Quunnamaa</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4 data-i18n="brand.name">Malka Noonoo</h4>
+          <p data-i18n-html="footer.address">
+            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+          </p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.links">Geessituu</h4>
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="privacy.html" data-i18n="privacy.title">Iccitii</a>
+          <a href="terms.html" data-i18n="terms.title">Waliigaltee</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.support">Deeggarsa</h4>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
+      </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const el = document.getElementById("lastUpdated");
+        if (el)
+          el.textContent = new Date().toLocaleDateString("om-ET", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+      });
+    </script>
+  </body>
+</html>

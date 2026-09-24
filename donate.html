@@ -4,15 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gumaachi — Malka Noonoo</title>
+    <meta
+      name="description"
+      content="Gumaacha piroojektii Malka Noonoo — Chapa, Telebirr, Bank Transfer"
+    />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/donate.css" />
+
+    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
   <body data-page-title="donate.title">
+    <!-- HEADER -->
     <header class="header">
       <div class="container header-inner">
         <a href="index.html" class="logo">
@@ -29,11 +39,19 @@
           <a href="about.html" data-i18n="nav.about">Waa'ee</a>
           <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
           <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
           <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
           <div class="mobile-langs">
-            <button class="lang-mobile" data-lang="om">Oromiffa</button>
-            <button class="lang-mobile" data-lang="am">አማርኛ</button>
-            <button class="lang-mobile" data-lang="en">English</button>
+            <button class="lang-mobile" type="button" data-lang="om">
+              Oromiffa
+            </button>
+            <button class="lang-mobile" type="button" data-lang="am">
+              አማርኛ
+            </button>
+            <button class="lang-mobile" type="button" data-lang="en">
+              English
+            </button>
           </div>
         </nav>
         <div class="header-actions">
@@ -44,11 +62,12 @@
             data-i18n="nav.donate"
             >Gumaachi</a
           >
-          <button class="menu-toggle" id="menuToggle">☰</button>
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
         </div>
       </div>
     </header>
 
+    <!-- HERO -->
     <section class="page-hero">
       <div class="container">
         <h1 data-i18n="donate.title">Gumaachi</h1>
@@ -58,127 +77,276 @@
       </div>
     </section>
 
+    <!-- DONATE GRID -->
     <section class="section">
       <div class="container donate-grid">
+        <!-- FORM SIDE -->
         <div class="donate-form-wrap">
           <form id="donateForm" class="donate-form">
-            <div class="form-row">
-              <label for="donorName" data-i18n="donate.form.name"
-                >Maqaa Guutuu</label
-              >
-              <input
-                type="text"
-                id="donorName"
-                name="donor_name"
-                required
-                data-i18n-placeholder="donate.form.name.placeholder"
-                placeholder="Maqaa keessan"
-              />
-            </div>
+            <!-- STEP 1: Personal Info -->
+            <div class="form-section">
+              <h3 class="form-section-title">
+                <span class="step-num">1</span>
+                <span data-i18n="donate.step.info">Odeeffannoo Keessan</span>
+              </h3>
 
-            <div class="form-row">
-              <label for="donorPhone" data-i18n="donate.form.phone"
-                >Lakkoofsa Bilbilaa</label
-              >
-              <input
-                type="tel"
-                id="donorPhone"
-                name="donor_phone"
-                required
-                data-i18n-placeholder="donate.form.phone.placeholder"
-                placeholder="09xxxxxxxx"
-              />
-            </div>
+              <div class="form-row">
+                <label for="donorName" data-i18n="donate.form.name"
+                  >Maqaa Guutuu</label
+                >
+                <input
+                  type="text"
+                  id="donorName"
+                  name="donor_name"
+                  required
+                  data-i18n-placeholder="donate.form.name.placeholder"
+                  placeholder="Maqaa keessan"
+                />
+              </div>
 
-            <div class="form-row">
-              <label for="tier" data-i18n="donate.form.tier"
-                >Sadarkaa Gumaachaa</label
-              >
-              <select id="tier" name="tier" required>
-                <option value="" data-i18n="donate.form.tier.select">
-                  — Filadhu —
-                </option>
-                <option value="tier1" data-i18n="tiers.tier1">
-                  Sadarkaa 1
-                </option>
-                <option value="tier2" data-i18n="tiers.tier2">
-                  Sadarkaa 2
-                </option>
-                <option value="community" data-i18n="tiers.tier3">
-                  Hawaasa
-                </option>
-                <option value="masjid" data-i18n="tiers.tier4">Masgiida</option>
-                <option value="business" data-i18n="donate.form.tier.business">
-                  Daldala
-                </option>
-              </select>
-            </div>
+              <div class="form-row">
+                <label for="donorPhone" data-i18n="donate.form.phone"
+                  >Lakkoofsa Bilbilaa</label
+                >
+                <input
+                  type="tel"
+                  id="donorPhone"
+                  name="donor_phone"
+                  required
+                  data-i18n-placeholder="donate.form.phone.placeholder"
+                  placeholder="09xxxxxxxx"
+                />
+              </div>
 
-            <div class="form-row" id="masjidRow" style="display: none">
-              <label for="masjidSelect" data-i18n="donate.form.masjid"
-                >Masgiida Filadhu</label
-              >
-              <select id="masjidSelect" name="masjid_id">
-                <option value="" data-i18n="donate.form.tier.select">
-                  — Filadhu —
-                </option>
-              </select>
-            </div>
-
-            <div class="form-row">
-              <label for="amount" data-i18n="donate.form.amount"
-                >Gumaacha (ETB)</label
-              >
-              <input
-                type="number"
-                id="amount"
-                name="amount"
-                required
-                min="1"
-                step="1"
-                placeholder="1000"
-              />
-              <div class="quick-amounts">
-                <button type="button" data-amt="500">500</button>
-                <button type="button" data-amt="1000">1,000</button>
-                <button type="button" data-amt="5000">5,000</button>
-                <button type="button" data-amt="10000">10,000</button>
-                <button type="button" data-amt="50000">50,000</button>
-                <button type="button" data-amt="100000">100,000</button>
+              <div class="form-row">
+                <label for="donorEmail" data-i18n="donate.form.email"
+                  >Imeelii (raseenii PDF)</label
+                >
+                <input
+                  type="email"
+                  id="donorEmail"
+                  name="donor_email"
+                  data-i18n-placeholder="donate.form.email.placeholder"
+                  placeholder="email@example.com"
+                />
               </div>
             </div>
 
-            <div class="form-row">
-              <label for="paymentMethod" data-i18n="donate.form.payment"
-                >Mala Kaffaltii</label
-              >
-              <select id="paymentMethod" name="payment_method" required>
-                <option value="" data-i18n="donate.form.tier.select">
-                  — Filadhu —
-                </option>
-                <option value="telebirr">Telebirr</option>
-                <option value="cbe_birr">CBE Birr</option>
-                <option value="chapa">Chapa</option>
-                <option value="bank">Bank Transfer</option>
-                <option value="cash" data-i18n="donate.form.payment.cash">
-                  Maallaqa harkaa
-                </option>
-              </select>
+            <!-- STEP 2: Frequency -->
+            <div class="form-section">
+              <h3 class="form-section-title">
+                <span class="step-num">2</span>
+                <span data-i18n="donate.step.frequency">Yeroo Gumaachaa</span>
+              </h3>
+
+              <div class="frequency-options">
+                <label class="frequency-card">
+                  <input
+                    type="radio"
+                    name="frequency"
+                    value="one-time"
+                    checked
+                  />
+                  <div class="frequency-inner">
+                    <span class="freq-icon">💝</span>
+                    <strong data-i18n="donate.freq.onetime">Al tokko</strong>
+                    <small data-i18n="donate.freq.onetime.sub"
+                      >Yeroo tokko gumaachi</small
+                    >
+                  </div>
+                </label>
+
+                <label class="frequency-card">
+                  <input type="radio" name="frequency" value="monthly" />
+                  <div class="frequency-inner">
+                    <span class="freq-icon">📅</span>
+                    <strong data-i18n="donate.freq.monthly">Ji'aan</strong>
+                    <small data-i18n="donate.freq.monthly.sub"
+                      >Ji'a ji'aan deeggaruu</small
+                    >
+                  </div>
+                </label>
+
+                <label class="frequency-card">
+                  <input type="radio" name="frequency" value="yearly" />
+                  <div class="frequency-inner">
+                    <span class="freq-icon">🎯</span>
+                    <strong data-i18n="donate.freq.yearly">Waggaan</strong>
+                    <small data-i18n="donate.freq.yearly.sub"
+                      >Waggaa waggaan</small
+                    >
+                  </div>
+                </label>
+              </div>
             </div>
 
-            <div class="form-row">
-              <label for="note" data-i18n="donate.form.note"
-                >Yaada Dabalataa</label
-              >
-              <textarea
-                id="note"
-                name="note"
-                rows="3"
-                data-i18n-placeholder="donate.form.note.placeholder"
-                placeholder="Yoo barbaaddan..."
-              ></textarea>
+            <!-- STEP 3: Tier -->
+            <div class="form-section">
+              <h3 class="form-section-title">
+                <span class="step-num">3</span>
+                <span data-i18n="donate.step.tier">Sadarkaa Gumaachaa</span>
+              </h3>
+
+              <div class="form-row">
+                <select id="tier" name="tier" required>
+                  <option value="" data-i18n="donate.form.tier.select">
+                    — Filadhu —
+                  </option>
+                  <option value="tier1" data-i18n="tiers.tier1">
+                    Sadarkaa 1 — Dandeettii Ol'aanaa
+                  </option>
+                  <option value="tier2" data-i18n="tiers.tier2">
+                    Sadarkaa 2 — Giddu-galeessa
+                  </option>
+                  <option value="community" data-i18n="tiers.tier3">
+                    Hawaasa Bal'aa
+                  </option>
+                  <option value="masjid" data-i18n="tiers.tier4">
+                    Masgiida
+                  </option>
+                  <option
+                    value="business"
+                    data-i18n="donate.form.tier.business"
+                  >
+                    Daldala
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-row" id="masjidRow" style="display: none">
+                <label for="masjidSelect" data-i18n="donate.form.masjid"
+                  >Masgiida Filadhu</label
+                >
+                <select id="masjidSelect" name="masjid_id">
+                  <option value="" data-i18n="donate.form.tier.select">
+                    — Filadhu —
+                  </option>
+                </select>
+              </div>
             </div>
 
+            <!-- STEP 4: Amount -->
+            <div class="form-section">
+              <h3 class="form-section-title">
+                <span class="step-num">4</span>
+                <span data-i18n="donate.step.amount">Gumaacha (ETB)</span>
+              </h3>
+
+              <div class="form-row">
+                <input
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  required
+                  min="1"
+                  step="1"
+                  placeholder="1000"
+                />
+                <div class="quick-amounts">
+                  <button type="button" data-amt="500">500</button>
+                  <button type="button" data-amt="1000">1,000</button>
+                  <button type="button" data-amt="5000">5,000</button>
+                  <button type="button" data-amt="10000">10,000</button>
+                  <button type="button" data-amt="50000">50,000</button>
+                  <button type="button" data-amt="100000">100,000</button>
+                </div>
+              </div>
+
+              <!-- IMPACT CALCULATOR -->
+              <div class="impact-box" id="impactBox" style="display: none">
+                <div class="impact-icon">💡</div>
+                <div class="impact-text">
+                  <strong data-i18n="donate.impact.title"
+                    >Gumaacha keessan:</strong
+                  >
+                  <p id="impactText"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 5: Payment -->
+            <div class="form-section">
+              <h3 class="form-section-title">
+                <span class="step-num">5</span>
+                <span data-i18n="donate.step.payment">Mala Kaffaltii</span>
+              </h3>
+
+              <div class="payment-options">
+                <label class="payment-card">
+                  <input
+                    type="radio"
+                    name="payment_method"
+                    value="chapa"
+                    checked
+                  />
+                  <div class="payment-inner">
+                    <span class="pay-icon">💳</span>
+                    <strong>Chapa</strong>
+                    <small data-i18n="donate.pay.chapa.sub"
+                      >Kaardii + Wallet</small
+                    >
+                  </div>
+                </label>
+
+                <label class="payment-card">
+                  <input type="radio" name="payment_method" value="telebirr" />
+                  <div class="payment-inner">
+                    <span class="pay-icon">📱</span>
+                    <strong>Telebirr</strong>
+                    <small data-i18n="donate.pay.telebirr.sub"
+                      >Mobile money</small
+                    >
+                  </div>
+                </label>
+
+                <label class="payment-card">
+                  <input type="radio" name="payment_method" value="bank" />
+                  <div class="payment-inner">
+                    <span class="pay-icon">🏦</span>
+                    <strong data-i18n="donate.pay.bank">Baankii</strong>
+                    <small data-i18n="donate.pay.bank.sub"
+                      >CBE, Awash, etc.</small
+                    >
+                  </div>
+                </label>
+
+                <label class="payment-card">
+                  <input type="radio" name="payment_method" value="cash" />
+                  <div class="payment-inner">
+                    <span class="pay-icon">💵</span>
+                    <strong data-i18n="donate.pay.cash">Harkaa</strong>
+                    <small data-i18n="donate.pay.cash.sub"
+                      >Maallaqa harkaa</small
+                    >
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- STEP 6: Note + Anonymous -->
+            <div class="form-section">
+              <div class="form-row">
+                <label for="note" data-i18n="donate.form.note"
+                  >Yaada Dabalataa</label
+                >
+                <textarea
+                  id="note"
+                  name="note"
+                  rows="3"
+                  data-i18n-placeholder="donate.form.note.placeholder"
+                  placeholder="Yoo barbaaddan..."
+                ></textarea>
+              </div>
+
+              <label class="checkbox-row">
+                <input type="checkbox" id="anonymous" name="is_anonymous" />
+                <span data-i18n="donate.form.anonymous"
+                  >Maqaa koo iccitiin gumaachi (anonymous)</span
+                >
+              </label>
+            </div>
+
+            <!-- SUBMIT -->
             <button
               type="submit"
               class="btn btn-primary btn-lg btn-block"
@@ -187,11 +355,14 @@
             >
               Gumaacha Galmeessi
             </button>
+
             <div id="formMessage" class="form-message"></div>
           </form>
         </div>
 
+        <!-- INFO SIDE -->
         <aside class="donate-info">
+          <!-- PROGRESS CARD -->
           <div class="info-card">
             <h3 data-i18n="donate.goal">Galma Waliigalaa</h3>
             <strong class="big-amount">190,000,000 ETB</strong>
@@ -201,27 +372,106 @@
             <p class="small" id="donateProgressText">0%</p>
           </div>
 
+          <!-- SHARE CARD -->
+          <div class="info-card">
+            <h3 data-i18n="donate.share.title">📢 Hawaasa Beekkisi</h3>
+            <p
+              class="small"
+              style="margin-bottom: 14px"
+              data-i18n="donate.share.desc"
+            >
+              Piroojektii kana hawaasa keessan beekkisi — gumaacha hedduu
+              walitti qabuu.
+            </p>
+            <div class="share-buttons">
+              <a
+                href="#"
+                class="share-btn share-wa"
+                data-share="whatsapp"
+                title="WhatsApp"
+              >
+                <span>📱</span> WhatsApp
+              </a>
+              <a
+                href="#"
+                class="share-btn share-tg"
+                data-share="telegram"
+                title="Telegram"
+              >
+                <span>✈️</span> Telegram
+              </a>
+              <a
+                href="#"
+                class="share-btn share-fb"
+                data-share="facebook"
+                title="Facebook"
+              >
+                <span>👍</span> Facebook
+              </a>
+              <button
+                type="button"
+                class="share-btn share-cp"
+                data-share="copy"
+                title="Copy"
+              >
+                <span>🔗</span> <span data-i18n="donate.share.copy">Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PAYMENT METHODS INFO -->
           <div class="info-card">
             <h3 data-i18n="donate.payment.title">Mala Kaffaltii</h3>
             <ul class="list-simple">
+              <li><strong>Chapa:</strong> Online kaardii</li>
               <li><strong>Telebirr:</strong> 09xx-xxxxxx</li>
               <li><strong>CBE:</strong> 1000-xxxx-xxxx</li>
               <li><strong>Awash:</strong> 013-xxxx-xxxx</li>
-              <li><strong>Chapa:</strong> Online card</li>
             </ul>
           </div>
 
+          <!-- TRANSPARENCY -->
           <div class="info-card highlight">
             <h3 data-i18n="donate.transparency.title">Ifa Ta'e</h3>
             <p data-i18n="donate.transparency.desc">
-              Gumaachni keessan hundi galmee ifa ta'een hordofama. Gabaasa ji'aa
-              fi waggaa ni maxxanfama.
+              Gumaachni keessan hundi galmee ifa ta'een hordofama. Raseenii PDF
+              ni argattu.
             </p>
           </div>
         </aside>
       </div>
     </section>
 
+    <!-- SUCCESS MODAL -->
+    <div class="modal" id="successModal">
+      <div class="modal-content modal-success">
+        <div class="modal-success-icon">🎉</div>
+        <h2 data-i18n="donate.success.title">Galatoomaa!</h2>
+        <p data-i18n="donate.success.desc">
+          Gumaachni keessan milkaa'inaan galmeeffameera.
+        </p>
+
+        <div class="receipt-summary" id="receiptSummary"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="downloadPdfBtn">
+            📄 <span data-i18n="donate.success.pdf">Raseenii PDF Buusi</span>
+          </button>
+          <button type="button" class="btn btn-outline" id="shareReceiptBtn">
+            📤 <span data-i18n="donate.success.share">Share</span>
+          </button>
+          <button type="button" class="btn btn-outline" id="closeSuccessBtn">
+            <span data-i18n="close">Cufi</span>
+          </button>
+        </div>
+
+        <p class="modal-note small" data-i18n="donate.success.note">
+          Raseenii email keessanii ergameera. Nagahee SMS ni argattu.
+        </p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
     <footer class="footer">
       <div class="container footer-grid">
         <div>
@@ -236,6 +486,9 @@
           <a href="about.html" data-i18n="nav.about">Waa'ee</a>
           <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
           <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+          <a href="team.html" data-i18n="nav.team">Koree</a>
         </div>
         <div>
           <h4 data-i18n="footer.support">Deeggarsa</h4>
@@ -249,11 +502,13 @@
       </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/pdf-receipt.js"></script>
     <script src="js/donate.js"></script>
   </body>
 </html>
