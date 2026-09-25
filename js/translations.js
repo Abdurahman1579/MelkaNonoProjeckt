@@ -9,7 +9,7 @@ const TRANSLATIONS = {
   // OROMIFFA (om)
   // ==========================================
   om: {
-    // ========== NAV ==========
+    // ---------- NAV ----------
     'nav.home': 'Fuula Duraa',
     'nav.about': 'Waa\'ee',
     'nav.progress': 'Sadarkaa',
@@ -29,12 +29,13 @@ const TRANSLATIONS = {
     'nav.profile': 'Profaayilii',
     'nav.privacy': 'Iccitii',
     'nav.terms': 'Waliigaltee',
+    'nav.menu': 'Menu',
 
-    // ========== BRAND ==========
+    // ---------- BRAND ----------
     'brand.name': 'Malka Noonoo',
     'brand.subtitle': 'Mana Marii Dhimmoota Islaamummaa',
 
-    // ========== HERO ==========
+    // ---------- HERO ----------
     'hero.badge': 'Piroojektii Ijaarsaa 2025',
     'hero.title': 'Galma keenya:',
     'hero.amount': '190,000,000 ETB',
@@ -45,17 +46,19 @@ const TRANSLATIONS = {
     'hero.raised': 'Walitti qabame',
     'hero.goal': 'Galma',
 
-    // ========== STATS ==========
+    // ---------- STATS ----------
     'stats.masjidos': 'Masgiidota',
     'stats.woredas': 'Aanaalee',
     'stats.building': 'Jaarmiyaa G+3',
     'stats.committee': 'Raawwattoota',
+    'stats.members': 'Miseensota',
+    'stats.volunteers': 'Fedhii',
 
-    // ========== MILESTONES ==========
+    // ---------- MILESTONES ----------
     'milestones.title': 'Qabeenya Karoorfame',
     'milestones.subtitle': 'Piroojektiin kun qabeenya armaan gadii uumuu kaayyeffate.',
 
-    // ========== TIERS ==========
+    // ---------- TIERS ----------
     'tiers.title': 'Sadarkaa Gumaachaa',
     'tiers.subtitle': 'Hawaasa bal\'aa irraa hanga dandeettii ol\'aanaatti — hunda keessan affeerraa.',
     'tiers.tier1': 'Sadarkaa 1',
@@ -71,27 +74,30 @@ const TRANSLATIONS = {
     'tiers.tier4.sub': '85 Masgiidota',
     'tiers.tier4.desc': 'Masgiidota 85 hirmaannaa waloo.',
 
-    // ========== ANNOUNCEMENTS ==========
+    // ---------- ANNOUNCEMENTS ----------
     'announcements.title': 'Odeeffannoo Haaraa',
     'announcements.empty': 'Odeeffannoo hin jiru.',
+    'announcements.readmore': 'Dubbisi',
 
-    // ========== CTA ==========
+    // ---------- CTA ----------
     'cta.title': 'Gumaacha keessan — sadarkaa keenya!',
     'cta.desc': 'Gumaacha keessan dhaabbataa, barnoota, fi tajaajila hawaasaa cimsuuf oola.',
     'cta.button': 'Amma Gumaachi',
 
-    // ========== FOOTER ==========
+    // ---------- FOOTER ----------
     'footer.address': 'Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo',
     'footer.links': 'Geessituu',
     'footer.support': 'Deeggarsa',
     'footer.copyright': '© 2025 Malka Noonoo Mana Marii. Mirgi seeraan eegame.',
     'footer.contact': 'Nu Quunnamaa',
+    'footer.legal': 'Seera',
+    'footer.social': 'Miidiyaa Hawaasaa',
 
-    // ========== ABOUT ==========
+    // ---------- ABOUT ----------
     'about.hero.title': 'Waa\'ee Piroojektii',
     'about.hero.subtitle': 'Mana Marii Dhimmoota Islaamummaa Malka Noonoo Kutaa Magaalaa — dhaabbata zamaaneeffame.',
     'about.goal.title': 'Kaayyoo Piroojektii',
-    'about.goal.desc': 'Piroojektiin kun Mana Marii Dhimmoota Islaamummaa Malka Noonoo Kutaa Magaalaa keessatti dhaabbata dhaabbataa (permanent) uumuuf kan karoorfameedha. Kaayyoon isaa:',
+    'about.goal.desc': 'Piroojektiin kun Mana Marii Dhimmoota Islaamummaa Malka Noonoo Kutaa Magaalaa keessatti dhaabbata dhaabbataa uumuuf kan karoorfameedha. Kaayyoon isaa:',
     'about.goal.1': 'Jaarmiyaa dhaabbataa G+3 uumuu (1,600 m²)',
     'about.goal.2': 'Konkolaataa tajaajilaa 1 fi konkolaataa elektirikii 2 bittaa',
     'about.goal.3': 'Bakka daldalaa galii dhaabbataa uumuuf qopheessuu',
@@ -106,11 +112,11 @@ const TRANSLATIONS = {
     'about.problem.3.title': 'Galii Dhaabbataa Hin Qabu',
     'about.problem.3.desc': 'Galii dhaabbataa waan hin qabneef, gumaacha irratti hundaa\'a.',
     'about.problem.4.title': 'Raawwattoota Fedhii',
-    'about.problem.4.desc': 'Raawwattoonni 9 fedhii (volunteer) ta\'aniiru — mindaa hin qaban.',
+    'about.problem.4.desc': 'Raawwattoonni 9 fedhii ta\'aniiru — mindaa hin qaban.',
     'about.solution.title': 'Furmaata: Piroojektii Kana',
-    'about.solution.desc': 'Piroojektiin kun rakkoolee kanaaf furmaata dhaabbataa kenna. Fuula Sadarkaa Raawwii irratti hordofuu dandeessa.',
+    'about.solution.desc': 'Piroojektiin kun rakkoolee kanaaf furmaata dhaabbataa kenna.',
 
-    // ========== DONATE ==========
+    // ---------- DONATE ----------
     'donate.title': 'Gumaachi',
     'donate.subtitle': 'Hirmaannaan keessan dhaabbataa, barnoota, fi tajaajila hawaasaa cimsa.',
     'donate.goal': 'Galma Waliigalaa',
@@ -133,6 +139,7 @@ const TRANSLATIONS = {
     'donate.form.tier.select': '— Filadhu —',
     'donate.form.tier.business': 'Daldala',
     'donate.form.masjid': 'Masgiida Filadhu',
+    'donate.form.masjid.select': '— Masgiida Filadhu —',
     'donate.form.amount': 'Gumaacha (ETB)',
     'donate.form.payment': 'Mala Kaffaltii',
     'donate.form.payment.cash': 'Maallaqa harkaa',
@@ -165,7 +172,7 @@ const TRANSLATIONS = {
     'donate.success.share': 'Share',
     'donate.success.note': 'Raseenii email keessanii ergameera. Nagahee SMS ni argattu.',
 
-    // ========== PROGRESS ==========
+    // ---------- PROGRESS ----------
     'progress.title': 'Sadarkaa Raawwii',
     'progress.subtitle': 'Piroojektiin kun akkaataa itti fufaa jiru ilaali.',
     'progress.raised': 'Walitti Qabame',
@@ -176,15 +183,53 @@ const TRANSLATIONS = {
     'progress.milestones': 'Qabeenya Karoorfame',
     'progress.no.donations': 'Gumaachni hin jiru.',
 
-    // ========== MASJIDOS ==========
+    // ---------- MASJIDOS ----------
     'masjidos.title': 'Masgiidota 85',
     'masjidos.subtitle': 'Mana Mariin kun aanaalee 3 keessatti masgiidota 85 tajaajila.',
     'masjidos.search': 'Masgiida barbaadi...',
+    'masjidos.search.placeholder': 'Maqaa ykn aanaa barbaadi...',
     'masjidos.all.woredas': 'Aanaa hunda',
     'masjidos.members': 'miseensota',
     'masjidos.empty': 'Masgiidotni hin jiran.',
+    'masjidos.count': 'masgiidota',
+    'masjidos.view.grid': 'Grid',
+    'masjidos.view.map': 'Maap',
+    'masjidos.not_found': 'Masgiida hin argamne',
+    'masjidos.not_found.desc': 'Filters jijjiirii ykn barbaadi.',
+    'masjidos.detail': 'Masgiida',
+    'masjidos.about': 'Waa\'ee Masgiidaa',
+    'masjidos.about.empty': 'Odeeffannoon dabalataa hin jiru.',
+    'masjidos.photos': 'Suuraa',
+    'masjidos.no.photos': 'Suuraan hin jiru',
+    'masjidos.facilities': 'Tajaajila',
+    'masjidos.no.facilities': 'Odeeffannoon hin jiru.',
+    'masjidos.prayer.times': 'Yeroo Salaataa',
+    'masjidos.prayer.note': 'Yeroon salaataa tilmaama Aladhan API irraa. Masgiida dhuunfaa irratti garaagarummaa qabaachuu danda\'a.',
+    'masjidos.prayer.loading': 'Yeroon salaataa fe\'amaa jira...',
+    'masjidos.prayer.error': 'Yeroon salaataa hin argamne.',
+    'masjidos.location': 'Bakka',
+    'masjidos.imam': 'Imaam',
+    'masjidos.founded': 'Bara hundeeffama',
+    'masjidos.capacity': 'Kapasitii',
+    'masjidos.donate.cta': 'Masgiida kana deeggaruuf gumaacha raawwadhu.',
+    'masjidos.back': 'Deebi\'i Masgiidota',
+    'masjidos.people': 'namoota',
+    'masjidos.contact': 'Quunnamtii',
+    'masjidos.contact.us': 'Nu Quunnamaa',
+    'masjidos.arrow': 'Ilaali',
+    'masjidos.photos.count': 'suuraa',
+    'masjidos.ayah': 'Qur\'aana',
+    'masjidos.hadith': 'Hadiisa',
 
-    // ========== CONTACT ==========
+    // Prayer names
+    'prayer.fajr': 'Fajr',
+    'prayer.sunrise': 'Sunrise',
+    'prayer.dhuhr': 'Dhuhr',
+    'prayer.asr': 'Asr',
+    'prayer.maghrib': 'Maghrib',
+    'prayer.isha': 'Isha',
+
+    // ---------- CONTACT ----------
     'contact.title': 'Nu Quunnamaa',
     'contact.subtitle': 'Yaada, gaaffii, fi deeggarsaaf nu quunnamaa.',
     'contact.info.title': 'Odeeffannoo Quunnamtii',
@@ -201,7 +246,7 @@ const TRANSLATIONS = {
     'contact.form.submit': 'Ergi',
     'contact.form.success': '✅ Ergaan keessan ergameera. Galatoomaa!',
 
-    // ========== LOGIN ==========
+    // ---------- LOGIN ----------
     'login.title': 'Seensa',
     'login.subtitle': 'Daashboordii Malka Noonoo',
     'login.email': 'Imeelii',
@@ -211,8 +256,10 @@ const TRANSLATIONS = {
     'login.forgot': 'Jecha Darbii Dagatte?',
     'login.error': '❌ ',
     'login.success': '✅ Seensa milkaa\'e. Deebi\'aa jira...',
+    'login.no.account': 'Herrega hin qabduu?',
+    'login.register.now': 'Amma Galmaa\'i',
 
-    // ========== REGISTER ==========
+    // ---------- REGISTER ----------
     'register.title': 'Galmee',
     'register.subtitle': 'Herrega haaraa uumi — gumaacha keessan hordofaa.',
     'register.name': 'Maqaa Guutuu',
@@ -225,8 +272,11 @@ const TRANSLATIONS = {
     'register.login': 'Seeni',
     'register.success': '✅ Galmeen milkaa\'eera!',
     'register.error': '❌ ',
+    'register.password.mismatch': 'Jechi darbii wal hin simu.',
+    'register.password.weak': 'Jechi darbii cimaa filadhu (10+ characters).',
+    'register.email.invalid': 'Imeelii sirrii galchi.',
 
-    // ========== FORGOT ==========
+    // ---------- FORGOT PASSWORD ----------
     'forgot.title': 'Jecha Darbii Haaromsi',
     'forgot.subtitle': 'Imeelii keessan galchi — linkii haaromsaa siif ergina.',
     'forgot.email': 'Imeelii',
@@ -235,7 +285,7 @@ const TRANSLATIONS = {
     'forgot.success': '✅ Linkiin imeelii keessaniif ergameera.',
     'forgot.error': '❌ ',
 
-    // ========== DASHBOARD ==========
+    // ---------- DASHBOARD ----------
     'dash.title': 'Waliigalaa',
     'dash.overview': 'Waliigalaa',
     'dash.donations': 'Gumaacha',
@@ -264,8 +314,19 @@ const TRANSLATIONS = {
     'dash.bulk.confirm': 'Confirm Filatame',
     'dash.export.pdf': 'PDF',
     'dash.export.excel': 'Excel',
+    'dash.add.expense': '💸 Baasii Haaraa Galmeessi',
+    'dash.add.asset': '🏢 Qabeenya Haaraa Galmeessi',
+    'dash.add.rental': '🏪 Kireeffannaa Haaraa Galmeessi',
+    'dash.add.masjid': '🕌 Masgiida Haaraa Dabali',
+    'dash.add.announcement': '📢 Beeksisa Haaraa Uumi',
+    'dash.action.add': '➕ Dabali',
+    'dash.action.save': '💾 Save',
+    'dash.action.delete': '🗑 Balleessi',
+    'dash.action.confirm': '✓ Confirm',
+    'dash.action.edit': '✏️ Gulaali',
+    'dash.action.cancel': 'Haqi',
 
-    // ========== TABLE ==========
+    // ---------- TABLE ----------
     'table.number': '#',
     'table.name': 'Maqaa',
     'table.phone': 'Bilbila',
@@ -292,8 +353,19 @@ const TRANSLATIONS = {
     'table.action': 'Action',
     'table.empty': 'Hin jiru.',
     'table.loading': 'Fe\'amaa jira...',
+    'table.actions': 'Sochii',
 
-    // ========== NEWS ==========
+    // Status badges
+    'status.pending': 'Pending',
+    'status.confirmed': 'Confirmed',
+    'status.approved': 'Approved',
+    'status.rejected': 'Rejected',
+    'status.failed': 'Failed',
+    'status.active': 'Active',
+    'status.terminated': 'Terminated',
+    'status.expired': 'Expired',
+
+    // ---------- NEWS ----------
     'news.title': 'Odeeffannoo Haaraa',
     'news.subtitle': 'Beeksisa, gabaasa, fi odeeffannoo piroojektii Malka Noonoo.',
     'news.search': 'Odeeffannoo barbaadi...',
@@ -304,8 +376,9 @@ const TRANSLATIONS = {
     'news.cat.press': 'Gaazexaa',
     'news.readmore': 'Dubbisi',
     'news.empty': 'Odeeffannoon hin jiru.',
+    'news.share': 'Share',
 
-    // ========== GALLERY ==========
+    // ---------- GALLERY ----------
     'gallery.title': 'Suuraa Piroojektii',
     'gallery.subtitle': 'Suuraa masgiidota, ijaarsaa, hawaasaa, fi sagantaa adda addaa.',
     'gallery.all': 'Hunda',
@@ -314,8 +387,12 @@ const TRANSLATIONS = {
     'gallery.cat.community': 'Hawaasa',
     'gallery.cat.event': 'Sagantaa',
     'gallery.empty': 'Suuraan hin jiru.',
+    'gallery.view': 'Ilaali',
+    'gallery.close': 'Cufi',
+    'gallery.next': 'Kan biraa',
+    'gallery.previous': 'Kan duraa',
 
-    // ========== REPORTS ==========
+    // ---------- REPORTS ----------
     'reports.title': 'Gabaasa fi Iftoomina',
     'reports.subtitle': 'Galii, baasii, qabeenya fi gabaasa auditii — ifa ta\'een.',
     'reports.total_raised': 'Galii Waliigalaa',
@@ -337,7 +414,7 @@ const TRANSLATIONS = {
     'reports.transparency.title': 'Ifa Ta\'e fi Itti Gaafatamummaa',
     'reports.transparency.desc': 'Gumaachni keessan hundi galmee ifa ta\'een hordofama. Gabaasni waggaa fi auditii maxxanfama.',
 
-    // ========== FAQ ==========
+    // ---------- FAQ ----------
     'faq.title': 'Gaaffii fi Deebii',
     'faq.subtitle': 'Waa\'ee piroojektii, gumaachaa, fi kaffaltii gaaffiiwwan barbaachisoo.',
     'faq.cat.general': 'Waliigalaa',
@@ -349,7 +426,7 @@ const TRANSLATIONS = {
     'faq.still.desc': 'Nu quunnamaa — deebii siif kennuuf qophii dha.',
     'faq.empty': 'Gaaffiin hin jiru.',
 
-    // ========== TEAM ==========
+    // ---------- TEAM ----------
     'team.title': 'Koree fi Hoggansa',
     'team.subtitle': 'Koree Mana Marii Dhimmoota Islaamummaa Malka Noonoo — tajaajila hawaasaaf.',
     'team.leadership': 'Hoggansa Ol\'aanaa',
@@ -359,7 +436,7 @@ const TRANSLATIONS = {
     'team.advisory': 'Koree Gorsaa',
     'team.advisory.sub': 'Ogeeyyii gorsa kennan — seera, faayinaansii, fi ijaarsa.',
 
-    // ========== VOLUNTEER ==========
+    // ---------- VOLUNTEER ----------
     'volunteer.title': 'Fedhii Hirmaannaa',
     'volunteer.subtitle': 'Yeroo, dandeettii, fi gargaarsa keessan nuuf kenni — piroojektii waliin ijaarru.',
     'volunteer.why.title': 'Maaliif Fedhii Ta\'uu?',
@@ -374,30 +451,24 @@ const TRANSLATIONS = {
     'volunteer.why.4.title': 'Kabaja',
     'volunteer.why.4.desc': 'Raseenii fi beekamtii hirmaannaa argachuu.',
 
-    // BENEFIT 1 — REWARD
+    // Benefit 1 — Reward
     'volunteer.benefit.reward.title': 'Ajira Guddaa',
     'volunteer.benefit.reward.subtitle': 'Hawaasa keessan tajaajiluu — ajira Islaamaa fi hawaasaa argattu.',
     'volunteer.benefit.reward.s1.heading': '📖 Qur\'aana Keessatti',
-    'volunteer.benefit.reward.s1.ayahTranslation': '"Namni Allaahitti waamee, hojii gaarii hojjatee, \'ani Muslimoota irraa ta\'eera\' jedhe — namni isa caalaa dubbii gaarii eenyu qaba?"',
-    'volunteer.benefit.reward.s1.ayahRef': 'Suura Fussilat 41:33',
     'volunteer.benefit.reward.s1.text': 'Kun aayata guddaa dha — namni hawaasa tajaajilu, dubbii gaarii dubbatu, fi hojii gaarii hojjetu — sadarkaa ol\'aanaa Allaah biratti qaba.',
     'volunteer.benefit.reward.s2.heading': '🕌 Hadiisa Keessatti',
-    'volunteer.benefit.reward.s2.hadithTranslation': '"Namoota irraa isa gaariin — namootaaf isa bu\'aa guddaa qabu dha."',
-    'volunteer.benefit.reward.s2.hadithRef': 'Hadiisa — Bukhari fi Muslim',
-    'volunteer.benefit.reward.s2.text': 'Nabi Muhammad (s.a.w.) hawaasa tajaajiluu guddaa qabeessaa dha. Namni hawaasa isaa tajaajilu — namoota gaarii keessaa tokko ta\'a.',
+    'volunteer.benefit.reward.s2.text': 'Nabi Muhammad (s.a.w.) hawaasa tajaajiluu guddaa qabeessaa dha.',
     'volunteer.benefit.reward.s3.heading': '💡 Ajira Piroojektii',
-    'volunteer.benefit.reward.s3.text': 'Piroojektiin kun masgiidota 85, barnoota, fi tajaajila hawaasaa cimsa. Hirmaannaan keessan qooda guddaa qaba — jaarmiyaa G+3, konkolaataa, fi galii dhaabbataa uumuu keessatti hirmaachaa jirta.',
+    'volunteer.benefit.reward.s3.text': 'Piroojektiin kun masgiidota 85, barnoota, fi tajaajila hawaasaa cimsa.',
     'volunteer.benefit.reward.s4.heading': '✅ Maal Argatta?',
     'volunteer.benefit.reward.s4.1': 'Ajira Islaamaa — barakaadha hojii keessan',
     'volunteer.benefit.reward.s4.2': 'Nagahee guddaa qalbii — sababa hawaasa tajaajiluu',
     'volunteer.benefit.reward.s4.3': 'Beekamtii hawaasa fi hoggansa',
     'volunteer.benefit.reward.s4.4': 'Raseenii hirmaannaa — hojii keessan dhugaa ta\'uu',
     'volunteer.benefit.reward.s4.5': 'Dua\'a booda illee ajiraa itti fufa',
-    'volunteer.benefit.reward.testimonial': 'Yeroo fedhii ta\'ee hawaasa tajaajile — jireenya koo jijjiirame. Nagaheen qalbii koo guddaa dha.',
-    'volunteer.benefit.reward.testimonialAuthor': 'Ahmed A., Fedhii 2024',
     'volunteer.benefit.reward.cta': 'Tajaajila Jalqabi',
 
-    // BENEFIT 2 — EXPERIENCE
+    // Benefit 2 — Experience
     'volunteer.benefit.experience.title': 'Muuxannoo fi Dandeettii',
     'volunteer.benefit.experience.subtitle': 'Dandeettii haaraa barachuu — bulchiinsa, ijaarsa, faayinaansii.',
     'volunteer.benefit.experience.s1.heading': '📚 Dandeettii Argatta',
@@ -406,45 +477,34 @@ const TRANSLATIONS = {
     'volunteer.benefit.experience.s1.3': '**Faayinaansii fi Herrega** — galii, baasii, audit',
     'volunteer.benefit.experience.s1.4': '**Miidiyaa fi Beeksisa** — content creation, social media',
     'volunteer.benefit.experience.s1.5': '**Walitti Dhufeenya Hawaasaa** — communication, networking',
-    'volunteer.benefit.experience.s1.6': '**Seera fi Sanada** — legal documents, contracts',
     'volunteer.benefit.experience.s2.heading': '🎯 Leenjii',
-    'volunteer.benefit.experience.s2.text': 'Ogeeyyii fi hoggantoota waliin hojjechuun muuxannoo dhugaa argatta. Leenjii adda addaa: bulchiinsa, ijaarsa, faayinaansii, fi miidiyaa.',
+    'volunteer.benefit.experience.s2.text': 'Ogeeyyii fi hoggantoota waliin hojjechuun muuxannoo dhugaa argatta.',
     'volunteer.benefit.experience.s3.heading': '💼 Raseenii fi Beekamtii',
-    'volunteer.benefit.experience.s3.text': 'Yeroo xumurtan, **raseenii muuxannoo** argattu — hojii barbaaduuf, daldala jalqabuuf, ykn barnoota itti fufuuf gargaara. Reference letter hoggansa Mana Marii irraa argatta.',
+    'volunteer.benefit.experience.s3.text': 'Yeroo xumurtan, raseenii muuxannoo argattu — hojii barbaaduuf, daldala jalqabuuf, ykn barnoota itti fufuuf gargaara.',
     'volunteer.benefit.experience.s4.heading': '🌟 Fakkeenya',
     'volunteer.benefit.experience.s4.text': 'Fedhiiwwan duraanii — booda hojii argataniiru, daldala jalqabaniiru, ykn hoggansa hawaasaa ta\'aniiru.',
-    'volunteer.benefit.experience.testimonial': 'Fedhii ta\'uu jalqabe — bulchiinsa fi faayinaansii baradhe. Amma hojii guddaa qaba.',
-    'volunteer.benefit.experience.testimonialAuthor': 'Fatima H., Fedhii 2023',
     'volunteer.benefit.experience.cta': 'Muuxannoo Jalqabi',
 
-    // BENEFIT 3 — NETWORK
+    // Benefit 3 — Network
     'volunteer.benefit.network.title': 'Walitti Dhufeenya (Networking)',
     'volunteer.benefit.network.subtitle': 'Namoota haaraa fi hawaasa adda addaa waliin hojjechuu.',
     'volunteer.benefit.network.s1.heading': '🕌 Hadiisa',
-    'volunteer.benefit.network.s1.hadithTranslation': '"Mu\'umni Mu\'uminaaf akka ijaarsaa dha — tokkoon isaa tokko cimsa."',
-    'volunteer.benefit.network.s1.hadithRef': 'Hadiisa — Bukhari fi Muslim',
     'volunteer.benefit.network.s1.text': 'Muslimoonni wal cimsuu qabu. Networking — kun waliin hojjechuu, waliin cimsuu, fi waliin guddachuu dha.',
     'volunteer.benefit.network.s2.heading': '👥 Namoota Argatta',
     'volunteer.benefit.network.s2.1': '**Hoggantoota Mana Marii** — hoggansa 9',
     'volunteer.benefit.network.s2.2': '**Ogeeyyii fi Raawwattoota** — seera, ijaarsa, faayinaansii',
     'volunteer.benefit.network.s2.3': '**Daldaltoota fi Deeggartoota** — hawaasa daldalaa',
     'volunteer.benefit.network.s2.4': '**Barattoota fi Dargaggoota** — dhaloota haaraa',
-    'volunteer.benefit.network.s2.5': '**Masgiidota 85** — aanaalee 3 keessatti',
-    'volunteer.benefit.network.s2.6': '**Hawaasa Bal\'aa** — ida\'amaa fi dhimma',
     'volunteer.benefit.network.s3.heading': '🤝 Faayidaa',
     'volunteer.benefit.network.s3.text': 'Networking faayidaa guddaa qaba: hojii, daldala, gorsa, fi kaayyoo adda addaa.',
     'volunteer.benefit.network.s4.heading': '🌟 Fakkeenya',
     'volunteer.benefit.network.s4.text': 'Namoonni hedduu fedhii keessatti wal arguun — daldala, hojii, fi kaayyoo biroof waliin hojjetaniiru.',
-    'volunteer.benefit.network.testimonial': 'Yeroo fedhii ta\'ee, namoota gaarii argadhe. Amma daldala koo cimsuuf waliin hojjenna.',
-    'volunteer.benefit.network.testimonialAuthor': 'Ibrahim N., Fedhii 2023',
     'volunteer.benefit.network.cta': 'Hawaasa Walqunnami',
 
-    // BENEFIT 4 — HONOR
+    // Benefit 4 — Honor
     'volunteer.benefit.honor.title': 'Kabaja fi Beekamtii',
     'volunteer.benefit.honor.subtitle': 'Raseenii fi beekamtii hirmaannaa argachuu.',
     'volunteer.benefit.honor.s1.heading': '📖 Qur\'aana',
-    'volunteer.benefit.honor.s1.ayahTranslation': '"Jedhi: \'Hojjedhaa! Allaah, ergamaan isaa, fi Mu\'umtoonni hojii keessan ni argu.\'"',
-    'volunteer.benefit.honor.s1.ayahRef': 'Suura At-Tawbah 9:105',
     'volunteer.benefit.honor.s1.text': 'Hojii keessan Allaah biratti beekama. Kanaafis, hawaasa birattis beekamtii argatta.',
     'volunteer.benefit.honor.s2.heading': '🏆 Raseenii',
     'volunteer.benefit.honor.s2.text': 'Yeroo xumurtan, raseenii hirmaannaa argattu — hojii keessan dhugaa ta\'uu agarsiisa.',
@@ -454,12 +514,10 @@ const TRANSLATIONS = {
     'volunteer.benefit.honor.s3.3': '**Facebook / Telegram** — share fi beekamtii',
     'volunteer.benefit.honor.s3.4': '**Hawaasa keessanitti beekama** — kabaja guddaa',
     'volunteer.benefit.honor.s4.heading': '💎 Kabaja Qalbii',
-    'volunteer.benefit.honor.s4.text': 'Kabajni guddaan — qalbii keessan keessa jira. Namni hawaasa isaa tajaajile — nagahee qalbii argata. Kun humna dhuunfaa fi barakaadha jireenyaa dha.',
-    'volunteer.benefit.honor.testimonial': 'Raseenii fi beekamtii argadhe — kun kabaja guddaa dha. Hawaasa koo biratti beekame.',
-    'volunteer.benefit.honor.testimonialAuthor': 'Halima A., Fedhii 2024',
+    'volunteer.benefit.honor.s4.text': 'Kabajni guddaan — qalbii keessan keessa jira. Namni hawaasa isaa tajaajile — nagahee qalbii argata.',
     'volunteer.benefit.honor.cta': 'Amma Galmaa\'i',
 
-    // ROLES
+    // Roles
     'volunteer.roles.title': 'Gahee Filannoo',
     'volunteer.roles.sub': 'Dandeettii keessan fi fedhii keessan filadhu.',
     'volunteer.role.promoter': 'Beeksisaa',
@@ -479,7 +537,7 @@ const TRANSLATIONS = {
     'volunteer.role.driver': 'Konkolaachisaa',
     'volunteer.role.driver.desc': 'Yeroo barbaachisuu konkolaataa oofuu — daawwannaa.',
 
-    // FORM
+    // Form
     'volunteer.form.title': 'Galmee Fedhii',
     'volunteer.form.sub': 'Odeeffannoo keessan guuti — nu quunnamna.',
     'volunteer.form.name': 'Maqaa Guutuu',
@@ -489,14 +547,17 @@ const TRANSLATIONS = {
     'volunteer.form.role': 'Gahee Fedhii',
     'volunteer.form.hours': 'Sa\'aatii Torbanitti',
     'volunteer.form.skills': 'Dandeettii / Muuxannoo',
+    'volunteer.form.skills.placeholder': 'Dandeettii keessan, muuxannoo, ykn waan gargaaruu dandeessan...',
     'volunteer.form.agree': 'Waliigaltee fedhii fi imaammata iccitii fudhadheera',
     'volunteer.form.submit': 'Galmee Galchi',
+    'volunteer.form.select': '— Filadhu —',
+    'volunteer.form.success': '✅ Galmeen keessan milkaa\'eera! Nu quunnamna.',
 
     // CTA
     'volunteer.cta.title': 'Waliin Piroojektii Ijaarru!',
     'volunteer.cta.desc': 'Yeroo keessan, dandeettii keessan, ykn deeggarsa keessan nuuf kenni.',
 
-    // ========== LEGAL ==========
+    // ---------- LEGAL ----------
     'legal.last_updated': 'Yeroo dhumaa haaromfame',
 
     'privacy.title': 'Imaammata Iccitii',
@@ -576,13 +637,130 @@ const TRANSLATIONS = {
     'terms.s10.title': '10. Nu Quunnamaa',
     'terms.s10.desc': 'Gaaffiin yoo jiraate, nu quunnami:',
 
-    // ========== LANG ==========
+    // ---------- UI/UX ----------
+    'ui.theme.toggle': 'Theme Jijjiiri',
+    'ui.theme.light': 'Ifa Ifaa',
+    'ui.theme.dark': 'Ifa Dukkanaa',
+    'ui.theme.changed': 'Theme jijjiirameera',
+    'ui.back_to_top': 'Gara Ol\'aatti Deebi\'i',
+    'ui.close': 'Cufi',
+    'ui.open': 'Bani',
+    'ui.more': 'Dabalata',
+    'ui.less': 'Xiqqeessi',
+    'ui.show_more': 'Dabalata Agarsiisi',
+    'ui.show_less': 'Xiqqeessi',
+    'ui.next': 'Kan biraa',
+    'ui.previous': 'Kan duraa',
+    'ui.page': 'Fuula',
+    'ui.of': 'keessaa',
+    'ui.total': 'Waliigala',
+    'ui.select': 'Filadhu',
+    'ui.selected': 'filatame',
+    'ui.deselect': 'Filannoo Haqi',
+    'ui.all': 'Hunda',
+    'ui.none': 'Homaa',
+
+    // ---------- BREADCRUMBS ----------
+    'breadcrumb.home': 'Fuula Duraa',
+    'breadcrumb.you_are_here': 'As jirta:',
+
+    // ---------- TOASTS ----------
+    'toast.success': '✅ Milkaa\'e',
+    'toast.error': '❌ Dogoggora',
+    'toast.warning': '⚠️ Akeekkachiisa',
+    'toast.info': 'ℹ️ Odeeffannoo',
+    'toast.copied': '📋 Copy ta\'eera!',
+    'toast.save.success': '✅ Milkaa\'inaan olkaa\'ameera',
+    'toast.delete.success': '✅ Milkaa\'inaan balleeffameera',
+    'toast.update.success': '✅ Milkaa\'inaan haaromfameera',
+    'toast.network.error': 'Internet connection hin jiru',
+    'toast.server.error': 'Server rakkoo qaba. Booda yaali.',
+    'toast.permission.denied': 'Hayyamni hin jiru',
+    'toast.validation.error': 'Odeeffannoo sirreessi',
+
+    // ---------- MODAL ----------
+    'modal.confirm': 'Mirkaneessi',
+    'modal.cancel': 'Haqi',
+    'modal.yes': 'Eeyyee',
+    'modal.no': 'Lakki',
+    'modal.close': 'Cufi',
+    'modal.save': 'Olkaa\'i',
+    'modal.delete': 'Balleessi',
+    'modal.delete.confirm': 'Dhuguma balleessuu barbaadda?',
+    'modal.delete.warning': 'Kun deebi\'uu hin danda\'u!',
+    'modal.edit': 'Gulaali',
+    'modal.view': 'Ilaali',
+    'modal.submit': 'Ergi',
+
+    // ---------- LOADING / SKELETON ----------
+    'loading.generic': 'Fe\'amaa jira...',
+    'loading.data': 'Data fe\'amaa jira...',
+    'loading.donations': 'Gumaacha fe\'amaa jira...',
+    'loading.masjidos': 'Masgiidota fe\'amaa jira...',
+    'loading.news': 'Odeeffannoo fe\'amaa jira...',
+    'loading.team': 'Koree fe\'amaa jira...',
+    'loading.prayer': 'Yeroon salaataa fe\'amaa jira...',
+    'loading.translation': '⏳ Hiikaa...',
+    'loading.please_wait': 'Maaloo eegi...',
+
+    // ---------- EMPTY STATES ----------
+    'empty.generic': 'Odeeffannoon hin jiru.',
+    'empty.donations': 'Gumaachni hin jiru.',
+    'empty.masjidos': 'Masgiidotni hin jiran.',
+    'empty.news': 'Odeeffannoon hin jiru.',
+    'empty.photos': 'Suuraan hin jiru.',
+    'empty.results': 'Bu\'aan hin argamne.',
+    'empty.search': 'Barbaacha keessan sirreessi.',
+    'empty.faq': 'Gaaffiin hin jiru.',
+
+    // ---------- FORMS ----------
+    'form.required': 'Barbaachisa',
+    'form.optional': 'Filannoo',
+    'form.invalid.email': 'Imeelii sirrii galchi',
+    'form.invalid.phone': 'Bilbila sirrii galchi (09xxxxxxxx)',
+    'form.invalid.number': 'Lakkoofsa sirrii galchi',
+    'form.invalid.min': 'Xiqqaadhaan {min} ta\'uu qaba',
+    'form.invalid.max': '{max} hin darbin',
+    'form.password.min': 'Jechi darbii 8+ characters ta\'uu qaba',
+    'form.name.required': 'Maqaa galchi',
+    'form.amount.required': 'Gumaacha galchi',
+    'form.consent.required': 'Waliigaltee fudhadhu',
+
+    // ---------- ACTIONS ----------
+    'action.submit': 'Ergi',
+    'action.save': 'Olkaa\'i',
+    'action.cancel': 'Haqi',
+    'action.delete': 'Balleessi',
+    'action.edit': 'Gulaali',
+    'action.view': 'Ilaali',
+    'action.download': 'Buusi',
+    'action.upload': 'Fe\'i',
+    'action.copy': 'Copy',
+    'action.share': 'Share',
+    'action.print': 'Maxxansi',
+    'action.refresh': 'Haaromsi',
+    'action.filter': 'Filadhu',
+    'action.search': 'Barbaadi',
+    'action.clear': 'Haqi',
+    'action.reset': 'Deebi\'i',
+    'action.apply': 'Hojiirra Oolchi',
+    'action.back': 'Deebi\'i',
+    'action.next': 'Itti Aanu',
+    'action.previous': 'Kan Duraa',
+    'action.finish': 'Xumuri',
+    'action.continue': 'Itti Fufi',
+    'action.confirm': 'Mirkaneessi',
+    'action.close': 'Cufi',
+
+    // ---------- LANGUAGE ----------
     'lang.label': 'Afaan',
     'lang.om': 'Oromiffa',
     'lang.am': 'አማርኛ',
     'lang.en': 'English',
+    'lang.select': 'Afaan Filadhu',
+    'lang.changed': 'Afaan jijjiirameera',
 
-    // ========== GENERAL ==========
+    // ---------- GENERAL ----------
     'loading': 'Fe\'amaa jira...',
     'yes': 'Eeyyee',
     'no': 'Lakki',
@@ -603,14 +781,37 @@ const TRANSLATIONS = {
     'or': 'ykn',
     'optional': 'filannoo',
     'required': 'barbaachisa',
-    'actions': 'Sochii'
+    'actions': 'Sochii',
+    'error': 'Dogoggora',
+    'success': 'Milkaa\'ina',
+    'warning': 'Akeekkachiisa',
+    'info': 'Odeeffannoo',
+    'name': 'Maqaa',
+    'email': 'Imeelii',
+    'phone': 'Bilbila',
+    'address': 'Teessoo',
+    'date': 'Guyyaa',
+    'time': 'Yeroo',
+    'amount': 'Hanga',
+    'total': 'Waliigala',
+    'status': 'Haala',
+    'type': 'Gosa',
+    'category': 'Ramaddii',
+    'description': 'Ibsa',
+    'note': 'Yaada',
+    'from': 'Irraa',
+    'to': 'Gara',
+    'and': 'fi',
+    'welcome': 'Baga nagaan dhuftan',
+    'thank_you': 'Galatoomaa',
+    'please_wait': 'Maaloo eegi'
   },
 
   // ==========================================
   // AMAARIFFA (am)
   // ==========================================
   am: {
-    // ========== NAV ==========
+    // ---------- NAV ----------
     'nav.home': 'መነሻ',
     'nav.about': 'ስለ እኛ',
     'nav.progress': 'ሂደት',
@@ -630,12 +831,13 @@ const TRANSLATIONS = {
     'nav.profile': 'መገለጫ',
     'nav.privacy': 'ግላዊነት',
     'nav.terms': 'ውል',
+    'nav.menu': 'ዝርዝር',
 
-    // ========== BRAND ==========
+    // ---------- BRAND ----------
     'brand.name': 'መልካ ኖኖ',
     'brand.subtitle': 'የእስልምና ጉዳዮች ምክር ቤት',
 
-    // ========== HERO ==========
+    // ---------- HERO ----------
     'hero.badge': 'የ2025 የግንባታ ፕሮጀክት',
     'hero.title': 'የእኛ ግብ፦',
     'hero.amount': '190,000,000 ብር',
@@ -646,17 +848,19 @@ const TRANSLATIONS = {
     'hero.raised': 'የተሰበሰበ',
     'hero.goal': 'ግብ',
 
-    // ========== STATS ==========
+    // ---------- STATS ----------
     'stats.masjidos': 'መስጊዶች',
     'stats.woredas': 'ወረዳዎች',
     'stats.building': 'ጂ+3 ሕንፃ',
     'stats.committee': 'አስፈጻሚዎች',
+    'stats.members': 'አባላት',
+    'stats.volunteers': 'በጎ ፈቃደኞች',
 
-    // ========== MILESTONES ==========
+    // ---------- MILESTONES ----------
     'milestones.title': 'የታቀዱ ንብረቶች',
     'milestones.subtitle': 'ይህ ፕሮጀክት የሚከተሉትን ንብረቶች ለመፍጠር ታቅዷል።',
 
-    // ========== TIERS ==========
+    // ---------- TIERS ----------
     'tiers.title': 'የልግስና ደረጃዎች',
     'tiers.subtitle': 'ከሰፊው ማህበረሰብ እስከ ከፍተኛ አቅም ድረስ — ሁላችሁንም እንጋብዛለን።',
     'tiers.tier1': 'ደረጃ 1',
@@ -672,23 +876,26 @@ const TRANSLATIONS = {
     'tiers.tier4.sub': '85 መስጊዶች',
     'tiers.tier4.desc': '85 መስጊዶች የጋራ ተሳትፎ።',
 
-    // ========== ANNOUNCEMENTS ==========
+    // ---------- ANNOUNCEMENTS ----------
     'announcements.title': 'አዲስ መረጃ',
     'announcements.empty': 'መረጃ የለም።',
+    'announcements.readmore': 'ያንብቡ',
 
-    // ========== CTA ==========
+    // ---------- CTA ----------
     'cta.title': 'ልግስናዎ — ደረጃችን!',
     'cta.desc': 'ልግስናዎ ዘላቂነትን፣ ትምህርትንና የማህበረሰብ አገልግሎትን ያጠናክራል።',
     'cta.button': 'አሁን ለግሱ',
 
-    // ========== FOOTER ==========
+    // ---------- FOOTER ----------
     'footer.address': 'የእስልምና ጉዳዮች ምክር ቤት<br />መልካ ኖኖ ክ/ከተማ',
     'footer.links': 'አገናኞች',
     'footer.support': 'ድጋፍ',
     'footer.copyright': '© 2025 መልካ ኖኖ ምክር ቤት። መብቱ በህግ የተጠበቀ ነው።',
     'footer.contact': 'ያግኙን',
+    'footer.legal': 'ህግ',
+    'footer.social': 'ማህበራዊ ሚዲያ',
 
-    // ========== ABOUT ==========
+    // ---------- ABOUT ----------
     'about.hero.title': 'ስለ ፕሮጀክቱ',
     'about.hero.subtitle': 'የመልካ ኖኖ ክ/ከተማ እስልምና ጉዳዮች ምክር ቤት — ዘመናዊ ተቋም።',
     'about.goal.title': 'የፕሮጀክቱ ዓላማ',
@@ -711,7 +918,7 @@ const TRANSLATIONS = {
     'about.solution.title': 'መፍትሔው፦ ይህ ፕሮጀክት',
     'about.solution.desc': 'ይህ ፕሮጀክት ለችግሮቹ ቋሚ መፍትሔ ይሰጣል።',
 
-    // ========== DONATE ==========
+    // ---------- DONATE ----------
     'donate.title': 'ለግሱ',
     'donate.subtitle': 'ተሳትፎዎ ዘላቂነትን፣ ትምህርትንና የማህበረሰብ አገልግሎትን ያጠናክራል።',
     'donate.goal': 'ጠቅላላ ግብ',
@@ -734,6 +941,7 @@ const TRANSLATIONS = {
     'donate.form.tier.select': '— ይምረጡ —',
     'donate.form.tier.business': 'ንግድ',
     'donate.form.masjid': 'መስጊድ ይምረጡ',
+    'donate.form.masjid.select': '— መስጊድ ይምረጡ —',
     'donate.form.amount': 'ልግስና (ብር)',
     'donate.form.payment': 'የመክፈያ ዘዴ',
     'donate.form.payment.cash': 'ጥሬ ገንዘብ',
@@ -766,7 +974,7 @@ const TRANSLATIONS = {
     'donate.success.share': 'አጋራ',
     'donate.success.note': 'ሪሲት ወደ ኢሜይልዎ ተልኳል። የ SMS ማሳወቂያም ይደርስዎታል።',
 
-    // ========== PROGRESS ==========
+    // ---------- PROGRESS ----------
     'progress.title': 'የሂደት ሁኔታ',
     'progress.subtitle': 'ፕሮጀክቱ እንዴት እየተካሄደ እንደሆነ ይመልከቱ።',
     'progress.raised': 'የተሰበሰበ',
@@ -777,15 +985,53 @@ const TRANSLATIONS = {
     'progress.milestones': 'የታቀዱ ንብረቶች',
     'progress.no.donations': 'ልግስና የለም።',
 
-    // ========== MASJIDOS ==========
+    // ---------- MASJIDOS ----------
     'masjidos.title': '85 መስጊዶች',
     'masjidos.subtitle': 'ምክር ቤቱ በ3 ወረዳዎች ውስጥ 85 መስጊዶችን ያገለግላል።',
     'masjidos.search': 'መስጊድ ይፈልጉ...',
+    'masjidos.search.placeholder': 'ስም ወይም ወረዳ ይፈልጉ...',
     'masjidos.all.woredas': 'ሁሉም ወረዳዎች',
     'masjidos.members': 'አባላት',
     'masjidos.empty': 'መስጊዶች የሉም።',
+    'masjidos.count': 'መስጊዶች',
+    'masjidos.view.grid': 'ፍርግርግ',
+    'masjidos.view.map': 'ካርታ',
+    'masjidos.not_found': 'መስጊድ አልተገኘም',
+    'masjidos.not_found.desc': 'ማጣሪያዎችን ይቀይሩ ወይም ይፈልጉ።',
+    'masjidos.detail': 'መስጊድ',
+    'masjidos.about': 'ስለ መስጊዱ',
+    'masjidos.about.empty': 'ተጨማሪ መረጃ የለም።',
+    'masjidos.photos': 'ፎቶዎች',
+    'masjidos.no.photos': 'ፎቶ የለም',
+    'masjidos.facilities': 'አገልግሎቶች',
+    'masjidos.no.facilities': 'መረጃ የለም።',
+    'masjidos.prayer.times': 'የሰላት ሰዓት',
+    'masjidos.prayer.note': 'የሰላት ሰዓት ከAladhan API ግምት ነው።',
+    'masjidos.prayer.loading': 'የሰላት ሰዓት በመጫን ላይ...',
+    'masjidos.prayer.error': 'የሰላት ሰዓት አልተገኘም።',
+    'masjidos.location': 'አካባቢ',
+    'masjidos.imam': 'ኢማም',
+    'masjidos.founded': 'የተመሠረተበት ዓመት',
+    'masjidos.capacity': 'አቅም',
+    'masjidos.donate.cta': 'ይህን መስጊድ ለመደገፍ ልግስና ያድርጉ።',
+    'masjidos.back': 'ወደ መስጊዶች ተመለስ',
+    'masjidos.people': 'ሰዎች',
+    'masjidos.contact': 'አግኙን',
+    'masjidos.contact.us': 'አግኙን',
+    'masjidos.arrow': 'ይመልከቱ',
+    'masjidos.photos.count': 'ፎቶዎች',
+    'masjidos.ayah': 'ቁርአን',
+    'masjidos.hadith': 'ሀዲስ',
 
-    // ========== CONTACT ==========
+    // Prayer names
+    'prayer.fajr': 'ፈጅር',
+    'prayer.sunrise': 'ጸሐይ መውጫ',
+    'prayer.dhuhr': 'ዙህር',
+    'prayer.asr': 'አስር',
+    'prayer.maghrib': 'መግሪብ',
+    'prayer.isha': 'ኢሻ',
+
+    // ---------- CONTACT ----------
     'contact.title': 'አግኙን',
     'contact.subtitle': 'ለአስተያየት፣ ለጥያቄና ለድጋፍ ያግኙን።',
     'contact.info.title': 'የመገኛ መረጃ',
@@ -802,7 +1048,7 @@ const TRANSLATIONS = {
     'contact.form.submit': 'ላክ',
     'contact.form.success': '✅ መልእክትዎ ተልኳል። እናመሰግናለን!',
 
-    // ========== LOGIN ==========
+    // ---------- LOGIN ----------
     'login.title': 'ግባ',
     'login.subtitle': 'የመልካ ኖኖ ዳሽቦርድ',
     'login.email': 'ኢሜይል',
@@ -812,8 +1058,10 @@ const TRANSLATIONS = {
     'login.forgot': 'የይለፍ ቃል ረሳህ?',
     'login.error': '❌ ',
     'login.success': '✅ ግባት ተሳክቷል። በመመለስ ላይ...',
+    'login.no.account': 'መዝገብ የለህም?',
+    'login.register.now': 'አሁን ተመዝገብ',
 
-    // ========== REGISTER ==========
+    // ---------- REGISTER ----------
     'register.title': 'ተመዝገብ',
     'register.subtitle': 'አዲስ መዝገብ ይፍጠሩ — ልግስናዎን ይከታተሉ።',
     'register.name': 'ሙሉ ስም',
@@ -826,8 +1074,11 @@ const TRANSLATIONS = {
     'register.login': 'ግባ',
     'register.success': '✅ ምዝገባ ተሳክቷል!',
     'register.error': '❌ ',
+    'register.password.mismatch': 'የይለፍ ቃላት አይመሳሰሉም።',
+    'register.password.weak': 'ጠንካራ የይለፍ ቃል ይምረጡ (10+ ፊደሎች)።',
+    'register.email.invalid': 'ትክክለኛ ኢሜይል ያስገቡ።',
 
-    // ========== FORGOT ==========
+    // ---------- FORGOT PASSWORD ----------
     'forgot.title': 'የይለፍ ቃል አድስ',
     'forgot.subtitle': 'ኢሜይልዎን ያስገቡ — የማደሻ ሊንክ እንልካለን።',
     'forgot.email': 'ኢሜይል',
@@ -836,7 +1087,7 @@ const TRANSLATIONS = {
     'forgot.success': '✅ ሊንክ ወደ ኢሜይልዎ ተልኳል።',
     'forgot.error': '❌ ',
 
-    // ========== DASHBOARD ==========
+    // ---------- DASHBOARD ----------
     'dash.title': 'አጠቃላይ እይታ',
     'dash.overview': 'አጠቃላይ',
     'dash.donations': 'ልግስናዎች',
@@ -865,8 +1116,19 @@ const TRANSLATIONS = {
     'dash.bulk.confirm': 'የተመረጡትን አረጋግጥ',
     'dash.export.pdf': 'PDF',
     'dash.export.excel': 'Excel',
+    'dash.add.expense': '💸 አዲስ ወጪ ይመዝግቡ',
+    'dash.add.asset': '🏢 አዲስ ንብረት ይመዝግቡ',
+    'dash.add.rental': '🏪 አዲስ ኪራይ ይመዝግቡ',
+    'dash.add.masjid': '🕌 አዲስ መስጊድ ያክሉ',
+    'dash.add.announcement': '📢 አዲስ ማስታወቂያ ይፍጠሩ',
+    'dash.action.add': '➕ አክል',
+    'dash.action.save': '💾 አስቀምጥ',
+    'dash.action.delete': '🗑 ሰርዝ',
+    'dash.action.confirm': '✓ አረጋግጥ',
+    'dash.action.edit': '✏️ አርትዕ',
+    'dash.action.cancel': 'ሰርዝ',
 
-    // ========== TABLE ==========
+    // ---------- TABLE ----------
     'table.number': '#',
     'table.name': 'ስም',
     'table.phone': 'ስልክ',
@@ -893,8 +1155,19 @@ const TRANSLATIONS = {
     'table.action': 'ተግባር',
     'table.empty': 'የለም።',
     'table.loading': 'በመጫን ላይ...',
+    'table.actions': 'ተግባሮች',
 
-    // ========== NEWS ==========
+    // Status badges
+    'status.pending': 'በመጠባበቅ',
+    'status.confirmed': 'የተረጋገጠ',
+    'status.approved': 'የጸደቀ',
+    'status.rejected': 'ውድቅ የተደረገ',
+    'status.failed': 'ያልተሳካ',
+    'status.active': 'ንቁ',
+    'status.terminated': 'የተቋረጠ',
+    'status.expired': 'ያለቀ',
+
+    // ---------- NEWS ----------
     'news.title': 'አዲስ ዜና',
     'news.subtitle': 'የመልካ ኖኖ ፕሮጀክት ማስታወቂያ፣ ሪፖርትና መረጃ።',
     'news.search': 'ዜና ይፈልጉ...',
@@ -905,8 +1178,9 @@ const TRANSLATIONS = {
     'news.cat.press': 'ጋዜጣ',
     'news.readmore': 'ያንብቡ',
     'news.empty': 'ዜና የለም።',
+    'news.share': 'አጋራ',
 
-    // ========== GALLERY ==========
+    // ---------- GALLERY ----------
     'gallery.title': 'የፕሮጀክቱ ፎቶዎች',
     'gallery.subtitle': 'የመስጊዶች፣ የግንባታ፣ የማህበረሰብና የተለያዩ ዝግጅቶች ፎቶዎች።',
     'gallery.all': 'ሁሉም',
@@ -915,8 +1189,12 @@ const TRANSLATIONS = {
     'gallery.cat.community': 'ማህበረሰብ',
     'gallery.cat.event': 'ዝግጅት',
     'gallery.empty': 'ፎቶ የለም።',
+    'gallery.view': 'ይመልከቱ',
+    'gallery.close': 'ዝጋ',
+    'gallery.next': 'ቀጣይ',
+    'gallery.previous': 'ቀዳሚ',
 
-    // ========== REPORTS ==========
+    // ---------- REPORTS ----------
     'reports.title': 'ሪፖርቶችና ግልጽነት',
     'reports.subtitle': 'ገቢ፣ ወጪ፣ ንብረትና የኦዲት ሪፖርት — በግልጽ።',
     'reports.total_raised': 'ጠቅላላ ገቢ',
@@ -938,7 +1216,7 @@ const TRANSLATIONS = {
     'reports.transparency.title': 'ግልጽነትና ተጠያቂነት',
     'reports.transparency.desc': 'ልግስናዎ በግልጽ መዝገብ ይከታተላል። ዓመታዊና የኦዲት ሪፖርት ይታተማል።',
 
-    // ========== FAQ ==========
+    // ---------- FAQ ----------
     'faq.title': 'ጥያቄና መልስ',
     'faq.subtitle': 'ስለ ፕሮጀክቱ፣ ልግስናና ክፍያ ጠቃሚ ጥያቄዎች።',
     'faq.cat.general': 'አጠቃላይ',
@@ -950,7 +1228,7 @@ const TRANSLATIONS = {
     'faq.still.desc': 'ያግኙን — ለመመለስ ተዘጋጅተናል።',
     'faq.empty': 'ጥያቄ የለም።',
 
-    // ========== TEAM ==========
+    // ---------- TEAM ----------
     'team.title': 'ኮሚቴና አመራር',
     'team.subtitle': 'የመልካ ኖኖ እስልምና ጉዳዮች ምክር ቤት ኮሚቴ — ለህብረተሰብ አገልግሎት።',
     'team.leadership': 'ከፍተኛ አመራር',
@@ -960,7 +1238,7 @@ const TRANSLATIONS = {
     'team.advisory': 'አማካሪ ኮሚቴ',
     'team.advisory.sub': 'ህግ፣ ፋይናንስና ግንባታ አማካሪዎች።',
 
-    // ========== VOLUNTEER ==========
+    // ---------- VOLUNTEER ----------
     'volunteer.title': 'የበጎ ፈቃድ ተሳትፎ',
     'volunteer.subtitle': 'ጊዜዎን፣ ችሎታዎንና ድጋፍዎን ይስጡን — ፕሮጀክቱን አብረን እንገንባ።',
     'volunteer.why.title': 'ለምን በጎ ፈቃደኛ መሆን?',
@@ -975,30 +1253,24 @@ const TRANSLATIONS = {
     'volunteer.why.4.title': 'ክብር',
     'volunteer.why.4.desc': 'የተሳትፎ ሪሲትና እውቅና ማግኘት።',
 
-    // BENEFIT 1 — REWARD
+    // Benefit 1 — Reward
     'volunteer.benefit.reward.title': 'ታላቅ ምንዳ',
     'volunteer.benefit.reward.subtitle': 'ማህበረሰብዎን ማገልገል — የእስልምናና የማህበረሰብ ምንዳ ያገኛሉ።',
     'volunteer.benefit.reward.s1.heading': '📖 በቁርአን',
-    'volunteer.benefit.reward.s1.ayahTranslation': '"ወደ አላህ የጠራ፣ መልካም ሥራ የሠራና "እኔ ከሙስሊሞች ነኝ" ያለ ሰው ንግግር ማን ይበልጣል?"',
-    'volunteer.benefit.reward.s1.ayahRef': 'ሱራ ፉሲላት 41:33',
     'volunteer.benefit.reward.s1.text': 'ይህ ታላቅ አያት ነው — ማህበረሰብን የሚያገለግል፣ መልካም ንግግር የሚናገርና መልካም ሥራ የሚሠራ ሰው — በአላህ ዘንድ ከፍተኛ ደረጃ አለው።',
     'volunteer.benefit.reward.s2.heading': '🕌 በሀዲስ',
-    'volunteer.benefit.reward.s2.hadithTranslation': '"ከሰዎች ሁሉ የተሻለው — ለሰዎች ትልቅ ጥቅም ያለው ነው።"',
-    'volunteer.benefit.reward.s2.hadithRef': 'ሀዲስ — ቡኻሪ እና ሙስሊም',
-    'volunteer.benefit.reward.s2.text': 'ነቢዩ መሐመድ (ሰ.ዐ.ወ) ማህበረሰብን ማገልገልን ታላቅ አድርገው ይመለከቱት ነበር። ማህበረሰቡን የሚያገለግል ሰው — ከመልካም ሰዎች አንዱ ነው።',
+    'volunteer.benefit.reward.s2.text': 'ነቢዩ መሐመድ (ሰ.ዐ.ወ) ማህበረሰብን ማገልገልን ታላቅ አድርገው ይመለከቱት ነበር።',
     'volunteer.benefit.reward.s3.heading': '💡 የፕሮጀክት ምንዳ',
-    'volunteer.benefit.reward.s3.text': 'ይህ ፕሮጀክት 85 መስጊዶችን፣ ትምህርትንና የማህበረሰብ አገልግሎትን ያጠናክራል። ተሳትፎዎ ትልቅ ድርሻ አለው — ጂ+3 ሕንፃ፣ መኪናና ቋሚ ገቢ በመፍጠር ላይ አብረው ይሳተፋሉ።',
+    'volunteer.benefit.reward.s3.text': 'ይህ ፕሮጀክት 85 መስጊዶችን፣ ትምህርትንና የማህበረሰብ አገልግሎትን ያጠናክራል።',
     'volunteer.benefit.reward.s4.heading': '✅ ምን ያገኛሉ?',
     'volunteer.benefit.reward.s4.1': 'የእስልምና ምንዳ — የሥራዎ በረከት',
     'volunteer.benefit.reward.s4.2': 'ታላቅ የልብ እረፍት — ማህበረሰብን በማገልገል ምክንያት',
     'volunteer.benefit.reward.s4.3': 'የማህበረሰብ እውቅናና አመራር',
     'volunteer.benefit.reward.s4.4': 'የተሳትፎ ሪሲት — ሥራዎ እውነት መሆኑን ያረጋግጣል',
     'volunteer.benefit.reward.s4.5': 'ከሞት በኋላም ምንዳው ይቀጥላል',
-    'volunteer.benefit.reward.testimonial': 'በጎ ፈቃደኛ ሆኜ ማህበረሰብን ሳገለግል — ሕይወቴ ተለወጠ። የልቤ እረፍት ታላቅ ነው።',
-    'volunteer.benefit.reward.testimonialAuthor': 'አህመድ አ.፣ በጎ ፈቃደኛ 2024',
     'volunteer.benefit.reward.cta': 'አገልግሎት ጀምር',
 
-    // BENEFIT 2 — EXPERIENCE
+    // Benefit 2 — Experience
     'volunteer.benefit.experience.title': 'ልምድና ችሎታ',
     'volunteer.benefit.experience.subtitle': 'አዲስ ችሎታ መማር — አስተዳደር፣ ግንባታ፣ ፋይናንስ።',
     'volunteer.benefit.experience.s1.heading': '📚 የሚያገኙት ችሎታ',
@@ -1007,45 +1279,34 @@ const TRANSLATIONS = {
     'volunteer.benefit.experience.s1.3': '**ፋይናንስና ሒሳብ** — ገቢ፣ ወጪ፣ ኦዲት',
     'volunteer.benefit.experience.s1.4': '**ሚዲያና ማስታወቂያ** — ይዘት መፍጠር፣ ማህበራዊ ሚዲያ',
     'volunteer.benefit.experience.s1.5': '**የማህበረሰብ ግንኙነት** — ተግባቦት፣ ኔትወርኪንግ',
-    'volunteer.benefit.experience.s1.6': '**ሕግና ሰነድ** — ሕጋዊ ሰነዶች፣ ውሎች',
     'volunteer.benefit.experience.s2.heading': '🎯 ስልጠና',
-    'volunteer.benefit.experience.s2.text': 'ከባለሙያዎችና ከመሪዎች ጋር በመሥራት እውነተኛ ልምድ ያገኛሉ። የተለያዩ ስልጠናዎች፦ አስተዳደር፣ ግንባታ፣ ፋይናንስና ሚዲያ።',
+    'volunteer.benefit.experience.s2.text': 'ከባለሙያዎችና ከመሪዎች ጋር በመሥራት እውነተኛ ልምድ ያገኛሉ።',
     'volunteer.benefit.experience.s3.heading': '💼 ሪሲትና እውቅና',
-    'volunteer.benefit.experience.s3.text': 'ሲጨርሱ **የልምድ ሪሲት** ያገኛሉ — ሥራ ለመፈለግ፣ ንግድ ለመጀመር ወይም ትምህርት ለመቀጠል ይጠቅማል። ከምክር ቤቱ አመራር የምክር ደብዳቤም ያገኛሉ።',
+    'volunteer.benefit.experience.s3.text': 'ሲጨርሱ የልምድ ሪሲት ያገኛሉ — ሥራ ለመፈለግ፣ ንግድ ለመጀመር ወይም ትምህርት ለመቀጠል ይጠቅማል።',
     'volunteer.benefit.experience.s4.heading': '🌟 ምሳሌ',
     'volunteer.benefit.experience.s4.text': 'ቀደምት በጎ ፈቃደኞች — በኋላ ሥራ አግኝተዋል፣ ንግድ ጀምረዋል ወይም የማህበረሰብ መሪ ሆነዋል።',
-    'volunteer.benefit.experience.testimonial': 'በጎ ፈቃደኛ መሆን ጀመርኩ — አስተዳደርና ፋይናንስ ተማርኩ። አሁን ታላቅ ሥራ አለኝ።',
-    'volunteer.benefit.experience.testimonialAuthor': 'ፋጡማ ሀ.፣ በጎ ፈቃደኛ 2023',
     'volunteer.benefit.experience.cta': 'ልምድ ጀምር',
 
-    // BENEFIT 3 — NETWORK
+    // Benefit 3 — Network
     'volunteer.benefit.network.title': 'ግንኙነት (ኔትወርኪንግ)',
     'volunteer.benefit.network.subtitle': 'አዲስ ሰዎችና የተለያዩ ማህበረሰቦች ጋር መሥራት።',
     'volunteer.benefit.network.s1.heading': '🕌 ሀዲስ',
-    'volunteer.benefit.network.s1.hadithTranslation': '"ሙእሚን ለሙእሚን እንደ ሕንፃ ነው — አንዱ ሌላውን ያጠናክራል።"',
-    'volunteer.benefit.network.s1.hadithRef': 'ሀዲስ — ቡኻሪ እና ሙስሊም',
     'volunteer.benefit.network.s1.text': 'ሙስሊሞች እርስ በርስ መደጋገፍ አለባቸው። ኔትወርኪንግ — አብሮ መሥራት፣ አብሮ መጠናከርና አብሮ ማደግ ነው።',
     'volunteer.benefit.network.s2.heading': '👥 የሚያገኟቸው ሰዎች',
     'volunteer.benefit.network.s2.1': '**የምክር ቤቱ አመራር** — 9 አመራር',
     'volunteer.benefit.network.s2.2': '**ባለሙያዎችና አስፈጻሚዎች** — ሕግ፣ ግንባታ፣ ፋይናንስ',
     'volunteer.benefit.network.s2.3': '**ነጋዴዎችና ደጋፊዎች** — የንግድ ማህበረሰብ',
     'volunteer.benefit.network.s2.4': '**ተማሪዎችና ወጣቶች** — አዲሱ ትውልድ',
-    'volunteer.benefit.network.s2.5': '**85 መስጊዶች** — በ3 ወረዳዎች',
-    'volunteer.benefit.network.s2.6': '**ሰፊው ማህበረሰብ** — ሁሉም ወገን',
     'volunteer.benefit.network.s3.heading': '🤝 ጥቅሞች',
     'volunteer.benefit.network.s3.text': 'ኔትወርኪንግ ታላቅ ጥቅም አለው፦ ሥራ፣ ንግድ፣ ምክርና የተለያዩ ዓላማዎች።',
     'volunteer.benefit.network.s4.heading': '🌟 ምሳሌ',
     'volunteer.benefit.network.s4.text': 'ብዙ ሰዎች በበጎ ፈቃድ ሲገናኙ — ለንግድ፣ ለሥራና ለሌሎች ዓላማዎች አብረው ሠርተዋል።',
-    'volunteer.benefit.network.testimonial': 'በጎ ፈቃደኛ ሳለሁ ጥሩ ሰዎችን አገኘሁ። አሁን ንግዴን ለማጠናከር አብረን እንሠራለን።',
-    'volunteer.benefit.network.testimonialAuthor': 'ኢብራሂም ን.፣ በጎ ፈቃደኛ 2023',
     'volunteer.benefit.network.cta': 'ማህበረሰብን ያገኙ',
 
-    // BENEFIT 4 — HONOR
+    // Benefit 4 — Honor
     'volunteer.benefit.honor.title': 'ክብርና እውቅና',
     'volunteer.benefit.honor.subtitle': 'የተሳትፎ ሪሲትና እውቅና ማግኘት።',
     'volunteer.benefit.honor.s1.heading': '📖 ቁርአን',
-    'volunteer.benefit.honor.s1.ayahTranslation': '"በላቸው፦ "ሥሩ! አላህ፣ መልእክተኛውና ሙእሚኖች ሥራችሁን ያያሉ።""',
-    'volunteer.benefit.honor.s1.ayahRef': 'ሱራ አት-ተውባ 9:105',
     'volunteer.benefit.honor.s1.text': 'ሥራዎ በአላህ ዘንድ ይታወቃል። በማህበረሰብም እውቅና ያገኛሉ።',
     'volunteer.benefit.honor.s2.heading': '🏆 ሪሲት',
     'volunteer.benefit.honor.s2.text': 'ሲጨርሱ የተሳትፎ ሪሲት ያገኛሉ — ሥራዎ እውነት መሆኑን ያሳያል።',
@@ -1055,12 +1316,10 @@ const TRANSLATIONS = {
     'volunteer.benefit.honor.s3.3': '**Facebook / Telegram** — ማጋራትና እውቅና',
     'volunteer.benefit.honor.s3.4': '**በማህበረሰብዎ እውቅና** — ታላቅ ክብር',
     'volunteer.benefit.honor.s4.heading': '💎 የልብ ክብር',
-    'volunteer.benefit.honor.s4.text': 'ታላቁ ክብር — በልብዎ ውስጥ ነው። ማህበረሰቡን ያገለገለ ሰው — የልብ እረፍት ያገኛል። ይህ የግል ኃይልና የሕይወት በረከት ነው።',
-    'volunteer.benefit.honor.testimonial': 'ሪሲትና እውቅና አገኘሁ — ይህ ታላቅ ክብር ነው። በማህበረሰቤ ዘንድ ታወቅሁ።',
-    'volunteer.benefit.honor.testimonialAuthor': 'ሐሊማ አ.፣ በጎ ፈቃደኛ 2024',
+    'volunteer.benefit.honor.s4.text': 'ታላቁ ክብር — በልብዎ ውስጥ ነው። ማህበረሰቡን ያገለገለ ሰው — የልብ እረፍት ያገኛል።',
     'volunteer.benefit.honor.cta': 'አሁን ተመዝገብ',
 
-    // ROLES
+    // Roles
     'volunteer.roles.title': 'የሚመርጡት ሚና',
     'volunteer.roles.sub': 'ችሎታዎንና ፍላጎትዎን ይምረጡ።',
     'volunteer.role.promoter': 'አስተዋዋቂ',
@@ -1080,7 +1339,7 @@ const TRANSLATIONS = {
     'volunteer.role.driver': 'ሹፌር',
     'volunteer.role.driver.desc': 'አስፈላጊ ሲሆን መኪና ማሽከርከር።',
 
-    // FORM
+    // Form
     'volunteer.form.title': 'የበጎ ፈቃድ ምዝገባ',
     'volunteer.form.sub': 'መረጃዎን ይሙሉ — እናገኝዎታለን።',
     'volunteer.form.name': 'ሙሉ ስም',
@@ -1090,14 +1349,17 @@ const TRANSLATIONS = {
     'volunteer.form.role': 'የሚፈልጉት ሚና',
     'volunteer.form.hours': 'በሳምንት ሰዓት',
     'volunteer.form.skills': 'ችሎታ / ልምድ',
+    'volunteer.form.skills.placeholder': 'ችሎታዎን፣ ልምድዎን ወይም ሊረዱበት የሚችሉትን ይጻፉ...',
     'volunteer.form.agree': 'የበጎ ፈቃድ ውልና የግላዊነት መመሪያ ተቀብያለሁ',
     'volunteer.form.submit': 'ምዝገባ አስገባ',
+    'volunteer.form.select': '— ይምረጡ —',
+    'volunteer.form.success': '✅ ምዝገባዎ ተሳክቷል! እናገኝዎታለን።',
 
     // CTA
     'volunteer.cta.title': 'አብረን ፕሮጀክቱን እንገንባ!',
     'volunteer.cta.desc': 'ጊዜዎን፣ ችሎታዎን ወይም ድጋፍዎን ይስጡን።',
 
-    // ========== LEGAL ==========
+    // ---------- LEGAL ----------
     'legal.last_updated': 'ለመጨረሻ ጊዜ የተሻሻለው',
     'privacy.title': 'የግላዊነት መመሪያ',
     'privacy.subtitle': 'መረጃዎን እንዴት እንጠቀማለን፣ እንጠብቃለንና እንጠብቃለን።',
@@ -1176,13 +1438,130 @@ const TRANSLATIONS = {
     'terms.s10.title': '10. ያግኙን',
     'terms.s10.desc': 'ጥያቄ ካለ ያግኙን፦',
 
-    // ========== LANG ==========
+    // ---------- UI/UX ----------
+    'ui.theme.toggle': 'ገጽታ ቀይር',
+    'ui.theme.light': 'ብሩህ ገጽታ',
+    'ui.theme.dark': 'ጨለማ ገጽታ',
+    'ui.theme.changed': 'ገጽታ ተቀይሯል',
+    'ui.back_to_top': 'ወደ ላይ ተመለስ',
+    'ui.close': 'ዝጋ',
+    'ui.open': 'ክፈት',
+    'ui.more': 'ተጨማሪ',
+    'ui.less': 'ያነሰ',
+    'ui.show_more': 'ተጨማሪ አሳይ',
+    'ui.show_less': 'ያነሰ አሳይ',
+    'ui.next': 'ቀጣይ',
+    'ui.previous': 'ቀዳሚ',
+    'ui.page': 'ገጽ',
+    'ui.of': 'ከ',
+    'ui.total': 'ጠቅላላ',
+    'ui.select': 'ይምረጡ',
+    'ui.selected': 'ተመርጧል',
+    'ui.deselect': 'ምርጫ አጥፋ',
+    'ui.all': 'ሁሉም',
+    'ui.none': 'ምንም',
+
+    // ---------- BREADCRUMBS ----------
+    'breadcrumb.home': 'መነሻ',
+    'breadcrumb.you_are_here': 'እዚህ ነዎት:',
+
+    // ---------- TOASTS ----------
+    'toast.success': '✅ ተሳክቷል',
+    'toast.error': '❌ ስህተት',
+    'toast.warning': '⚠️ ማስጠንቀቂያ',
+    'toast.info': 'ℹ️ መረጃ',
+    'toast.copied': '📋 ተቀድቷል!',
+    'toast.save.success': '✅ በተሳካ ሁኔታ ተቀምጧል',
+    'toast.delete.success': '✅ በተሳካ ሁኔታ ተሰርዟል',
+    'toast.update.success': '✅ በተሳካ ሁኔታ ተሻሽሏል',
+    'toast.network.error': 'የኢንተርኔት ግንኙነት የለም',
+    'toast.server.error': 'ሰርቨር ችግር አለው። በኋላ ይሞክሩ።',
+    'toast.permission.denied': 'ፈቃድ የለም',
+    'toast.validation.error': 'መረጃ ያስተካክሉ',
+
+    // ---------- MODAL ----------
+    'modal.confirm': 'አረጋግጥ',
+    'modal.cancel': 'ሰርዝ',
+    'modal.yes': 'አዎ',
+    'modal.no': 'አይ',
+    'modal.close': 'ዝጋ',
+    'modal.save': 'አስቀምጥ',
+    'modal.delete': 'ሰርዝ',
+    'modal.delete.confirm': 'በእርግጥ መሰረዝ ይፈልጋሉ?',
+    'modal.delete.warning': 'ይህ መመለስ አይቻልም!',
+    'modal.edit': 'አርትዕ',
+    'modal.view': 'ተመልከት',
+    'modal.submit': 'ላክ',
+
+    // ---------- LOADING / SKELETON ----------
+    'loading.generic': 'በመጫን ላይ...',
+    'loading.data': 'ውሂብ በመጫን ላይ...',
+    'loading.donations': 'ልግስናዎች በመጫን ላይ...',
+    'loading.masjidos': 'መስጊዶች በመጫን ላይ...',
+    'loading.news': 'ዜና በመጫን ላይ...',
+    'loading.team': 'ኮሚቴ በመጫን ላይ...',
+    'loading.prayer': 'የሰላት ሰዓት በመጫን ላይ...',
+    'loading.translation': '⏳ በመተርጎም ላይ...',
+    'loading.please_wait': 'እባክዎ ይጠብቁ...',
+
+    // ---------- EMPTY STATES ----------
+    'empty.generic': 'መረጃ የለም።',
+    'empty.donations': 'ልግስና የለም።',
+    'empty.masjidos': 'መስጊዶች የሉም።',
+    'empty.news': 'ዜና የለም።',
+    'empty.photos': 'ፎቶ የለም።',
+    'empty.results': 'ውጤት አልተገኘም።',
+    'empty.search': 'ፍለጋዎን ያስተካክሉ።',
+    'empty.faq': 'ጥያቄ የለም።',
+
+    // ---------- FORMS ----------
+    'form.required': 'አስፈላጊ',
+    'form.optional': 'አማራጭ',
+    'form.invalid.email': 'ትክክለኛ ኢሜይል ያስገቡ',
+    'form.invalid.phone': 'ትክክለኛ ስልክ ያስገቡ (09xxxxxxxx)',
+    'form.invalid.number': 'ትክክለኛ ቁጥር ያስገቡ',
+    'form.invalid.min': 'ቢያንስ {min} መሆን አለበት',
+    'form.invalid.max': '{max} መብለጥ የለበትም',
+    'form.password.min': 'የይለፍ ቃል 8+ ፊደሎች መሆን አለበት',
+    'form.name.required': 'ስም ያስገቡ',
+    'form.amount.required': 'ልግስና ያስገቡ',
+    'form.consent.required': 'ውሉን ይቀበሉ',
+
+    // ---------- ACTIONS ----------
+    'action.submit': 'ላክ',
+    'action.save': 'አስቀምጥ',
+    'action.cancel': 'ሰርዝ',
+    'action.delete': 'ሰርዝ',
+    'action.edit': 'አርትዕ',
+    'action.view': 'ተመልከት',
+    'action.download': 'አውርድ',
+    'action.upload': 'ጫን',
+    'action.copy': 'ቅዳ',
+    'action.share': 'አጋራ',
+    'action.print': 'አትም',
+    'action.refresh': 'አድስ',
+    'action.filter': 'አጣራ',
+    'action.search': 'ፈልግ',
+    'action.clear': 'አጽዳ',
+    'action.reset': 'ዳግም አስጀምር',
+    'action.apply': 'ተግብር',
+    'action.back': 'ተመለስ',
+    'action.next': 'ቀጣይ',
+    'action.previous': 'ቀዳሚ',
+    'action.finish': 'ጨርስ',
+    'action.continue': 'ቀጥል',
+    'action.confirm': 'አረጋግጥ',
+    'action.close': 'ዝጋ',
+
+    // ---------- LANGUAGE ----------
     'lang.label': 'ቋንቋ',
     'lang.om': 'Oromiffa',
     'lang.am': 'አማርኛ',
     'lang.en': 'English',
+    'lang.select': 'ቋንቋ ይምረጡ',
+    'lang.changed': 'ቋንቋ ተቀይሯል',
 
-    // ========== GENERAL ==========
+    // ---------- GENERAL ----------
     'loading': 'በመጫን ላይ...',
     'yes': 'አዎ',
     'no': 'አይ',
@@ -1203,14 +1582,37 @@ const TRANSLATIONS = {
     'or': 'ወይም',
     'optional': 'አማራጭ',
     'required': 'አስፈላጊ',
-    'actions': 'ተግባሮች'
+    'actions': 'ተግባሮች',
+    'error': 'ስህተት',
+    'success': 'ስኬት',
+    'warning': 'ማስጠንቀቂያ',
+    'info': 'መረጃ',
+    'name': 'ስም',
+    'email': 'ኢሜይል',
+    'phone': 'ስልክ',
+    'address': 'አድራሻ',
+    'date': 'ቀን',
+    'time': 'ሰዓት',
+    'amount': 'መጠን',
+    'total': 'ጠቅላላ',
+    'status': 'ሁኔታ',
+    'type': 'ዓይነት',
+    'category': 'ምድብ',
+    'description': 'መግለጫ',
+    'note': 'ማስታወሻ',
+    'from': 'ከ',
+    'to': 'ወደ',
+    'and': 'እና',
+    'welcome': 'እንኳን ደህና መጡ',
+    'thank_you': 'አመሰግናለሁ',
+    'please_wait': 'እባክዎ ይጠብቁ'
   },
 
   // ==========================================
   // INGILIFFA (en)
   // ==========================================
   en: {
-    // ========== NAV ==========
+    // ---------- NAV ----------
     'nav.home': 'Home',
     'nav.about': 'About',
     'nav.progress': 'Progress',
@@ -1230,12 +1632,13 @@ const TRANSLATIONS = {
     'nav.profile': 'Profile',
     'nav.privacy': 'Privacy',
     'nav.terms': 'Terms',
+    'nav.menu': 'Menu',
 
-    // ========== BRAND ==========
+    // ---------- BRAND ----------
     'brand.name': 'Malka Noonoo',
     'brand.subtitle': 'Islamic Affairs Council',
 
-    // ========== HERO ==========
+    // ---------- HERO ----------
     'hero.badge': 'Construction Project 2025',
     'hero.title': 'Our Goal:',
     'hero.amount': '190,000,000 ETB',
@@ -1246,17 +1649,19 @@ const TRANSLATIONS = {
     'hero.raised': 'Raised',
     'hero.goal': 'Goal',
 
-    // ========== STATS ==========
+    // ---------- STATS ----------
     'stats.masjidos': 'Masjidos',
     'stats.woredas': 'Woredas',
     'stats.building': 'G+3 Building',
     'stats.committee': 'Committee',
+    'stats.members': 'Members',
+    'stats.volunteers': 'Volunteers',
 
-    // ========== MILESTONES ==========
+    // ---------- MILESTONES ----------
     'milestones.title': 'Planned Assets',
     'milestones.subtitle': 'This project aims to create the following assets.',
 
-    // ========== TIERS ==========
+    // ---------- TIERS ----------
     'tiers.title': 'Donation Tiers',
     'tiers.subtitle': 'From the wider community to high-capacity donors — we welcome everyone.',
     'tiers.tier1': 'Tier 1',
@@ -1272,23 +1677,26 @@ const TRANSLATIONS = {
     'tiers.tier4.sub': '85 Masjidos',
     'tiers.tier4.desc': '85 masjidos in joint participation.',
 
-    // ========== ANNOUNCEMENTS ==========
+    // ---------- ANNOUNCEMENTS ----------
     'announcements.title': 'Latest Announcements',
     'announcements.empty': 'No announcements.',
+    'announcements.readmore': 'Read more',
 
-    // ========== CTA ==========
+    // ---------- CTA ----------
     'cta.title': 'Your donation — our progress!',
     'cta.desc': 'Your donation strengthens sustainability, education, and community service.',
     'cta.button': 'Donate Now',
 
-    // ========== FOOTER ==========
+    // ---------- FOOTER ----------
     'footer.address': 'Islamic Affairs Council<br />Malka Noonoo Sub-city',
     'footer.links': 'Links',
     'footer.support': 'Support',
     'footer.copyright': '© 2025 Malka Noonoo Council. All rights reserved.',
     'footer.contact': 'Contact Us',
+    'footer.legal': 'Legal',
+    'footer.social': 'Social Media',
 
-    // ========== ABOUT ==========
+    // ---------- ABOUT ----------
     'about.hero.title': 'About the Project',
     'about.hero.subtitle': 'Malka Noonoo Sub-city Islamic Affairs Council — a modern institution.',
     'about.goal.title': 'Project Goal',
@@ -1311,7 +1719,7 @@ const TRANSLATIONS = {
     'about.solution.title': 'The Solution: This Project',
     'about.solution.desc': 'This project provides a permanent solution to these problems.',
 
-    // ========== DONATE ==========
+    // ---------- DONATE ----------
     'donate.title': 'Donate',
     'donate.subtitle': 'Your participation strengthens sustainability, education, and community service.',
     'donate.goal': 'Overall Goal',
@@ -1334,6 +1742,7 @@ const TRANSLATIONS = {
     'donate.form.tier.select': '— Select —',
     'donate.form.tier.business': 'Business',
     'donate.form.masjid': 'Select Masjid',
+    'donate.form.masjid.select': '— Select Masjid —',
     'donate.form.amount': 'Amount (ETB)',
     'donate.form.payment': 'Payment Method',
     'donate.form.payment.cash': 'Cash',
@@ -1366,7 +1775,7 @@ const TRANSLATIONS = {
     'donate.success.share': 'Share',
     'donate.success.note': 'A receipt has been sent to your email. You will receive an SMS notification.',
 
-    // ========== PROGRESS ==========
+    // ---------- PROGRESS ----------
     'progress.title': 'Project Progress',
     'progress.subtitle': 'See how the project is progressing.',
     'progress.raised': 'Raised',
@@ -1377,15 +1786,53 @@ const TRANSLATIONS = {
     'progress.milestones': 'Planned Assets',
     'progress.no.donations': 'No donations yet.',
 
-    // ========== MASJIDOS ==========
+    // ---------- MASJIDOS ----------
     'masjidos.title': '85 Masjidos',
     'masjidos.subtitle': 'The council serves 85 masjidos across 3 woredas.',
     'masjidos.search': 'Search masjid...',
+    'masjidos.search.placeholder': 'Search name or woreda...',
     'masjidos.all.woredas': 'All woredas',
     'masjidos.members': 'members',
     'masjidos.empty': 'No masjidos.',
+    'masjidos.count': 'masjidos',
+    'masjidos.view.grid': 'Grid',
+    'masjidos.view.map': 'Map',
+    'masjidos.not_found': 'No masjids found',
+    'masjidos.not_found.desc': 'Change filters or search again.',
+    'masjidos.detail': 'Masjid',
+    'masjidos.about': 'About the Masjid',
+    'masjidos.about.empty': 'No additional information.',
+    'masjidos.photos': 'Photos',
+    'masjidos.no.photos': 'No photos yet',
+    'masjidos.facilities': 'Facilities',
+    'masjidos.no.facilities': 'No information.',
+    'masjidos.prayer.times': 'Prayer Times',
+    'masjidos.prayer.note': 'Prayer times are estimates from Aladhan API.',
+    'masjidos.prayer.loading': 'Loading prayer times...',
+    'masjidos.prayer.error': 'Prayer times not available.',
+    'masjidos.location': 'Location',
+    'masjidos.imam': 'Imam',
+    'masjidos.founded': 'Founded year',
+    'masjidos.capacity': 'Capacity',
+    'masjidos.donate.cta': 'Donate to support this masjid.',
+    'masjidos.back': 'Back to Masjidos',
+    'masjidos.people': 'people',
+    'masjidos.contact': 'Contact',
+    'masjidos.contact.us': 'Contact Us',
+    'masjidos.arrow': 'View',
+    'masjidos.photos.count': 'photos',
+    'masjidos.ayah': 'Qur\'an',
+    'masjidos.hadith': 'Hadith',
 
-    // ========== CONTACT ==========
+    // Prayer names
+    'prayer.fajr': 'Fajr',
+    'prayer.sunrise': 'Sunrise',
+    'prayer.dhuhr': 'Dhuhr',
+    'prayer.asr': 'Asr',
+    'prayer.maghrib': 'Maghrib',
+    'prayer.isha': 'Isha',
+
+    // ---------- CONTACT ----------
     'contact.title': 'Contact Us',
     'contact.subtitle': 'Reach out for feedback, questions, and support.',
     'contact.info.title': 'Contact Information',
@@ -1402,7 +1849,7 @@ const TRANSLATIONS = {
     'contact.form.submit': 'Send',
     'contact.form.success': '✅ Your message has been sent. Thank you!',
 
-    // ========== LOGIN ==========
+    // ---------- LOGIN ----------
     'login.title': 'Login',
     'login.subtitle': 'Malka Noonoo Dashboard',
     'login.email': 'Email',
@@ -1412,8 +1859,10 @@ const TRANSLATIONS = {
     'login.forgot': 'Forgot Password?',
     'login.error': '❌ ',
     'login.success': '✅ Login successful. Redirecting...',
+    'login.no.account': 'Don\'t have an account?',
+    'login.register.now': 'Register Now',
 
-    // ========== REGISTER ==========
+    // ---------- REGISTER ----------
     'register.title': 'Register',
     'register.subtitle': 'Create a new account — track your donations.',
     'register.name': 'Full Name',
@@ -1426,8 +1875,11 @@ const TRANSLATIONS = {
     'register.login': 'Login',
     'register.success': '✅ Registration successful!',
     'register.error': '❌ ',
+    'register.password.mismatch': 'Passwords do not match.',
+    'register.password.weak': 'Choose a strong password (10+ characters).',
+    'register.email.invalid': 'Enter a valid email.',
 
-    // ========== FORGOT ==========
+    // ---------- FORGOT PASSWORD ----------
     'forgot.title': 'Reset Password',
     'forgot.subtitle': 'Enter your email — we\'ll send you a reset link.',
     'forgot.email': 'Email',
@@ -1436,7 +1888,7 @@ const TRANSLATIONS = {
     'forgot.success': '✅ A reset link has been sent to your email.',
     'forgot.error': '❌ ',
 
-    // ========== DASHBOARD ==========
+    // ---------- DASHBOARD ----------
     'dash.title': 'Overview',
     'dash.overview': 'Overview',
     'dash.donations': 'Donations',
@@ -1465,8 +1917,19 @@ const TRANSLATIONS = {
     'dash.bulk.confirm': 'Confirm Selected',
     'dash.export.pdf': 'PDF',
     'dash.export.excel': 'Excel',
+    'dash.add.expense': '💸 Add New Expense',
+    'dash.add.asset': '🏢 Add New Asset',
+    'dash.add.rental': '🏪 Add New Rental',
+    'dash.add.masjid': '🕌 Add New Masjid',
+    'dash.add.announcement': '📢 Create New Announcement',
+    'dash.action.add': '➕ Add',
+    'dash.action.save': '💾 Save',
+    'dash.action.delete': '🗑 Delete',
+    'dash.action.confirm': '✓ Confirm',
+    'dash.action.edit': '✏️ Edit',
+    'dash.action.cancel': 'Cancel',
 
-    // ========== TABLE ==========
+    // ---------- TABLE ----------
     'table.number': '#',
     'table.name': 'Name',
     'table.phone': 'Phone',
@@ -1493,8 +1956,19 @@ const TRANSLATIONS = {
     'table.action': 'Action',
     'table.empty': 'None.',
     'table.loading': 'Loading...',
+    'table.actions': 'Actions',
 
-    // ========== NEWS ==========
+    // Status badges
+    'status.pending': 'Pending',
+    'status.confirmed': 'Confirmed',
+    'status.approved': 'Approved',
+    'status.rejected': 'Rejected',
+    'status.failed': 'Failed',
+    'status.active': 'Active',
+    'status.terminated': 'Terminated',
+    'status.expired': 'Expired',
+
+    // ---------- NEWS ----------
     'news.title': 'Latest News',
     'news.subtitle': 'Announcements, reports, and updates on the Malka Noonoo project.',
     'news.search': 'Search news...',
@@ -1505,8 +1979,9 @@ const TRANSLATIONS = {
     'news.cat.press': 'Press',
     'news.readmore': 'Read more',
     'news.empty': 'No news yet.',
+    'news.share': 'Share',
 
-    // ========== GALLERY ==========
+    // ---------- GALLERY ----------
     'gallery.title': 'Project Gallery',
     'gallery.subtitle': 'Photos of masjidos, construction, community, and various events.',
     'gallery.all': 'All',
@@ -1515,8 +1990,12 @@ const TRANSLATIONS = {
     'gallery.cat.community': 'Community',
     'gallery.cat.event': 'Events',
     'gallery.empty': 'No photos yet.',
+    'gallery.view': 'View',
+    'gallery.close': 'Close',
+    'gallery.next': 'Next',
+    'gallery.previous': 'Previous',
 
-    // ========== REPORTS ==========
+    // ---------- REPORTS ----------
     'reports.title': 'Reports & Transparency',
     'reports.subtitle': 'Revenue, expenses, assets, and audit reports — transparently.',
     'reports.total_raised': 'Total Raised',
@@ -1538,7 +2017,7 @@ const TRANSLATIONS = {
     'reports.transparency.title': 'Transparency & Accountability',
     'reports.transparency.desc': 'Every donation is tracked transparently. Annual and audit reports are published.',
 
-    // ========== FAQ ==========
+    // ---------- FAQ ----------
     'faq.title': 'Frequently Asked Questions',
     'faq.subtitle': 'Common questions about the project, donations, and payments.',
     'faq.cat.general': 'General',
@@ -1550,7 +2029,7 @@ const TRANSLATIONS = {
     'faq.still.desc': 'Contact us — we\'re ready to help.',
     'faq.empty': 'No questions yet.',
 
-    // ========== TEAM ==========
+    // ---------- TEAM ----------
     'team.title': 'Team & Leadership',
     'team.subtitle': 'Malka Noonoo Islamic Affairs Council team — serving the community.',
     'team.leadership': 'Senior Leadership',
@@ -1560,7 +2039,7 @@ const TRANSLATIONS = {
     'team.advisory': 'Advisory Board',
     'team.advisory.sub': 'Advisors — law, finance, and construction.',
 
-    // ========== VOLUNTEER ==========
+    // ---------- VOLUNTEER ----------
     'volunteer.title': 'Volunteer With Us',
     'volunteer.subtitle': 'Give your time, skills, and support — let\'s build the project together.',
     'volunteer.why.title': 'Why Volunteer?',
@@ -1575,30 +2054,24 @@ const TRANSLATIONS = {
     'volunteer.why.4.title': 'Recognition',
     'volunteer.why.4.desc': 'Receive participation certificate and recognition.',
 
-    // BENEFIT 1 — REWARD
+    // Benefit 1 — Reward
     'volunteer.benefit.reward.title': 'Great Reward',
     'volunteer.benefit.reward.subtitle': 'Serve your community — earn Islamic and community reward.',
     'volunteer.benefit.reward.s1.heading': '📖 In the Qur\'an',
-    'volunteer.benefit.reward.s1.ayahTranslation': '"Who is better in speech than one who calls to Allah, does righteous deeds, and says: \'I am of the Muslims\'?"',
-    'volunteer.benefit.reward.s1.ayahRef': 'Surah Fussilat 41:33',
     'volunteer.benefit.reward.s1.text': 'This is a great verse — whoever serves the community, speaks good words, and does good deeds has an elevated rank with Allah.',
     'volunteer.benefit.reward.s2.heading': '🕌 In Hadith',
-    'volunteer.benefit.reward.s2.hadithTranslation': '"The best of people are those who bring the most benefit to others."',
-    'volunteer.benefit.reward.s2.hadithRef': 'Hadith — Bukhari & Muslim',
-    'volunteer.benefit.reward.s2.text': 'Prophet Muhammad (s.a.w) placed great importance on serving the community. Whoever serves their community is among the best of people.',
+    'volunteer.benefit.reward.s2.text': 'Prophet Muhammad (s.a.w) placed great importance on serving the community.',
     'volunteer.benefit.reward.s3.heading': '💡 Project Impact',
-    'volunteer.benefit.reward.s3.text': 'This project strengthens 85 masjidos, education, and community service. Your participation has a large role — building a G+3 building, vehicles, and creating permanent income.',
+    'volunteer.benefit.reward.s3.text': 'This project strengthens 85 masjidos, education, and community service.',
     'volunteer.benefit.reward.s4.heading': '✅ What You Gain',
     'volunteer.benefit.reward.s4.1': 'Islamic reward — blessing of your work',
     'volunteer.benefit.reward.s4.2': 'Deep peace of heart — from serving the community',
     'volunteer.benefit.reward.s4.3': 'Community recognition and leadership',
     'volunteer.benefit.reward.s4.4': 'Participation certificate — proves your work',
     'volunteer.benefit.reward.s4.5': 'Reward continues even after death',
-    'volunteer.benefit.reward.testimonial': 'When I volunteered and served the community — my life changed. My heart finds great peace.',
-    'volunteer.benefit.reward.testimonialAuthor': 'Ahmed A., Volunteer 2024',
     'volunteer.benefit.reward.cta': 'Start Serving',
 
-    // BENEFIT 2 — EXPERIENCE
+    // Benefit 2 — Experience
     'volunteer.benefit.experience.title': 'Experience & Skills',
     'volunteer.benefit.experience.subtitle': 'Learn new skills — management, construction, finance.',
     'volunteer.benefit.experience.s1.heading': '📚 Skills You Gain',
@@ -1607,45 +2080,34 @@ const TRANSLATIONS = {
     'volunteer.benefit.experience.s1.3': '**Finance & Accounting** — revenue, expenses, audit',
     'volunteer.benefit.experience.s1.4': '**Media & Marketing** — content creation, social media',
     'volunteer.benefit.experience.s1.5': '**Community Relations** — communication, networking',
-    'volunteer.benefit.experience.s1.6': '**Law & Documents** — legal documents, contracts',
     'volunteer.benefit.experience.s2.heading': '🎯 Training',
-    'volunteer.benefit.experience.s2.text': 'Working with professionals and leaders gives you real experience. Various trainings: management, construction, finance, and media.',
+    'volunteer.benefit.experience.s2.text': 'Working with professionals and leaders gives you real experience.',
     'volunteer.benefit.experience.s3.heading': '💼 Certificate & Recognition',
-    'volunteer.benefit.experience.s3.text': 'When you finish, you receive an **experience certificate** — useful for finding jobs, starting business, or continuing education. You will also receive a reference letter from the Council leadership.',
+    'volunteer.benefit.experience.s3.text': 'When you finish, you receive an experience certificate — useful for finding jobs, starting business, or continuing education.',
     'volunteer.benefit.experience.s4.heading': '🌟 Example',
     'volunteer.benefit.experience.s4.text': 'Previous volunteers — later found jobs, started businesses, or became community leaders.',
-    'volunteer.benefit.experience.testimonial': 'I started volunteering — learned management and finance. Now I have a great job.',
-    'volunteer.benefit.experience.testimonialAuthor': 'Fatima H., Volunteer 2023',
     'volunteer.benefit.experience.cta': 'Start Learning',
 
-    // BENEFIT 3 — NETWORK
+    // Benefit 3 — Network
     'volunteer.benefit.network.title': 'Networking',
     'volunteer.benefit.network.subtitle': 'Work with new people and diverse communities.',
     'volunteer.benefit.network.s1.heading': '🕌 Hadith',
-    'volunteer.benefit.network.s1.hadithTranslation': '"A believer to another believer is like a building — each strengthens the other."',
-    'volunteer.benefit.network.s1.hadithRef': 'Hadith — Bukhari & Muslim',
     'volunteer.benefit.network.s1.text': 'Muslims should strengthen each other. Networking — means working together, strengthening together, and growing together.',
     'volunteer.benefit.network.s2.heading': '👥 People You Meet',
     'volunteer.benefit.network.s2.1': '**Council Leadership** — 9 leaders',
     'volunteer.benefit.network.s2.2': '**Professionals & Committee** — law, construction, finance',
     'volunteer.benefit.network.s2.3': '**Business Owners & Supporters** — business community',
     'volunteer.benefit.network.s2.4': '**Students & Youth** — new generation',
-    'volunteer.benefit.network.s2.5': '**85 Masjidos** — across 3 woredas',
-    'volunteer.benefit.network.s2.6': '**Wider Community** — all sectors',
     'volunteer.benefit.network.s3.heading': '🤝 Benefits',
     'volunteer.benefit.network.s3.text': 'Networking has great benefits: jobs, business, advice, and various goals.',
     'volunteer.benefit.network.s4.heading': '🌟 Example',
     'volunteer.benefit.network.s4.text': 'Many people who met through volunteering have later worked together for business, jobs, and other goals.',
-    'volunteer.benefit.network.testimonial': 'While volunteering I met good people. Now we work together to strengthen my business.',
-    'volunteer.benefit.network.testimonialAuthor': 'Ibrahim N., Volunteer 2023',
     'volunteer.benefit.network.cta': 'Connect',
 
-    // BENEFIT 4 — HONOR
+    // Benefit 4 — Honor
     'volunteer.benefit.honor.title': 'Honor & Recognition',
     'volunteer.benefit.honor.subtitle': 'Receive participation certificate and recognition.',
     'volunteer.benefit.honor.s1.heading': '📖 Qur\'an',
-    'volunteer.benefit.honor.s1.ayahTranslation': '"Say: \'Work! Allah will see your work, and His Messenger, and the believers.\'"',
-    'volunteer.benefit.honor.s1.ayahRef': 'Surah At-Tawbah 9:105',
     'volunteer.benefit.honor.s1.text': 'Your work is known to Allah. Therefore, you will receive recognition in the community too.',
     'volunteer.benefit.honor.s2.heading': '🏆 Certificate',
     'volunteer.benefit.honor.s2.text': 'When you finish, you receive a participation certificate — proving your work.',
@@ -1655,12 +2117,10 @@ const TRANSLATIONS = {
     'volunteer.benefit.honor.s3.3': '**Facebook / Telegram** — share and recognition',
     'volunteer.benefit.honor.s3.4': '**Recognized in your community** — great honor',
     'volunteer.benefit.honor.s4.heading': '💎 Heartfelt Honor',
-    'volunteer.benefit.honor.s4.text': 'The greatest honor is within your heart. Whoever serves their community finds peace. This is personal strength and life\'s blessing.',
-    'volunteer.benefit.honor.testimonial': 'I received a certificate and recognition — this is a great honor. I became known in my community.',
-    'volunteer.benefit.honor.testimonialAuthor': 'Halima A., Volunteer 2024',
+    'volunteer.benefit.honor.s4.text': 'The greatest honor is within your heart. Whoever serves their community finds peace.',
     'volunteer.benefit.honor.cta': 'Register Now',
 
-    // ROLES
+    // Roles
     'volunteer.roles.title': 'Choose a Role',
     'volunteer.roles.sub': 'Choose your skill and interest.',
     'volunteer.role.promoter': 'Promoter',
@@ -1680,7 +2140,7 @@ const TRANSLATIONS = {
     'volunteer.role.driver': 'Driver',
     'volunteer.role.driver.desc': 'Drive when needed — visits and errands.',
 
-    // FORM
+    // Form
     'volunteer.form.title': 'Volunteer Registration',
     'volunteer.form.sub': 'Fill in your information — we will contact you.',
     'volunteer.form.name': 'Full Name',
@@ -1690,14 +2150,17 @@ const TRANSLATIONS = {
     'volunteer.form.role': 'Preferred Role',
     'volunteer.form.hours': 'Hours per Week',
     'volunteer.form.skills': 'Skills / Experience',
+    'volunteer.form.skills.placeholder': 'Your skills, experience, or how you can help...',
     'volunteer.form.agree': 'I accept the volunteer agreement and privacy policy',
     'volunteer.form.submit': 'Submit Registration',
+    'volunteer.form.select': '— Select —',
+    'volunteer.form.success': '✅ Your registration was successful! We will contact you.',
 
     // CTA
     'volunteer.cta.title': 'Let\'s Build the Project Together!',
     'volunteer.cta.desc': 'Give your time, skills, or support.',
 
-    // ========== LEGAL ==========
+    // ---------- LEGAL ----------
     'legal.last_updated': 'Last updated',
     'privacy.title': 'Privacy Policy',
     'privacy.subtitle': 'How we use, protect, and safeguard your information.',
@@ -1776,13 +2239,130 @@ const TRANSLATIONS = {
     'terms.s10.title': '10. Contact Us',
     'terms.s10.desc': 'If you have any questions, contact us:',
 
-    // ========== LANG ==========
+    // ---------- UI/UX ----------
+    'ui.theme.toggle': 'Toggle Theme',
+    'ui.theme.light': 'Light Mode',
+    'ui.theme.dark': 'Dark Mode',
+    'ui.theme.changed': 'Theme changed',
+    'ui.back_to_top': 'Back to Top',
+    'ui.close': 'Close',
+    'ui.open': 'Open',
+    'ui.more': 'More',
+    'ui.less': 'Less',
+    'ui.show_more': 'Show More',
+    'ui.show_less': 'Show Less',
+    'ui.next': 'Next',
+    'ui.previous': 'Previous',
+    'ui.page': 'Page',
+    'ui.of': 'of',
+    'ui.total': 'Total',
+    'ui.select': 'Select',
+    'ui.selected': 'selected',
+    'ui.deselect': 'Deselect',
+    'ui.all': 'All',
+    'ui.none': 'None',
+
+    // ---------- BREADCRUMBS ----------
+    'breadcrumb.home': 'Home',
+    'breadcrumb.you_are_here': 'You are here:',
+
+    // ---------- TOASTS ----------
+    'toast.success': '✅ Success',
+    'toast.error': '❌ Error',
+    'toast.warning': '⚠️ Warning',
+    'toast.info': 'ℹ️ Info',
+    'toast.copied': '📋 Copied!',
+    'toast.save.success': '✅ Successfully saved',
+    'toast.delete.success': '✅ Successfully deleted',
+    'toast.update.success': '✅ Successfully updated',
+    'toast.network.error': 'No internet connection',
+    'toast.server.error': 'Server error. Try again later.',
+    'toast.permission.denied': 'Permission denied',
+    'toast.validation.error': 'Please fix the information',
+
+    // ---------- MODAL ----------
+    'modal.confirm': 'Confirm',
+    'modal.cancel': 'Cancel',
+    'modal.yes': 'Yes',
+    'modal.no': 'No',
+    'modal.close': 'Close',
+    'modal.save': 'Save',
+    'modal.delete': 'Delete',
+    'modal.delete.confirm': 'Are you sure you want to delete?',
+    'modal.delete.warning': 'This cannot be undone!',
+    'modal.edit': 'Edit',
+    'modal.view': 'View',
+    'modal.submit': 'Submit',
+
+    // ---------- LOADING / SKELETON ----------
+    'loading.generic': 'Loading...',
+    'loading.data': 'Loading data...',
+    'loading.donations': 'Loading donations...',
+    'loading.masjidos': 'Loading masjidos...',
+    'loading.news': 'Loading news...',
+    'loading.team': 'Loading team...',
+    'loading.prayer': 'Loading prayer times...',
+    'loading.translation': '⏳ Translating...',
+    'loading.please_wait': 'Please wait...',
+
+    // ---------- EMPTY STATES ----------
+    'empty.generic': 'No information.',
+    'empty.donations': 'No donations yet.',
+    'empty.masjidos': 'No masjidos.',
+    'empty.news': 'No news yet.',
+    'empty.photos': 'No photos.',
+    'empty.results': 'No results found.',
+    'empty.search': 'Try adjusting your search.',
+    'empty.faq': 'No questions yet.',
+
+    // ---------- FORMS ----------
+    'form.required': 'Required',
+    'form.optional': 'Optional',
+    'form.invalid.email': 'Enter a valid email',
+    'form.invalid.phone': 'Enter a valid phone (09xxxxxxxx)',
+    'form.invalid.number': 'Enter a valid number',
+    'form.invalid.min': 'Minimum is {min}',
+    'form.invalid.max': 'Maximum is {max}',
+    'form.password.min': 'Password must be 8+ characters',
+    'form.name.required': 'Enter your name',
+    'form.amount.required': 'Enter amount',
+    'form.consent.required': 'Accept the terms',
+
+    // ---------- ACTIONS ----------
+    'action.submit': 'Submit',
+    'action.save': 'Save',
+    'action.cancel': 'Cancel',
+    'action.delete': 'Delete',
+    'action.edit': 'Edit',
+    'action.view': 'View',
+    'action.download': 'Download',
+    'action.upload': 'Upload',
+    'action.copy': 'Copy',
+    'action.share': 'Share',
+    'action.print': 'Print',
+    'action.refresh': 'Refresh',
+    'action.filter': 'Filter',
+    'action.search': 'Search',
+    'action.clear': 'Clear',
+    'action.reset': 'Reset',
+    'action.apply': 'Apply',
+    'action.back': 'Back',
+    'action.next': 'Next',
+    'action.previous': 'Previous',
+    'action.finish': 'Finish',
+    'action.continue': 'Continue',
+    'action.confirm': 'Confirm',
+    'action.close': 'Close',
+
+    // ---------- LANGUAGE ----------
     'lang.label': 'Language',
     'lang.om': 'Oromiffa',
     'lang.am': 'አማርኛ',
     'lang.en': 'English',
+    'lang.select': 'Select Language',
+    'lang.changed': 'Language changed',
 
-    // ========== GENERAL ==========
+    // ---------- GENERAL ----------
     'loading': 'Loading...',
     'yes': 'Yes',
     'no': 'No',
@@ -1803,7 +2383,30 @@ const TRANSLATIONS = {
     'or': 'or',
     'optional': 'optional',
     'required': 'required',
-    'actions': 'Actions'
+    'actions': 'Actions',
+    'error': 'Error',
+    'success': 'Success',
+    'warning': 'Warning',
+    'info': 'Info',
+    'name': 'Name',
+    'email': 'Email',
+    'phone': 'Phone',
+    'address': 'Address',
+    'date': 'Date',
+    'time': 'Time',
+    'amount': 'Amount',
+    'total': 'Total',
+    'status': 'Status',
+    'type': 'Type',
+    'category': 'Category',
+    'description': 'Description',
+    'note': 'Note',
+    'from': 'From',
+    'to': 'To',
+    'and': 'and',
+    'welcome': 'Welcome',
+    'thank_you': 'Thank you',
+    'please_wait': 'Please wait'
   }
 };
 

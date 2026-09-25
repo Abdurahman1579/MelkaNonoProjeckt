@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Masgiidota — Malka Noonoo</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <link rel="stylesheet" href="css/masjidos.css" />
+    <link rel="stylesheet" href="css/ui-ux.css" />
+    <link rel="stylesheet" href="css/nav.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body data-page-title="masjidos.title">
@@ -28,7 +39,9 @@
           <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
           <a href="about.html" data-i18n="nav.about">Waa'ee</a>
           <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
-          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="masgidoota.html" class="active" data-i18n="nav.masjidos"
+            >Masgiidota</a
+          >
           <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
           <a href="faq.html" data-i18n="nav.faq">FAQ</a>
           <a href="team.html" data-i18n="nav.team">Koree</a>
@@ -50,7 +63,7 @@
           <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
             >Gumaachi</a
           >
-          <button class="menu-toggle" id="menuToggle">☰</button>
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
         </div>
       </div>
     </header>
@@ -64,26 +77,70 @@
       </div>
     </section>
 
-    <section class="section">
+    <!-- SEARCH + FILTERS -->
+    <section class="section" style="padding-bottom: 20px">
       <div class="container">
-        <div class="filter-bar">
-          <input
-            type="search"
-            id="searchMasjid"
-            data-i18n-placeholder="masjidos.search"
-            placeholder="Masgiida barbaadi..."
-          />
+        <div class="masjid-controls">
+          <!-- Search with autocomplete -->
+          <div class="search-autocomplete-wrap">
+            <span class="search-icon">🔍</span>
+            <input
+              type="search"
+              id="searchMasjid"
+              placeholder="Masgiida barbaadi..."
+              autocomplete="off"
+            />
+            <button
+              type="button"
+              class="search-clear"
+              id="searchClear"
+              style="display: none"
+            >
+              ×
+            </button>
+            <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+          </div>
+
+          <!-- Woreda filter -->
           <select id="filterWoreda">
-            <option value="" data-i18n="masjidos.all.woredas">
-              Aanaa hunda
-            </option>
+            <option value="">Aanaa hunda</option>
             <option value="Malka Gafarsa">Malka Gafarsa</option>
             <option value="Bero">Bero</option>
             <option value="Nono">Nono</option>
           </select>
+
+          <!-- View toggle -->
+          <div class="view-toggle">
+            <button type="button" class="view-btn active" data-view="grid">
+              <span>🔲</span> Grid
+            </button>
+            <button type="button" class="view-btn" data-view="map">
+              <span>🗺️</span> Maap
+            </button>
+          </div>
         </div>
-        <div class="masjid-grid" id="masjidGrid">
-          <div class="loading" data-i18n="loading">Fe'amaa jira...</div>
+
+        <!-- Stats -->
+        <div class="masjid-stats">
+          <span id="masjidCount">—</span>
+          <span class="stats-divider">•</span>
+          <span id="woredaBreakdown">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID VIEW -->
+    <section class="section" id="gridView">
+      <div class="container">
+        <div class="masjid-grid" id="masjidGrid"></div>
+      </div>
+    </section>
+
+    <!-- MAP VIEW -->
+    <section class="section" id="mapView" style="display: none; padding-top: 0">
+      <div class="container">
+        <div class="map-wrap">
+          <div id="masjidosMap"></div>
         </div>
       </div>
     </section>
@@ -99,15 +156,13 @@
         <div>
           <h4 data-i18n="footer.links">Geessituu</h4>
           <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
-          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
-          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
           <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="reports.html" data-i18n="nav.reports">Gabaasa</a>
         </div>
         <div>
           <h4 data-i18n="footer.support">Deeggarsa</h4>
           <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
           <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
-          <a href="login.html" data-i18n="nav.login">Seensa</a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -115,11 +170,16 @@
       </div>
     </footer>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
+    <script src="js/nav.js"></script>
+    <!-- ← Kun dabalii -->
+    <script src="js/ui-ux.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/masjidos.js"></script>
   </body>
 </html>

@@ -1,0 +1,709 @@
+/* ============================================
+   MASJIDOS.CSS — Masjidos Extended
+   ============================================ */
+
+/* ============================================
+   CONTROLS
+   ============================================ */
+.masjid-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--white);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-100);
+  margin-bottom: 16px;
+}
+
+/* ============================================
+   SEARCH AUTOCOMPLETE
+   ============================================ */
+.search-autocomplete-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+}
+
+.search-autocomplete-wrap .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.search-autocomplete-wrap input {
+  width: 100%;
+  padding: 11px 40px 11px 42px;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--neutral-900);
+  background: var(--white);
+  transition: all 0.2s;
+}
+.search-autocomplete-wrap input:focus {
+  border-color: var(--green-500);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--green-100);
+}
+
+.search-clear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--neutral-100);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--neutral-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.search-clear:hover {
+  background: var(--neutral-300);
+}
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  animation: slideDown 0.2s ease;
+}
+.autocomplete-dropdown.open {
+  display: block;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.autocomplete-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--neutral-50);
+  transition: background 0.15s;
+}
+.autocomplete-item:last-child { border-bottom: none; }
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background: var(--green-100);
+}
+
+.autocomplete-item-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.autocomplete-item-body { flex: 1; min-width: 0; }
+.autocomplete-item-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 2px;
+}
+.autocomplete-item-sub {
+  font-size: 12px;
+  color: var(--neutral-500);
+}
+.autocomplete-item-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.autocomplete-empty {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--neutral-500);
+}
+
+.autocomplete-highlight {
+  background: var(--gold-300);
+  color: var(--green-900);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 800;
+}
+
+/* ============================================
+   VIEW TOGGLE
+   ============================================ */
+.view-toggle {
+  display: flex;
+  background: var(--neutral-50);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  gap: 2px;
+}
+
+.view-btn {
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-500);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.view-btn:hover {
+  color: var(--green-900);
+}
+.view-btn.active {
+  background: var(--white);
+  color: var(--green-900);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   STATS
+   ============================================ */
+.masjid-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--neutral-500);
+  padding: 0 4px 8px;
+}
+.masjid-stats #masjidCount {
+  font-weight: 700;
+  color: var(--green-900);
+}
+.stats-divider {
+  opacity: 0.5;
+}
+
+/* ============================================
+   GRID — CARDS (updated)
+   ============================================ */
+.masjid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.masjid-card {
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+.masjid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-300);
+}
+
+.masjid-card-image {
+  height: 140px;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.masjid-card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 30% 40%, rgba(212, 160, 23, 0.25) 0%, transparent 55%);
+}
+
+.masjid-card-image .masjid-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.masjid-card-woreda {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--green-900);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.masjid-card-body {
+  padding: 16px 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.masjid-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 6px;
+}
+.masjid-loc {
+  font-size: 12px;
+  color: var(--neutral-500);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.masjid-members {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--green-700);
+  font-weight: 600;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--neutral-100);
+}
+.masjid-card-arrow {
+  margin-left: auto;
+  color: var(--green-500);
+  font-weight: 800;
+  transition: transform 0.2s;
+}
+.masjid-card:hover .masjid-card-arrow {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   MAP VIEW
+   ============================================ */
+.map-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-100);
+}
+
+#masjidosMap {
+  width: 100%;
+  height: 600px;
+  background: var(--neutral-50);
+  z-index: 1;
+}
+
+/* Custom marker */
+.masjid-marker {
+  background: transparent;
+  border: none;
+}
+
+.masjid-marker-pin {
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 50% 0;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--white);
+}
+.masjid-marker-pin span {
+  transform: rotate(45deg);
+  font-size: 16px;
+}
+
+/* Popup */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md);
+  padding: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.leaflet-popup-content {
+  margin: 0;
+  min-width: 220px;
+}
+
+.map-popup {
+  padding: 14px 16px;
+}
+.map-popup h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 4px;
+}
+.map-popup p {
+  font-size: 12px;
+  color: var(--neutral-500);
+  margin-bottom: 10px;
+}
+.map-popup a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green-700);
+  text-decoration: none;
+}
+.map-popup a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   MASJID DETAIL PAGE
+   ============================================ */
+.masjid-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 100%);
+  color: var(--white);
+  padding: 60px 0 80px;
+  overflow: hidden;
+}
+.masjid-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 30% 40%, rgba(212, 160, 23, 0.2) 0%, transparent 55%);
+}
+.masjid-hero-content {
+  position: relative;
+  z-index: 1;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+.back-link:hover {
+  color: var(--gold-300);
+}
+.masjid-hero-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+.masjid-hero h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.masjid-location {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 16px;
+}
+.masjid-hero-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hero-badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Detail layout */
+.masjid-detail-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.masjid-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.masjid-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 90px;
+}
+
+.detail-card {
+  background: var(--white);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+.detail-card h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 14px;
+}
+.detail-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.detail-card p {
+  font-size: 14px;
+  color: var(--neutral-700);
+  line-height: 1.7;
+}
+
+.info-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 4px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--neutral-100);
+  font-size: 14px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row span { color: var(--neutral-500); }
+.info-row strong { color: var(--green-900); font-weight: 700; }
+
+.text-muted { color: var(--neutral-500); font-size: 13px; }
+
+.cta-card {
+  background: linear-gradient(135deg, var(--green-100), #d1fae5);
+  border-color: var(--green-300);
+}
+.cta-card p {
+  margin-bottom: 16px;
+}
+
+/* Photos */
+.masjid-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.photo-placeholder {
+  grid-column: 1 / -1;
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--neutral-50);
+  border: 2px dashed var(--neutral-300);
+  border-radius: var(--radius-sm);
+  color: var(--neutral-500);
+  font-size: 14px;
+}
+.masjid-photo-item {
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: var(--neutral-50);
+}
+.masjid-photo-item:hover {
+  transform: scale(1.03);
+}
+.masjid-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Facilities */
+.facilities-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.facility-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--neutral-50);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--neutral-700);
+}
+.facility-icon { font-size: 18px; }
+
+/* ============================================
+   PRAYER TIMES
+   ============================================ */
+.prayer-times-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.prayer-times-header h2 { margin-bottom: 0; }
+.prayer-date {
+  font-size: 12px;
+  color: var(--neutral-500);
+  font-weight: 600;
+}
+
+.prayer-times-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.prayer-item {
+  background: linear-gradient(135deg, var(--green-100), #ecfdf5);
+  border: 1px solid var(--green-300);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+  transition: all 0.2s;
+}
+.prayer-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.prayer-item-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.prayer-item-name {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--green-700);
+  margin-bottom: 6px;
+}
+.prayer-item-time {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--green-900);
+}
+
+.loading-sm {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 20px;
+  color: var(--neutral-500);
+  font-size: 13px;
+}
+
+.prayer-note {
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* ============================================
+   DETAIL MAP
+   ============================================ */
+.detail-map {
+  width: 100%;
+  height: 300px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--neutral-100);
+  background: var(--neutral-50);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .masjid-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .masjid-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .masjid-controls {
+    padding: 12px;
+  }
+  .search-autocomplete-wrap {
+    min-width: 100%;
+  }
+  .masjid-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  #masjidosMap {
+    height: 400px;
+  }
+  .masjid-hero {
+    padding: 40px 0 60px;
+  }
+  .masjid-hero-icon {
+    font-size: 48px;
+  }
+  .prayer-times-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .detail-card {
+    padding: 18px;
+  }
+}

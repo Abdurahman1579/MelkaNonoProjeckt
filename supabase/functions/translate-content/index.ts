@@ -1,64 +1,3 @@
-// ============================================
-// TRANSLATE CONTENT — Gemini API
-// ============================================
-
-import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
-
-const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY")!;
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
-
-serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
-
-  try {
-    const body = await req.json();
-    const { text, source = "om", targets = ["am", "en"] } = body;
-
-    if (!text || typeof text !== "string") {
-      throw new Error("Text barbaachisa");
-    }
-    if (text.length > 5000) {
-      throw new Error("Text gabaabaa ta'uu qaba");
-    }
-
-    const validLangs = ["om", "am", "en"];
-    const validTargets = targets.filter((t: string) => validLangs.includes(t) && t !== source);
-
-    if (validTargets.length === 0) {
-      throw new Error("Target lang sirrii miti");
-    }
-
-    console.log(`🌐 Translating ${source} → ${validTargets.join(", ")}`);
-
-    const translations: Record<string, string> = {};
-    for (const target of validTargets) {
-      translations[target] = await translateText(text, source, target);
-    }
-
-    return new Response(
-      JSON.stringify({ success: true, source_text: text, source_lang: source, translations }),
-      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
-
-  } catch (err) {
-    console.error("❌ Error:", err);
-    return new Response(
-      JSON.stringify({ success: false, error: err.message }),
-      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
-  }
-});
-
-// ============================================
-// TRANSLATE HELPER — Multiple endpoints
-// ============================================
 async function translateText(text: string, source: string, target: string): Promise<string> {
   const langNames: Record<string, string> = {
     om: "Afaan Oromoo (Oromo language)",
@@ -80,10 +19,8 @@ TEXT: ${text}
 TRANSLATION (${target}):`;
 
   const endpoints = [
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
-    "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent",
   ];
 
   let lastError = "";
@@ -102,7 +39,9 @@ TRANSLATION (${target}):`;
       });
 
       if (!res.ok) {
-        lastError = `${res.status} from ${url}`;
+        const errBody = await res.text();
+        console.warn(`❌ ${res.status}: ${errBody}`);
+        lastError = `${res.status} from ${url.split('/').pop()}`;
         continue;
       }
 

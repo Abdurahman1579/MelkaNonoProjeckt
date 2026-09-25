@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="om">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masgiida — Malka Noonoo</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <link rel="stylesheet" href="css/masjidos.css" />
+    <link rel="stylesheet" href="css/ui-ux.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body data-page-title="masjidos.detail">
+    <header class="header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">☪</div>
+          <div class="logo-text">
+            <strong data-i18n="brand.name">Malka Noonoo</strong>
+            <span data-i18n="brand.subtitle"
+              >Mana Marii Dhimmoota Islaamummaa</span
+            >
+          </div>
+        </a>
+        <nav class="nav" id="nav">
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="masgidoota.html" class="active" data-i18n="nav.masjidos"
+            >Masgiidota</a
+          >
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <div class="mobile-langs">
+            <button class="lang-mobile" type="button" data-lang="om">
+              Oromiffa
+            </button>
+            <button class="lang-mobile" type="button" data-lang="am">
+              አማርኛ
+            </button>
+            <button class="lang-mobile" type="button" data-lang="en">
+              English
+            </button>
+          </div>
+        </nav>
+        <div class="header-actions">
+          <div class="lang-switcher" id="langSwitcher"></div>
+          <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
+            >Gumaachi</a
+          >
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="detailLoading" class="section">
+      <div class="container">
+        <div
+          class="skeleton skeleton-title"
+          style="max-width: 400px; margin: 0 auto 20px"
+        ></div>
+        <div
+          class="skeleton skeleton-text"
+          style="max-width: 600px; margin: 0 auto 12px"
+        ></div>
+        <div
+          class="skeleton skeleton-text"
+          style="max-width: 400px; margin: 0 auto"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Detail content -->
+    <main id="detailContent" style="display: none">
+      <!-- HERO -->
+      <section class="masjid-hero">
+        <div class="masjid-hero-overlay"></div>
+        <div class="container masjid-hero-content">
+          <a href="masgidoota.html" class="back-link">← Deebi'i Masgiidota</a>
+          <div class="masjid-hero-icon">🕌</div>
+          <h1 id="masjidName">Masgiida</h1>
+          <p id="masjidLocation" class="masjid-location"></p>
+          <div class="masjid-hero-badges">
+            <span class="hero-badge" id="masjidWoreda">—</span>
+            <span class="hero-badge" id="masjidMembers">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTENT GRID -->
+      <section class="section">
+        <div class="container masjid-detail-grid">
+          <!-- MAIN -->
+          <div class="masjid-main">
+            <!-- Description -->
+            <div class="detail-card">
+              <h2>📖 Waa'ee Masgiidaa</h2>
+              <p id="masjidDescription">—</p>
+            </div>
+
+            <!-- Photos -->
+            <div class="detail-card">
+              <h2>📸 Suuraa</h2>
+              <div class="masjid-photos" id="masjidPhotos">
+                <div class="photo-placeholder">📷 Suuraan hin jiru</div>
+              </div>
+            </div>
+
+            <!-- Facilities -->
+            <div class="detail-card">
+              <h2>🏢 Tajaajila</h2>
+              <div class="facilities-list" id="masjidFacilities">
+                <p class="text-muted">Odeeffannoon hin jiru.</p>
+              </div>
+            </div>
+
+            <!-- Prayer Times -->
+            <div class="detail-card">
+              <div class="prayer-times-header">
+                <h2>🕐 Yeroo Salaataa</h2>
+                <span class="prayer-date" id="prayerDate"></span>
+              </div>
+              <div class="prayer-times-grid" id="prayerTimes">
+                <div class="loading-sm">Fe'amaa jira...</div>
+              </div>
+              <p class="prayer-note text-muted">
+                <small
+                  >Yeroon salaataa tilmaama Aladhan API irraa. Masgiida dhuunfaa
+                  irratti garaagarummaa qabaachuu danda'a.</small
+                >
+              </p>
+            </div>
+
+            <!-- Location Map -->
+            <div class="detail-card">
+              <h2>📍 Bakka</h2>
+              <div id="detailMap" class="detail-map"></div>
+              <p class="text-muted" id="masjidAddress" style="margin-top: 12px">
+                —
+              </p>
+            </div>
+          </div>
+
+          <!-- SIDEBAR -->
+          <aside class="masjid-sidebar">
+            <div class="detail-card">
+              <h3>👤 Imaam</h3>
+              <p id="imamName" class="info-value">—</p>
+              <p id="imamPhone" class="text-muted"></p>
+            </div>
+
+            <div class="detail-card">
+              <h3>📅 Akaakaa</h3>
+              <div class="info-row">
+                <span>Bara hundeeffama:</span>
+                <strong id="foundedYear">—</strong>
+              </div>
+              <div class="info-row">
+                <span>Kapasitii:</span>
+                <strong id="capacity">—</strong>
+              </div>
+            </div>
+
+            <div class="detail-card cta-card">
+              <h3>🤲 Gumaacha</h3>
+              <p>Masgiida kana deeggaruuf gumaacha raawwadhu.</p>
+              <a
+                href="donate.html?masjid=ID"
+                id="donateMasjidBtn"
+                class="btn btn-primary btn-block"
+              >
+                Gumaachi
+              </a>
+            </div>
+
+            <div class="detail-card">
+              <h3>📞 Quunnamtii</h3>
+              <a href="contact.html" class="btn btn-outline btn-block"
+                >Nu Quunnamaa</a
+              >
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4 data-i18n="brand.name">Malka Noonoo</h4>
+          <p data-i18n-html="footer.address">
+            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+          </p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.links">Geessituu</h4>
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.support">Deeggarsa</h4>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/nav.js"></script>
+    <!-- ← Kun dabalii -->
+    <script src="js/ui-ux.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
