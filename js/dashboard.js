@@ -14,13 +14,84 @@ const dashState = {
 };
 
 // ============================================
-// 2. TAB NAVIGATION
+// 2. INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', initDashboard);
+
+async function initDashboard() {
+  console.log('🚀 Dashboard initializing...');
+
+  if (dashState.initialized) return;
+  dashState.initialized = true;
+
+  try {
+    // Session check
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) {
+      console.warn('⚠️ No session — redirecting to login');
+      window.location.href = 'login.html';
+      return;
+    }
+
+    console.log('✅ Session:', session.user.email);
+    setText('dashUser', session.user.email);
+
+    // Profile check
+    await checkProfile(session.user.id);
+
+    // Setup
+    setupTabs();
+    setupDonationFilters();
+    setupExpenseForm();
+    setupAssetForm();
+    setupRentalForm();
+    setupMasjidForm();
+    setupAnnouncementForm();
+    setupLogout();
+    setupLanguageSync();
+
+    // Initial load
+    await loadOverview();
+
+  } catch (err) {
+    console.error('❌ Dashboard init error:', err);
+    if (window.toast) toast.error('Dogoggora', 'Daashboordii banuu hin dandeessisu.');
+  }
+}
+
+// ============================================
+// 3. CHECK PROFILE
+// ============================================
+async function checkProfile(userId) {
+  const { data: profile, error } = await db
+    .from('mn_profiles')
+    .select('*')
+    .eq('id', userId)
+    .maybeSingle();
+
+  if (error) console.error('Profile error:', error);
+
+  if (!profile) {
+    console.warn('⚠️ Creating default admin profile...');
+    await db.from('mn_profiles').insert([{
+      id: userId,
+      full_name: 'Admin',
+      role: 'admin'
+    }]);
+  } else {
+    console.log('👤 Profile:', profile.role);
+  }
+}
+
+// ============================================
+// 4. TABS
 // ============================================
 function setupTabs() {
   document.querySelectorAll('.dash-nav a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const tab = link.dataset.tab;
+      if (!tab) return;
 
       document.querySelectorAll('.dash-nav a').forEach(a => a.classList.remove('active'));
       link.classList.add('active');
@@ -28,7 +99,7 @@ function setupTabs() {
       document.querySelectorAll('.dash-tab').forEach(s => s.classList.remove('active'));
       document.querySelector(`.dash-tab[data-tab="${tab}"]`)?.classList.add('active');
 
-      const titleKey = link.querySelector('span')?.dataset.i18n || 'dash.title';
+      const titleKey = link.querySelector('span:last-child')?.dataset.i18n || 'dash.title';
       const titleEl = document.getElementById('dashTitle');
       if (titleEl) {
         titleEl.dataset.i18n = titleKey;
@@ -40,12 +111,8 @@ function setupTabs() {
   });
 }
 
-// ============================================
-// 3. LOAD TAB
-// ============================================
 async function loadTab(tab) {
   console.log('📂 Loading tab:', tab);
-
   const loaders = {
     overview: loadOverview,
     donations: loadDonations,
@@ -56,15 +123,15 @@ async function loadTab(tab) {
     announcements: loadAnnouncements,
     activity: loadActivity
   };
-
   if (loaders[tab]) await loaders[tab]();
 }
 
 // ============================================
-// 4. OVERVIEW + CHARTS
+// 5. OVERVIEW
 // ============================================
 async function loadOverview() {
   try {
+    // Donations
     const { data: donations } = await db
       .from('mn_donations')
       .select('amount, donor_phone, tier, created_at, status');
@@ -78,17 +145,21 @@ async function loadOverview() {
     setText('kpiPercent', pct + '%');
     setText('kpiDonors', donors);
 
+    // Expenses
     const { data: expenses } = await db.from('mn_expenses').select('amount, category');
     const totalExp = (expenses || []).reduce((s, e) => s + Number(e.amount), 0);
     setText('kpiExpenses', formatETB(totalExp));
 
+    // Assets
     const { data: assets } = await db.from('mn_assets').select('id');
     setText('kpiAssets', (assets || []).length);
 
-    // Render charts
+    // Charts
     renderRevenueChart(confirmed);
     renderTiersChart(confirmed);
     renderExpensesChart(expenses || []);
+
+    console.log('✅ Overview loaded');
   } catch (err) {
     console.error('❌ Overview error:', err);
   }
@@ -108,7 +179,6 @@ function renderRevenueChart(donations) {
 
   const ctx = document.getElementById('revenueChart');
   if (!ctx || typeof Chart === 'undefined') return;
-
   if (dashState.charts.revenue) dashState.charts.revenue.destroy();
 
   dashState.charts.revenue = new Chart(ctx, {
@@ -116,16 +186,15 @@ function renderRevenueChart(donations) {
     data: {
       labels: months.map(m => m.label),
       datasets: [{
-        label: 'Galii (ETB)',
+        label: 'Galii',
         data: totals,
-        borderColor: '#1a6b4f',
-        backgroundColor: 'rgba(26, 107, 79, 0.1)',
+        borderColor: '#22a06b',
+        backgroundColor: 'rgba(34, 160, 107, 0.1)',
         fill: true,
         tension: 0.4,
         borderWidth: 3,
-        pointBackgroundColor: '#1a6b4f',
-        pointRadius: 5,
-        pointHoverRadius: 7
+        pointBackgroundColor: '#22a06b',
+        pointRadius: 5
       }]
     },
     options: {
@@ -138,8 +207,11 @@ function renderRevenueChart(donations) {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { callback: (v) => v >= 1000000 ? (v / 1000000) + 'M' : v >= 1000 ? (v / 1000) + 'K' : v },
-          grid: { color: '#f3f4f6' }
+          ticks: {
+            callback: v => v >= 1000000 ? (v / 1000000) + 'M'
+                        : v >= 1000 ? (v / 1000) + 'K' : v
+          },
+          grid: { color: '#f1f5f9' }
         },
         x: { grid: { display: false } }
       }
@@ -151,15 +223,13 @@ function renderRevenueChart(donations) {
 function renderTiersChart(donations) {
   const tiers = ['tier1', 'tier2', 'community', 'masjid', 'business'];
   const labels = ['Sadarkaa 1', 'Sadarkaa 2', 'Hawaasa', 'Masgiidota', 'Daldala'];
-  const colors = ['#d4a017', '#22a06b', '#6ee7b7', '#d1d5db', '#6b7280'];
-
+  const colors = ['#d4a017', '#22a06b', '#6ee7b7', '#94a3b8', '#64748b'];
   const totals = tiers.map(t =>
     donations.filter(d => d.tier === t).reduce((s, d) => s + Number(d.amount), 0)
   );
 
   const ctx = document.getElementById('tiersChart');
   if (!ctx || typeof Chart === 'undefined') return;
-
   if (dashState.charts.tiers) dashState.charts.tiers.destroy();
 
   dashState.charts.tiers = new Chart(ctx, {
@@ -178,7 +248,7 @@ function renderTiersChart(donations) {
       maintainAspectRatio: false,
       plugins: {
         legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8 } },
-        tooltip: { callbacks: { label: (ctx) => ctx.label + ': ' + formatETB(ctx.parsed) } }
+        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + formatETB(ctx.parsed) } }
       }
     }
   });
@@ -191,21 +261,16 @@ function renderExpensesChart(expenses) {
     categories[e.category] = (categories[e.category] || 0) + Number(e.amount);
   });
 
-  const labels = Object.keys(categories);
-  const values = Object.values(categories);
-
   const ctx = document.getElementById('expensesChart');
   if (!ctx || typeof Chart === 'undefined') return;
-
   if (dashState.charts.expenses) dashState.charts.expenses.destroy();
 
   dashState.charts.expenses = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: labels.length ? labels : ['—'],
+      labels: Object.keys(categories).length ? Object.keys(categories) : ['—'],
       datasets: [{
-        label: 'Baasii',
-        data: values.length ? values : [0],
+        data: Object.values(categories).length ? Object.values(categories) : [0],
         backgroundColor: '#22a06b',
         borderRadius: 8,
         barThickness: 32
@@ -214,15 +279,12 @@ function renderExpensesChart(expenses) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: (ctx) => formatETB(ctx.parsed.y) } }
-      },
+      plugins: { legend: { display: false } },
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { callback: (v) => v >= 1000 ? (v / 1000) + 'K' : v },
-          grid: { color: '#f3f4f6' }
+          ticks: { callback: v => v >= 1000 ? (v / 1000) + 'K' : v },
+          grid: { color: '#f1f5f9' }
         },
         x: { grid: { display: false }, ticks: { font: { size: 11 } } }
       }
@@ -231,7 +293,7 @@ function renderExpensesChart(expenses) {
 }
 
 // ============================================
-// 5. DONATIONS
+// 6. DONATIONS
 // ============================================
 async function loadDonations() {
   const { data, error } = await db
@@ -271,7 +333,7 @@ function renderDonationsTable(list) {
   if (!tb) return;
 
   if (!list.length) {
-    tb.innerHTML = `<tr><td colspan="12" class="loading">${t('table.empty')}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="11" class="loading">${t('table.empty')}</td></tr>`;
     return;
   }
 
@@ -284,7 +346,6 @@ function renderDonationsTable(list) {
       <td>${d.donor_email || '—'}</td>
       <td>${d.tier || '—'}</td>
       <td><strong>${formatETB(d.amount)}</strong></td>
-      <td>${d.frequency || '—'}</td>
       <td>${d.payment_method || '—'}</td>
       <td>${badge(d.status)}</td>
       <td>${new Date(d.created_at).toLocaleDateString('om-ET')}</td>
@@ -297,7 +358,7 @@ function renderDonationsTable(list) {
     </tr>
   `).join('');
 
-  document.querySelectorAll('.don-checkbox').forEach(cb => {
+  tb.querySelectorAll('.don-checkbox').forEach(cb => {
     cb.addEventListener('change', () => {
       const id = Number(cb.dataset.id);
       if (cb.checked) dashState.selectedDonationIds.add(id);
@@ -350,16 +411,17 @@ async function confirmDonation(id) {
     .eq('id', id);
   if (error) return alert('❌ ' + error.message);
 
-  await logActivity('donation', 'confirmed', `Donation #${id} confirmed`);
+  await logActivity('donation', 'confirmed', `Donation #${id}`);
   await loadDonations();
   await loadOverview();
+  if (window.toast) toast.success('Milkaa\'e', 'Gumaacha mirkanaa\'e');
 }
 
 async function deleteDonation(id) {
   if (!confirm('Gumaacha kana balleessuu?')) return;
   const { error } = await db.from('mn_donations').delete().eq('id', id);
   if (error) return alert('❌ ' + error.message);
-  await logActivity('donation', 'deleted', `Donation #${id} deleted`);
+  await logActivity('donation', 'deleted', `Donation #${id}`);
   await loadDonations();
   await loadOverview();
 }
@@ -375,15 +437,16 @@ async function bulkConfirm() {
 
   if (error) return alert('❌ ' + error.message);
 
-  await logActivity('donation', 'bulk_confirmed', `${ids.length} donations confirmed`);
+  await logActivity('donation', 'bulk_confirmed', `${ids.length} donations`);
   dashState.selectedDonationIds.clear();
   updateSelectedCount();
   await loadDonations();
   await loadOverview();
+  if (window.toast) toast.success('Milkaa\'e', `${ids.length} gumaacha mirkanaa'an`);
 }
 
 // ============================================
-// 6. EXPENSES
+// 7. EXPENSES
 // ============================================
 async function loadExpenses() {
   const { data } = await db.from('mn_expenses')
@@ -433,7 +496,7 @@ function setupExpenseForm() {
     msg.textContent = '✅ Baasiin galmeeffameera!';
     msg.className = 'form-message success';
     e.target.reset();
-    await logActivity('expense', 'created', `Expense: ${expense.category} — ${expense.amount}`);
+    await logActivity('expense', 'created', `Expense: ${expense.category}`);
     await loadExpenses();
     await loadOverview();
   });
@@ -449,7 +512,7 @@ async function deleteExpense(id) {
 }
 
 // ============================================
-// 7. ASSETS
+// 8. ASSETS
 // ============================================
 async function loadAssets() {
   const { data } = await db.from('mn_assets')
@@ -469,7 +532,7 @@ async function loadAssets() {
       <td>${i + 1}</td>
       <td>${a.name}</td>
       <td>${a.category || '—'}</td>
-      <td>${a.quantity}</td>
+      <td>${a.quantity || 1}</td>
       <td>${formatETB(a.purchase_price || 0)}</td>
       <td>${a.purchase_date || '—'}</td>
       <td><button class="btn-icon danger" onclick="deleteAsset(${a.id})">🗑</button></td>
@@ -516,7 +579,7 @@ async function deleteAsset(id) {
 }
 
 // ============================================
-// 8. RENTALS
+// 9. RENTALS
 // ============================================
 async function loadRentals() {
   const { data } = await db.from('mn_rentals')
@@ -582,7 +645,7 @@ async function deleteRental(id) {
 }
 
 // ============================================
-// 9. MASJIDOS
+// 10. MASJIDOS
 // ============================================
 async function loadMasjidos() {
   const { data } = await db.from('mn_masjidos')
@@ -645,7 +708,7 @@ async function deleteMasjid(id) {
 }
 
 // ============================================
-// 10. ANNOUNCEMENTS
+// 11. ANNOUNCEMENTS
 // ============================================
 async function loadAnnouncements() {
   const { data } = await db.from('mn_announcements')
@@ -664,7 +727,7 @@ async function loadAnnouncements() {
     <tr>
       <td>${i + 1}</td>
       <td>${a.title}</td>
-      <td>${(a.body || '').substring(0, 60)}${(a.body || '').length > 60 ? '...' : ''}</td>
+      <td>${(a.body || '').substring(0, 50)}${(a.body || '').length > 50 ? '...' : ''}</td>
       <td>${a.is_public ? '✅' : '❌'}</td>
       <td>${new Date(a.created_at).toLocaleDateString('om-ET')}</td>
       <td><button class="btn-icon danger" onclick="deleteAnnouncement(${a.id})">🗑</button></td>
@@ -707,20 +770,17 @@ async function deleteAnnouncement(id) {
 }
 
 // ============================================
-// 11. ACTIVITY LOG
+// 12. ACTIVITY LOG
 // ============================================
 async function logActivity(type, action, description) {
   try {
     const { data: { session } } = await db.auth.getSession();
     await db.from('mn_activity_log').insert([{
       user_email: session?.user?.email || 'system',
-      type,
-      action,
-      description,
-      user_agent: navigator.userAgent.substring(0, 200)
+      type, action, description
     }]);
   } catch (err) {
-    console.error('Activity log error:', err);
+    console.warn('Activity log error:', err);
   }
 }
 
@@ -732,13 +792,13 @@ async function loadActivity() {
     .limit(200);
 
   if (filterType) query = query.eq('type', filterType);
-
   const { data } = await query;
+
   const tb = document.querySelector('#activityTable tbody');
   if (!tb) return;
 
   if (!data?.length) {
-    tb.innerHTML = `<tr><td colspan="6" class="loading">${t('table.empty')}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="5" class="loading">${t('table.empty')}</td></tr>`;
     return;
   }
 
@@ -749,19 +809,18 @@ async function loadActivity() {
       <td>${a.user_email}</td>
       <td>${a.type} — ${a.action}</td>
       <td>${a.description || '—'}</td>
-      <td>${(a.ip_address || '—').substring(0, 15)}</td>
     </tr>
   `).join('');
 }
 
 // ============================================
-// 12. EXPORT PDF / EXCEL
+// 13. EXPORT PDF/EXCEL
 // ============================================
-window.exportDonationsPDF = function () {
-  if (typeof window.jspdf === 'undefined') return alert('PDF library hin fe\'amne');
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: 'landscape' });
+window.exportDonationsPDF = function() {
+  const { jsPDF } = window.jspdf || {};
+  if (!jsPDF) return alert('PDF library hin fe\'amne');
 
+  const doc = new jsPDF({ orientation: 'landscape' });
   doc.setFontSize(16);
   doc.text('Malka Noonoo — Gumaachitoota', 14, 15);
   doc.setFontSize(10);
@@ -790,7 +849,7 @@ window.exportDonationsPDF = function () {
   doc.save(`Malka-Noonoo-Donations-${Date.now()}.pdf`);
 };
 
-window.exportDonationsExcel = function () {
+window.exportDonationsExcel = function() {
   if (typeof XLSX === 'undefined') return alert('Excel library hin fe\'amne');
 
   const data = dashState.allDonations.map((d, i) => ({
@@ -812,7 +871,36 @@ window.exportDonationsExcel = function () {
 };
 
 // ============================================
-// 13. HELPERS
+// 14. LOGOUT
+// ============================================
+function setupLogout() {
+  document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+    if (!confirm('Dhuguma ba\'uu barbaadda?')) return;
+    await db.auth.signOut();
+    window.location.href = 'login.html';
+  });
+}
+
+// ============================================
+// 15. LANGUAGE SYNC
+// ============================================
+function setupLanguageSync() {
+  window.addEventListener('languageChanged', () => {
+    const active = document.querySelector('.dash-nav a.active');
+    if (active) {
+      const titleKey = active.querySelector('span:last-child')?.dataset.i18n || 'dash.title';
+      const titleEl = document.getElementById('dashTitle');
+      if (titleEl) {
+        titleEl.dataset.i18n = titleKey;
+        titleEl.textContent = t(titleKey);
+      }
+    }
+    loadOverview();
+  });
+}
+
+// ============================================
+// 16. HELPERS
 // ============================================
 function setText(id, text) {
   const el = document.getElementById(id);
@@ -838,39 +926,7 @@ function getLast6Months() {
 }
 
 // ============================================
-// 14. INIT
-// ============================================
-document.addEventListener('DOMContentLoaded', async () => {
-  if (!document.querySelector('.dash-body')) return;
-  if (dashState.initialized) return;
-  dashState.initialized = true;
-
-  const { data: { session } } = await db.auth.getSession();
-  if (!session) return;
-
-  const userEl = document.getElementById('dashUser');
-  if (userEl) userEl.textContent = session.user.email;
-
-  setupTabs();
-  setupDonationFilters();
-  setupExpenseForm();
-  setupAssetForm();
-  setupRentalForm();
-  setupMasjidForm();
-  setupAnnouncementForm();
-
-  document.getElementById('activityType')?.addEventListener('change', loadActivity);
-
-  document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-    await db.auth.signOut();
-    window.location.href = 'login.html';
-  });
-
-  await loadOverview();
-});
-
-// ============================================
-// 15. GLOBAL EXPORTS
+// 17. GLOBAL EXPORTS
 // ============================================
 window.confirmDonation = confirmDonation;
 window.deleteDonation = deleteDonation;

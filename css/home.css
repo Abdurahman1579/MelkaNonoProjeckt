@@ -195,3 +195,381 @@
   .summary-grid { grid-template-columns: 1fr; }
   .donate-form-wrap { padding: 24px 20px; }
 }
+/* ============================================
+   TIER CARDS — CLICKABLE
+   ============================================ */
+.tier.clickable {
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 56px;
+  transition: all 0.3s ease;
+}
+
+.tier.clickable:hover,
+.tier.clickable:focus {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+.tier.clickable:focus {
+  box-shadow: 0 0 0 4px var(--green-300), 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+.tier-cta {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-700);
+  opacity: 0.6;
+  transition: all 0.3s;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.tier.clickable:hover .tier-cta {
+  opacity: 1;
+  color: var(--green-900);
+  transform: translateX(-50%) translateX(4px);
+}
+
+/* Tier color borders on hover */
+.tier-1.clickable:hover { border-color: var(--gold-500); }
+.tier-2.clickable:hover { border-color: var(--green-500); }
+.tier-3.clickable:hover { border-color: var(--green-300); }
+.tier-4.clickable:hover { border-color: var(--neutral-300); }
+
+/* ============================================
+   TIER MODAL
+   ============================================ */
+.modal-tier {
+  max-width: 560px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.modal-tier .modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tier-modal-hero {
+  padding: 44px 32px 32px;
+  background: linear-gradient(135deg, var(--green-900), var(--green-700));
+  color: var(--white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-modal-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 30% 40%, rgba(212, 160, 23, 0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.tier-modal-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.tier-modal-hero h2 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.tier-modal-hero .tier-modal-sub {
+  font-size: 14px;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+.tier-modal-amount {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gold-300);
+  position: relative;
+  z-index: 1;
+}
+
+.tier-modal-body {
+  padding: 28px 32px 32px;
+}
+
+.tier-modal-body p {
+  font-size: 15px;
+  color: var(--neutral-700);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.tier-modal-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+.tier-modal-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--neutral-700);
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.tier-modal-features li:last-child {
+  border-bottom: none;
+}
+
+.tier-modal-features li::before {
+  content: '✓';
+  color: var(--green-500);
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tier-modal-cta {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.tier-modal-cta .btn {
+  padding: 14px 22px;
+  font-size: 15px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+  .tier.clickable {
+    padding-bottom: 48px;
+  }
+  .tier-cta {
+    font-size: 12px;
+  }
+  .tier-modal-hero {
+    padding: 36px 22px 24px;
+  }
+  .tier-modal-icon {
+    font-size: 52px;
+  }
+  .tier-modal-hero h2 {
+    font-size: 22px;
+  }
+  .tier-modal-body {
+    padding: 24px 20px 28px;
+  }
+}
+/* ============================================
+   TIER MODAL — Robust CSS
+   ============================================ */
+
+/* Tier card clickable */
+.tier.clickable {
+  cursor: pointer !important;
+  position: relative;
+  padding-bottom: 56px !important;
+  transition: all 0.3s ease;
+}
+
+.tier.clickable:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  border-color: var(--green-500) !important;
+}
+
+.tier-cta {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-700);
+  opacity: 0.6;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.tier.clickable:hover .tier-cta {
+  opacity: 1;
+  color: var(--green-900);
+  transform: translateX(-50%) translateX(4px);
+}
+
+/* Modal */
+.modal {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+  padding: 20px !important;
+}
+
+.modal.open {
+  display: flex !important;
+}
+
+.modal-tier {
+  background: #fff !important;
+  border-radius: 20px !important;
+  max-width: 560px !important;
+  width: 100% !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  position: relative !important;
+  animation: modalSlideUp 0.3s ease;
+  padding: 0 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-tier .modal-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: none !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  font-family: inherit !important;
+}
+
+.modal-tier .modal-close:hover {
+  background: #f1f5f9 !important;
+  transform: rotate(90deg);
+}
+
+.tier-modal-hero {
+  padding: 44px 32px 32px !important;
+  background: linear-gradient(135deg, #0d3b2e, #1a6b4f) !important;
+  color: #fff !important;
+  text-align: center !important;
+  border-radius: 20px 20px 0 0 !important;
+}
+
+.tier-modal-icon {
+  font-size: 64px !important;
+  margin-bottom: 12px !important;
+}
+
+.tier-modal-hero h2 {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  margin: 0 0 6px !important;
+  color: #fff !important;
+}
+
+.tier-modal-sub {
+  font-size: 14px !important;
+  opacity: 0.9 !important;
+  margin-bottom: 12px !important;
+}
+
+.tier-modal-amount {
+  display: inline-block !important;
+  padding: 10px 24px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 999px !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #f0c14b !important;
+}
+
+.tier-modal-body {
+  padding: 28px 32px 32px !important;
+}
+
+.tier-modal-body > p {
+  font-size: 15px !important;
+  color: #334155 !important;
+  line-height: 1.7 !important;
+  margin-bottom: 20px !important;
+}
+
+.tier-modal-features {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 24px !important;
+}
+
+.tier-modal-features li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  padding: 10px 0 !important;
+  font-size: 14px !important;
+  color: #334155 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  line-height: 1.5 !important;
+}
+
+.tier-modal-features li:last-child {
+  border-bottom: none !important;
+}
+
+.tier-modal-features li::before {
+  content: '✓' !important;
+  color: #16a34a !important;
+  font-weight: 800 !important;
+  flex-shrink: 0 !important;
+}
+
+.tier-modal-cta {
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .tier-modal-hero {
+    padding: 36px 22px 24px !important;
+  }
+  .tier-modal-icon { font-size: 52px !important; }
+  .tier-modal-hero h2 { font-size: 20px !important; }
+  .tier-modal-body { padding: 24px 20px 28px !important; }
+  .tier.clickable { padding-bottom: 48px !important; }
+}

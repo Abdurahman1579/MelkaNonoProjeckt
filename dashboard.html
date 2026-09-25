@@ -8,10 +8,12 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/ui-ux.css" />
-    <link rel="stylesheet" href="css/nav.css" />
+
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -24,40 +26,55 @@
        SIDEBAR
        ========================================== -->
     <aside class="dash-sidebar">
+      <!-- Logo -->
       <div class="dash-logo">
-        <span>☪</span>
-        <strong data-i18n="brand.name">Malka Noonoo</strong>
+        <span class="dash-logo-icon">☪</span>
+        <div class="dash-logo-text">
+          <strong data-i18n="brand.name">Malka Noonoo</strong>
+          <small data-i18n="brand.subtitle">Mana Marii</small>
+        </div>
       </div>
 
+      <!-- Nav -->
       <nav class="dash-nav">
         <a href="#" class="active" data-tab="overview">
-          📊 <span data-i18n="dash.overview">Waliigalaa</span>
+          <span class="dash-nav-icon">📊</span>
+          <span data-i18n="dash.overview">Waliigalaa</span>
         </a>
         <a href="#" data-tab="donations">
-          💰 <span data-i18n="dash.donations">Gumaacha</span>
+          <span class="dash-nav-icon">💰</span>
+          <span data-i18n="dash.donations">Gumaacha</span>
         </a>
         <a href="#" data-tab="expenses">
-          💸 <span data-i18n="dash.expenses">Baasii</span>
+          <span class="dash-nav-icon">💸</span>
+          <span data-i18n="dash.expenses">Baasii</span>
         </a>
         <a href="#" data-tab="assets">
-          🏢 <span data-i18n="dash.assets">Qabeenya</span>
+          <span class="dash-nav-icon">🏢</span>
+          <span data-i18n="dash.assets">Qabeenya</span>
         </a>
         <a href="#" data-tab="rentals">
-          🏪 <span data-i18n="dash.rentals">Kireeffannaa</span>
+          <span class="dash-nav-icon">🏪</span>
+          <span data-i18n="dash.rentals">Kireeffannaa</span>
         </a>
         <a href="#" data-tab="masjidos">
-          🕌 <span data-i18n="dash.masjidos">Masgiidota</span>
+          <span class="dash-nav-icon">🕌</span>
+          <span data-i18n="dash.masjidos">Masgiidota</span>
         </a>
         <a href="#" data-tab="announcements">
-          📢 <span data-i18n="dash.announcements">Beeksisa</span>
+          <span class="dash-nav-icon">📢</span>
+          <span data-i18n="dash.announcements">Beeksisa</span>
         </a>
         <a href="#" data-tab="activity">
-          📋 <span data-i18n="dash.activity">Sochii</span>
+          <span class="dash-nav-icon">📋</span>
+          <span data-i18n="dash.activity">Sochii</span>
         </a>
       </nav>
 
-      <button id="logoutBtn" class="dash-logout" data-i18n="dash.logout">
-        ← Ba'i
+      <!-- Logout -->
+      <button id="logoutBtn" class="dash-logout" type="button">
+        <span>←</span>
+        <span data-i18n="dash.logout">Ba'i</span>
       </button>
     </aside>
 
@@ -65,6 +82,7 @@
        MAIN
        ========================================== -->
     <main class="dash-main">
+      <!-- Header -->
       <header class="dash-header">
         <h1 id="dashTitle" data-i18n="dash.title">Waliigalaa</h1>
         <div class="dash-user-wrap">
@@ -80,34 +98,52 @@
         <!-- KPI GRID -->
         <div class="kpi-grid">
           <div class="kpi">
-            <span data-i18n="dash.kpi.raised">Galii Waliigalaa</span>
-            <strong id="kpiRaised">0 ETB</strong>
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-body">
+              <span data-i18n="dash.kpi.raised">Galii Waliigalaa</span>
+              <strong id="kpiRaised">0 ETB</strong>
+            </div>
           </div>
           <div class="kpi">
-            <span data-i18n="dash.kpi.goal">Galma</span>
-            <strong>190,000,000 ETB</strong>
+            <div class="kpi-icon">🎯</div>
+            <div class="kpi-body">
+              <span data-i18n="dash.kpi.goal">Galma</span>
+              <strong>190,000,000 ETB</strong>
+            </div>
           </div>
           <div class="kpi">
-            <span data-i18n="dash.kpi.percent">Dhibbeentaa</span>
-            <strong id="kpiPercent">0%</strong>
+            <div class="kpi-icon">📈</div>
+            <div class="kpi-body">
+              <span data-i18n="dash.kpi.percent">Dhibbeentaa</span>
+              <strong id="kpiPercent">0%</strong>
+            </div>
           </div>
           <div class="kpi">
-            <span data-i18n="dash.kpi.donors">Gumaachitoota</span>
-            <strong id="kpiDonors">0</strong>
+            <div class="kpi-icon">👥</div>
+            <div class="kpi-body">
+              <span data-i18n="dash.kpi.donors">Gumaachitoota</span>
+              <strong id="kpiDonors">0</strong>
+            </div>
           </div>
           <div class="kpi">
-            <span data-i18n="dash.kpi.expenses">Baasii Waliigalaa</span>
-            <strong id="kpiExpenses">0 ETB</strong>
+            <div class="kpi-icon">💸</div>
+            <div class="kpi-body">
+              <span data-i18n="dash.kpi.expenses">Baasii Waliigalaa</span>
+              <strong id="kpiExpenses">0 ETB</strong>
+            </div>
           </div>
           <div class="kpi">
-            <span data-i18n="dash.kpi.assets">Qabeenya</span>
-            <strong id="kpiAssets">0</strong>
+            <div class="kpi-icon">🏢</div>
+            <div class="kpi-body">
+              <span data-i18n="dash.kpi.assets">Qabeenya</span>
+              <strong id="kpiAssets">0</strong>
+            </div>
           </div>
         </div>
 
         <!-- CHARTS -->
         <div class="charts-grid">
-          <div class="chart-card">
+          <div class="chart-card chart-card-wide">
             <h3 data-i18n="dash.chart.revenue">📈 Galii Ji'aan</h3>
             <div class="chart-wrap">
               <canvas id="revenueChart"></canvas>
@@ -132,7 +168,7 @@
          DONATIONS TAB
          ======================================== -->
       <section class="dash-tab" data-tab="donations">
-        <!-- FILTERS -->
+        <!-- Filters -->
         <div class="filter-bar">
           <input
             type="search"
@@ -160,7 +196,7 @@
           </button>
         </div>
 
-        <!-- ACTION BAR -->
+        <!-- Action bar -->
         <div class="action-bar">
           <span class="selected-count" id="donSelectedCount">0 filatame</span>
           <div class="action-buttons">
@@ -189,6 +225,7 @@
           </div>
         </div>
 
+        <!-- Table -->
         <div class="table-wrap">
           <table id="donationsTable">
             <thead>
@@ -200,7 +237,6 @@
                 <th>Imeelii</th>
                 <th>Sadarkaa</th>
                 <th>Gumaacha</th>
-                <th>Yeroo</th>
                 <th>Mala</th>
                 <th>Haala</th>
                 <th>Guyyaa</th>
@@ -209,7 +245,7 @@
             </thead>
             <tbody>
               <tr>
-                <td colspan="12" class="loading">Fe'amaa jira...</td>
+                <td colspan="11" class="loading">Fe'amaa jira...</td>
               </tr>
             </tbody>
           </table>
@@ -220,9 +256,8 @@
          EXPENSES TAB
          ======================================== -->
       <section class="dash-tab" data-tab="expenses">
-        <!-- FORM -->
         <div class="form-card">
-          <h3>💸 Baasii Haaraa Galmeessi</h3>
+          <h3 data-i18n="dash.add.expense">💸 Baasii Haaraa Galmeessi</h3>
           <form id="addExpenseForm" class="inline-form">
             <input
               type="text"
@@ -244,7 +279,13 @@
               <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="expenseMsg" class="form-message"></div>
         </div>
@@ -276,7 +317,7 @@
          ======================================== -->
       <section class="dash-tab" data-tab="assets">
         <div class="form-card">
-          <h3>🏢 Qabeenya Haaraa Galmeessi</h3>
+          <h3 data-i18n="dash.add.asset">🏢 Qabeenya Haaraa Galmeessi</h3>
           <form id="addAssetForm" class="inline-form">
             <input type="text" name="name" placeholder="Maqaa *" required />
             <input type="text" name="category" placeholder="Ramaddii" />
@@ -295,7 +336,13 @@
               step="1"
             />
             <input type="date" name="purchase_date" />
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="assetMsg" class="form-message"></div>
         </div>
@@ -327,7 +374,7 @@
          ======================================== -->
       <section class="dash-tab" data-tab="rentals">
         <div class="form-card">
-          <h3>🏪 Kireeffannaa Haaraa Galmeessi</h3>
+          <h3 data-i18n="dash.add.rental">🏪 Kireeffannaa Haaraa Galmeessi</h3>
           <form id="addRentalForm" class="inline-form">
             <input
               type="text"
@@ -354,7 +401,13 @@
               <option value="terminated">Terminated</option>
               <option value="expired">Expired</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="rentalMsg" class="form-message"></div>
         </div>
@@ -386,7 +439,7 @@
          ======================================== -->
       <section class="dash-tab" data-tab="masjidos">
         <div class="form-card">
-          <h3>🕌 Masgiida Haaraa Dabali</h3>
+          <h3 data-i18n="dash.add.masjid">🕌 Masgiida Haaraa Dabali</h3>
           <form id="addMasjidForm" class="inline-form">
             <input type="text" name="name" placeholder="Maqaa *" required />
             <select name="woreda" required>
@@ -402,7 +455,13 @@
               placeholder="Miseensota"
               min="0"
             />
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="masjidMsg" class="form-message"></div>
         </div>
@@ -433,7 +492,7 @@
          ======================================== -->
       <section class="dash-tab" data-tab="announcements">
         <div class="form-card">
-          <h3>📢 Beeksisa Haaraa Uumi</h3>
+          <h3 data-i18n="dash.add.announcement">📢 Beeksisa Haaraa Uumi</h3>
           <form id="addAnnouncementForm" class="stack-form">
             <input
               type="text"
@@ -446,7 +505,13 @@
               <input type="checkbox" name="is_public" checked />
               <span>Public — hawaasa hundaaf mul'ata</span>
             </label>
-            <button type="submit" class="btn btn-primary">➕ Maxxansi</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Maxxansi
+            </button>
           </form>
           <div id="announcementMsg" class="form-message"></div>
         </div>
@@ -473,7 +538,7 @@
       </section>
 
       <!-- ========================================
-         ACTIVITY LOG TAB
+         ACTIVITY TAB
          ======================================== -->
       <section class="dash-tab" data-tab="activity">
         <div class="filter-bar">
@@ -504,12 +569,11 @@
                 <th>Actor</th>
                 <th>Sochii</th>
                 <th>Ibsa</th>
-                <th>IP</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading">Fe'amaa jira...</td>
+                <td colspan="5" class="loading">Fe'amaa jira...</td>
               </tr>
             </tbody>
           </table>
@@ -521,10 +585,8 @@
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
-    <script src="js/nav.js"></script>
-    <!-- ← Kun dabalii -->
     <script src="js/ui-ux.js"></script>
     <script src="js/supabase.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
   </body>
 </html>

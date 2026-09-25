@@ -1,0 +1,602 @@
+/* ============================================
+   AUTH.CSS — Login / Register / Forgot
+   Malka Noonoo Project
+   ============================================ */
+
+/* ============================================
+   AUTH PAGE LAYOUT
+   ============================================ */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  font-family: 'Inter', 'Noto Sans Ethiopic', system-ui, sans-serif;
+}
+
+/* Background decoration */
+.auth-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(212, 160, 23, 0.15) 0%, transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(110, 231, 183, 0.1) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* ============================================
+   LANGUAGE SWITCHER
+   ============================================ */
+.auth-lang-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.auth-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.auth-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.auth-lang-icon {
+  font-size: 15px;
+}
+
+.auth-lang-caret {
+  font-size: 10px;
+  opacity: 0.7;
+  transition: transform 0.2s;
+}
+
+.auth-lang-switcher.open .auth-lang-caret {
+  transform: rotate(180deg);
+}
+
+.auth-lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+}
+
+.auth-lang-switcher.open .auth-lang-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.auth-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  text-align: left;
+}
+
+.auth-lang-item:hover {
+  background: var(--green-100);
+  color: var(--green-900);
+}
+
+.auth-lang-item.active {
+  background: var(--green-100);
+  color: var(--green-900);
+  font-weight: 700;
+}
+
+.auth-lang-item .check {
+  margin-left: auto;
+  opacity: 0;
+  color: var(--green-700);
+  font-weight: 800;
+}
+
+.auth-lang-item.active .check {
+  opacity: 1;
+}
+
+/* ============================================
+   AUTH WRAP
+   ============================================ */
+.auth-wrap {
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   AUTH CARD
+   ============================================ */
+.auth-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 44px 36px 36px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: authSlideUp 0.4s ease;
+}
+
+@keyframes authSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   LOGO
+   ============================================ */
+.auth-logo {
+  display: inline-flex;
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  color: var(--white);
+  border-radius: 18px;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(26, 107, 79, 0.3);
+  transition: transform 0.3s;
+}
+.auth-logo:hover {
+  transform: rotate(10deg) scale(1.05);
+}
+
+/* ============================================
+   TITLES
+   ============================================ */
+.auth-card h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--green-900);
+  margin-bottom: 8px;
+}
+
+.auth-sub {
+  font-size: 14px;
+  color: var(--neutral-500);
+  margin-bottom: 32px;
+}
+
+/* ============================================
+   FORM
+   ============================================ */
+.auth-form {
+  text-align: left;
+}
+
+.auth-form .form-row {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-form label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--neutral-700);
+  letter-spacing: 0.2px;
+}
+
+/* Input wrap with icon */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 15px;
+  pointer-events: none;
+  opacity: 0.55;
+  z-index: 1;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 13px 44px 13px 42px;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--neutral-900);
+  background: var(--white);
+  transition: all 0.2s;
+}
+
+.input-wrap input:focus {
+  border-color: var(--green-500);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--green-100);
+}
+
+.input-wrap input::placeholder {
+  color: var(--neutral-300);
+}
+
+/* Password toggle */
+.input-toggle {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 10px;
+  opacity: 0.55;
+  transition: opacity 0.2s;
+  font-family: inherit;
+}
+.input-toggle:hover {
+  opacity: 1;
+}
+
+/* ============================================
+   FORM EXTRAS
+   ============================================ */
+.form-extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.form-extras .checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--neutral-700);
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-extras .checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--green-700);
+  cursor: pointer;
+}
+
+.link-forgot {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-700);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.link-forgot:hover {
+  color: var(--green-900);
+  text-decoration: underline;
+}
+
+/* ============================================
+   SUBMIT BUTTON
+   ============================================ */
+.auth-submit {
+  position: relative;
+  font-size: 15px;
+  padding: 14px 24px;
+  transition: all 0.2s;
+}
+
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   FORM MESSAGE
+   ============================================ */
+.form-message {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+  text-align: left;
+}
+
+.form-message.success {
+  display: block;
+  background: var(--green-100);
+  color: var(--green-900);
+  border: 1px solid var(--green-300);
+}
+
+.form-message.error {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* ============================================
+   DIVIDER
+   ============================================ */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  color: var(--neutral-300);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--neutral-100);
+}
+
+/* ============================================
+   AUTH FOOTER
+   ============================================ */
+.auth-footer {
+  font-size: 14px;
+  color: var(--neutral-500);
+  margin-bottom: 16px;
+}
+
+.auth-footer a {
+  color: var(--green-700);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+  color: var(--green-900);
+  text-decoration: underline;
+}
+
+/* ============================================
+   BACK LINK
+   ============================================ */
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--neutral-100);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-500);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.auth-back-link:hover {
+  color: var(--green-700);
+}
+
+.auth-back-link span:first-child {
+  transition: transform 0.2s;
+}
+
+.auth-back-link:hover span:first-child {
+  transform: translateX(-3px);
+}
+
+/* ============================================
+   AUTH NOTE
+   ============================================ */
+.auth-note {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 24px;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+[data-theme="dark"] .auth-page {
+  background: linear-gradient(135deg, #020617 0%, #064e3b 100%);
+}
+
+[data-theme="dark"] .auth-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+
+[data-theme="dark"] .auth-card h1 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .auth-sub {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .auth-form label {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .input-wrap input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .input-wrap input:focus {
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15);
+}
+
+[data-theme="dark"] .input-wrap input::placeholder {
+  color: #475569;
+}
+
+[data-theme="dark"] .form-extras .checkbox-row {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .auth-footer {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .auth-back-link {
+  color: #94a3b8;
+  border-top-color: #334155;
+}
+
+[data-theme="dark"] .auth-back-link:hover {
+  color: #6ee7b7;
+}
+
+[data-theme="dark"] .auth-lang-menu {
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+
+[data-theme="dark"] .auth-lang-item {
+  color: #cbd5e1;
+}
+[data-theme="dark"] .auth-lang-item:hover,
+[data-theme="dark"] .auth-lang-item.active {
+  background: #065f46;
+  color: #d1fae5;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 500px) {
+  .auth-page {
+    padding: 12px;
+  }
+
+  .auth-card {
+    padding: 36px 24px 28px;
+    border-radius: var(--radius-md);
+  }
+
+  .auth-logo {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+  }
+
+  .auth-card h1 {
+    font-size: 22px;
+  }
+
+  .auth-lang-switcher {
+    top: 12px;
+    right: 12px;
+  }
+
+  .auth-lang-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .auth-lang-label {
+    display: none;
+  }
+
+  .input-wrap input {
+    padding: 12px 40px 12px 38px;
+    font-size: 14px;
+  }
+
+  .form-extras {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* ============================================
+   PRINT
+   ============================================ */
+@media print {
+  .auth-lang-switcher,
+  .auth-back-link,
+  .auth-note {
+    display: none !important;
+  }
+}

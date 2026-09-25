@@ -8,67 +8,32 @@
       name="description"
       content="Piroojektii ijaarsaa fi guddina Mana Marii Dhimmoota Islaamummaa Malka Noonoo"
     />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/nav-master.css" />
     <link rel="stylesheet" href="css/ui-ux.css" />
-    <link rel="stylesheet" href="css/nav.css" />
+
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body data-page-title="nav.home">
-    <!-- HEADER -->
-    <header class="header">
-      <div class="container header-inner">
-        <a href="index.html" class="logo">
-          <div class="logo-mark">☪</div>
-          <div class="logo-text">
-            <strong data-i18n="brand.name">Malka Noonoo</strong>
-            <span data-i18n="brand.subtitle"
-              >Mana Marii Dhimmoota Islaamummaa</span
-            >
-          </div>
-        </a>
+    <!-- ==========================================
+       HEADER / NAV
+       ========================================== -->
 
-        <nav class="nav" id="nav">
-          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
-          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
-          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
-          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
-          <a href="news.html" data-i18n="nav.news">Odeeffannoo</a>
-          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
-          <a href="team.html" data-i18n="nav.team">Koree</a>
-          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
-          <div class="mobile-langs">
-            <button class="lang-mobile" type="button" data-lang="om">
-              Oromiffa
-            </button>
-            <button class="lang-mobile" type="button" data-lang="am">
-              አማርኛ
-            </button>
-            <button class="lang-mobile" type="button" data-lang="en">
-              English
-            </button>
-          </div>
-        </nav>
-
-        <div class="header-actions">
-          <div class="lang-switcher" id="langSwitcher"></div>
-          <a href="donate.html" class="btn btn-primary" data-i18n="nav.donate"
-            >Gumaachi</a
-          >
-          <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-            ☰
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- HERO -->
+    <!-- ==========================================
+       HERO
+       ========================================== -->
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-text">
@@ -90,14 +55,16 @@
               href="donate.html"
               class="btn btn-primary btn-lg"
               data-i18n="hero.cta.primary"
-              >Hirmaadhu</a
             >
+              Hirmaadhu
+            </a>
             <a
               href="progress.html"
               class="btn btn-outline btn-lg"
               data-i18n="hero.cta.secondary"
-              >Sadarkaa Ilaali</a
             >
+              Sadarkaa Ilaali
+            </a>
           </div>
         </div>
 
@@ -132,27 +99,33 @@
       </div>
     </section>
 
-    <!-- STATS BAR -->
+    <!-- ==========================================
+       STATS BAR
+       ========================================== -->
     <section class="stats-bar">
       <div class="container stats-grid">
         <div class="stat-item">
-          <strong>85</strong><span data-i18n="stats.masjidos">Masgiidota</span>
+          <strong>85</strong>
+          <span data-i18n="stats.masjidos">Masgiidota</span>
         </div>
         <div class="stat-item">
-          <strong>3</strong><span data-i18n="stats.woredas">Aanaalee</span>
+          <strong>3</strong>
+          <span data-i18n="stats.woredas">Aanaalee</span>
         </div>
         <div class="stat-item">
-          <strong>1,600 m²</strong
-          ><span data-i18n="stats.building">Jaarmiyaa G+3</span>
+          <strong>1,600 m²</strong>
+          <span data-i18n="stats.building">Jaarmiyaa G+3</span>
         </div>
         <div class="stat-item">
-          <strong>9</strong
-          ><span data-i18n="stats.committee">Raawwattoota</span>
+          <strong>9</strong>
+          <span data-i18n="stats.committee">Raawwattoota</span>
         </div>
       </div>
     </section>
 
-    <!-- MILESTONES -->
+    <!-- ==========================================
+       MILESTONES
+       ========================================== -->
     <section class="section">
       <div class="container">
         <div class="section-head">
@@ -162,12 +135,14 @@
           </p>
         </div>
         <div class="cards" id="milestonesGrid">
-          <div class="loading" data-i18n="loading">Fe'amaa jira...</div>
+          <div class="loading" data-i18n="loading.generic">Fe'amaa jira...</div>
         </div>
       </div>
     </section>
 
-    <!-- TIERS -->
+    <!-- ==========================================
+       TIERS — Clickable
+       ========================================== -->
     <section class="section section-alt">
       <div class="container">
         <div class="section-head">
@@ -177,8 +152,15 @@
             affeerraa.
           </p>
         </div>
+
         <div class="tiers">
-          <div class="tier tier-1">
+          <!-- TIER 1 -->
+          <div
+            class="tier tier-1 clickable"
+            data-tier="tier1"
+            role="button"
+            tabindex="0"
+          >
             <div class="tier-icon">🏛️</div>
             <h3 data-i18n="tiers.tier1">Sadarkaa 1</h3>
             <p class="tier-sub" data-i18n="tiers.tier1.sub">
@@ -188,8 +170,16 @@
             <p data-i18n="tiers.tier1.desc">
               Deeggartoota dandeettii guddaa qaban — jaarmiyaa ijoo bittuuf.
             </p>
+            <span class="tier-cta">Ilaali →</span>
           </div>
-          <div class="tier tier-2">
+
+          <!-- TIER 2 -->
+          <div
+            class="tier tier-2 clickable"
+            data-tier="tier2"
+            role="button"
+            tabindex="0"
+          >
             <div class="tier-icon">🤝</div>
             <h3 data-i18n="tiers.tier2">Sadarkaa 2</h3>
             <p class="tier-sub" data-i18n="tiers.tier2.sub">Giddu-galeessa</p>
@@ -197,8 +187,16 @@
             <p data-i18n="tiers.tier2.desc">
               Daldaltoota fi deeggartoota giddu-galeessa.
             </p>
+            <span class="tier-cta">Ilaali →</span>
           </div>
-          <div class="tier tier-3">
+
+          <!-- TIER 3 -->
+          <div
+            class="tier tier-3 clickable"
+            data-tier="community"
+            role="button"
+            tabindex="0"
+          >
             <div class="tier-icon">👥</div>
             <h3 data-i18n="tiers.tier3">Hawaasa</h3>
             <p class="tier-sub" data-i18n="tiers.tier3.sub">
@@ -208,31 +206,44 @@
             <p data-i18n="tiers.tier3.desc">
               Hawaasa bal'aa — gumaacha xiqqaa, walitti qabamee guddaa.
             </p>
+            <span class="tier-cta">Ilaali →</span>
           </div>
-          <div class="tier tier-4">
+
+          <!-- TIER 4 -->
+          <div
+            class="tier tier-4 clickable"
+            data-tier="masjid"
+            role="button"
+            tabindex="0"
+          >
             <div class="tier-icon">🕌</div>
             <h3 data-i18n="tiers.tier4">Masgiidota</h3>
             <p class="tier-sub" data-i18n="tiers.tier4.sub">85 Masgiidota</p>
             <strong class="tier-amount">20,000,000 ETB</strong>
             <p data-i18n="tiers.tier4.desc">Masgiidota 85 hirmaannaa waloo.</p>
+            <span class="tier-cta">Ilaali →</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ANNOUNCEMENTS -->
+    <!-- ==========================================
+       ANNOUNCEMENTS
+       ========================================== -->
     <section class="section">
       <div class="container">
         <div class="section-head">
           <h2 data-i18n="announcements.title">Odeeffannoo Haaraa</h2>
         </div>
         <div class="announcements" id="announcementsList">
-          <div class="loading" data-i18n="loading">Fe'amaa jira...</div>
+          <div class="loading" data-i18n="loading.generic">Fe'amaa jira...</div>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
+    <!-- ==========================================
+       CTA
+       ========================================== -->
     <section class="cta">
       <div class="container cta-inner">
         <h2 data-i18n="cta.title">Gumaacha keessan — sadarkaa keenya!</h2>
@@ -244,46 +255,78 @@
           href="donate.html"
           class="btn btn-primary btn-lg"
           data-i18n="cta.button"
-          >Amma Gumaachi</a
         >
+          Amma Gumaachi
+        </a>
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ==========================================
+       FOOTER
+       ========================================== -->
     <footer class="footer">
       <div class="container footer-grid">
         <div>
           <h4 data-i18n="brand.name">Malka Noonoo</h4>
           <p data-i18n-html="footer.address">
-            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+            Mana Marii Dhimmoota Islaamummaa<br />
+            Kutaa Magaalaa Malka Noonoo
           </p>
         </div>
+
         <div>
           <h4 data-i18n="footer.links">Geessituu</h4>
           <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
           <a href="about.html" data-i18n="nav.about">Waa'ee</a>
           <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
           <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="reports.html" data-i18n="nav.reports">Gabaasa</a>
+          <a href="gallery.html" data-i18n="nav.gallery">Suuraa</a>
         </div>
+
         <div>
           <h4 data-i18n="footer.support">Deeggarsa</h4>
           <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
           <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+          <a href="volunteer.html" data-i18n="nav.volunteer">Fedhii</a>
+        </div>
+
+        <div>
+          <h4 data-i18n="footer.legal">Seera</h4>
+          <a href="privacy.html" data-i18n="privacy.title">Iccitii</a>
+          <a href="terms.html" data-i18n="terms.title">Waliigaltee</a>
           <a href="login.html" data-i18n="nav.login">Seensa</a>
         </div>
       </div>
+
       <div class="footer-bottom">
         <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
       </div>
     </footer>
 
+    <!-- ==========================================
+       TIER MODAL
+       ========================================== -->
+    <div class="modal" id="tierModal">
+      <div class="modal-content modal-tier">
+        <button class="modal-close" id="tierModalClose" aria-label="Close">
+          ×
+        </button>
+        <div class="modal-body" id="tierModalBody"></div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
-    <script src="js/nav.js"></script>
-    <!-- ← Kun dabalii -->
     <script src="js/ui-ux.js"></script>
+    <script src="js/nav-master.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/progress.js"></script>
   </body>
 </html>
