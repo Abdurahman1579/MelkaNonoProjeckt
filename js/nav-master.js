@@ -65,6 +65,10 @@
     return SKIP_PAGES.includes(currentPage);
   }
 
+  function isMobile() {
+    return window.innerWidth <= 900;
+  }
+
   // ==========================================
   // BUILD NAV HTML
   // ==========================================
@@ -108,7 +112,7 @@
       }
     }).join('');
 
-    // Build language dropdown
+    // Build language dropdown items
     const langItemsHTML = LANGS.map(lang => `
       <button class="nav-lang-item ${lang.code === currentLang ? 'active' : ''}" 
               type="button" 
@@ -145,7 +149,7 @@
           <nav class="nav" id="nav">
             ${linksHTML}
 
-            <!-- Language Dropdown -->
+            <!-- Language Dropdown (desktop) -->
             <div class="nav-dropdown nav-dropdown-lang">
               <button class="nav-dropdown-toggle nav-lang-toggle" type="button">
                 <span class="nav-lang-icon">🌐</span>
@@ -157,7 +161,7 @@
               </div>
             </div>
 
-            <!-- Mobile Languages -->
+            <!-- Mobile Languages (inline) -->
             <div class="mobile-langs">
               ${mobileLangHTML}
             </div>
@@ -209,33 +213,49 @@
   // SETUP NAV EVENTS
   // ==========================================
   function setupNavEvents() {
-    // ----------------------------------------
-    // Mobile menu toggle
-    // ----------------------------------------
+    console.log('🧭 Setting up nav events...');
+
     const menuToggle = document.getElementById('menuToggle');
     const nav = document.getElementById('nav');
 
+    // ========================================
+    // 1. Mobile menu toggle
+    // ========================================
     if (menuToggle && nav) {
       menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
+        e.preventDefault();
+        
         const isOpen = nav.classList.toggle('open');
         menuToggle.textContent = isOpen ? '✕' : '☰';
+        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        
+        // Body scroll lock
+        if (isOpen && isMobile()) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+        
+        console.log('📱 Menu toggled:', isOpen ? 'OPEN' : 'CLOSED');
       });
 
-      // Close on link click (mobile)
+      // Close menu on link click (mobile only)
       nav.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
-          if (window.innerWidth <= 900) {
+          if (isMobile()) {
             nav.classList.remove('open');
             menuToggle.textContent = '☰';
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
           }
         });
       });
     }
 
-    // ----------------------------------------
-    // Dropdown toggles (Piroojektii, Odeeffannoo, Afaan)
-    // ----------------------------------------
+    // ========================================
+    // 2. Dropdown toggles (Piroojektii, Odeeffannoo, Afaan)
+    // ========================================
     document.querySelectorAll('.nav-dropdown-toggle').forEach(toggle => {
       toggle.addEventListener('click', (e) => {
         e.preventDefault();
@@ -246,66 +266,110 @@
 
         const wasOpen = dropdown.classList.contains('open');
 
-        // Close all dropdowns
-        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+        // Close all other dropdowns
+        document.querySelectorAll('.nav-dropdown').forEach(d => {
+          if (d !== dropdown) d.classList.remove('open');
+        });
 
         // Toggle current
-        if (!wasOpen) {
-          dropdown.classList.add('open');
-        }
+        dropdown.classList.toggle('open', !wasOpen);
+        
+        console.log('📂 Dropdown:', wasOpen ? 'CLOSED' : 'OPEN');
       });
     });
 
-    // ----------------------------------------
-    // Language selection (desktop dropdown)
-    // ----------------------------------------
+    // ========================================
+    // 3. Language selection (desktop dropdown)
+    // ========================================
     document.querySelectorAll('.nav-lang-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         changeLanguage(item.dataset.lang);
+        // Close all dropdowns
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
       });
     });
 
-    // ----------------------------------------
-    // Language selection (mobile buttons)
-    // ----------------------------------------
+    // ========================================
+    // 4. Language selection (mobile buttons)
+    // ========================================
     document.querySelectorAll('.lang-mobile').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         changeLanguage(btn.dataset.lang);
-        if (nav) nav.classList.remove('open');
-        if (menuToggle) menuToggle.textContent = '☰';
+        
+        // Close mobile menu
+        if (nav && menuToggle) {
+          nav.classList.remove('open');
+          menuToggle.textContent = '☰';
+          menuToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
       });
     });
 
-    // ----------------------------------------
-    // Outside click closes dropdowns
-    // ----------------------------------------
+    // ========================================
+    // 5. Outside click — close dropdowns + menu
+    // ========================================
     document.addEventListener('click', (e) => {
+      // Close dropdowns
       if (!e.target.closest('.nav-dropdown')) {
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
       }
-      if (!e.target.closest('.nav') && !e.target.closest('.menu-toggle')) {
-        nav?.classList.remove('open');
-        if (menuToggle) menuToggle.textContent = '☰';
+      
+      // Close mobile menu
+      if (nav && menuToggle) {
+        const isMenuOpen = nav.classList.contains('open');
+        const clickedInsideNav = nav.contains(e.target);
+        const clickedToggle = menuToggle.contains(e.target);
+        
+        if (isMenuOpen && !clickedInsideNav && !clickedToggle) {
+          nav.classList.remove('open');
+          menuToggle.textContent = '☰';
+          menuToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
       }
     });
 
-    // ----------------------------------------
-    // ESC key
-    // ----------------------------------------
+    // ========================================
+    // 6. ESC key
+    // ========================================
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        // Close dropdowns
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-        nav?.classList.remove('open');
-        if (menuToggle) menuToggle.textContent = '☰';
+        
+        // Close mobile menu
+        if (nav && menuToggle) {
+          nav.classList.remove('open');
+          menuToggle.textContent = '☰';
+          menuToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
       }
     });
 
-    // ----------------------------------------
-    // Scroll effect
-    // ----------------------------------------
+    // ========================================
+    // 7. Window resize — reset states
+    // ========================================
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        // Yoo desktop ta'e — mobile menu cufi
+        if (!isMobile() && nav && menuToggle) {
+          nav.classList.remove('open');
+          menuToggle.textContent = '☰';
+          document.body.style.overflow = '';
+        }
+      }, 200);
+    });
+
+    // ========================================
+    // 8. Scroll effect
+    // ========================================
     const header = document.querySelector('.header');
     if (header) {
       let ticking = false;
@@ -323,6 +387,25 @@
         }
       }, { passive: true });
     }
+
+    // ========================================
+    // 9. Sync language on change
+    // ========================================
+    window.addEventListener('languageChanged', (e) => {
+      const lang = e.detail?.lang;
+      if (!lang) return;
+      updateLanguageUI(lang);
+    });
+
+    // ========================================
+    // 10. Initial language state
+    // ========================================
+    const currentLang = (typeof window.getCurrentLang === 'function') 
+      ? window.getCurrentLang() 
+      : (localStorage.getItem('mn_lang') || 'om');
+    updateLanguageUI(currentLang);
+
+    console.log('✅ Nav events ready');
   }
 
   // ==========================================
@@ -335,26 +418,31 @@
     localStorage.setItem('mn_lang', lang);
     document.documentElement.lang = lang;
 
-    // Update UI
+    // Update UI instantly
     updateLanguageUI(lang);
 
-    // Call external setLang if exists
+    // Call external setLang (i18n.js) if exists
     if (typeof window.setLang === 'function') {
-      try { window.setLang(lang); } catch (err) { console.warn(err); }
+      try {
+        window.setLang(lang);
+      } catch (err) {
+        console.warn('setLang error:', err);
+      }
     } else {
       // Fallback: reload page
+      console.log('⚠️ setLang not found — reloading page');
       setTimeout(() => window.location.reload(), 100);
       return;
     }
 
-    // Dispatch event
+    // Dispatch event for other scripts
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
   }
 
   function updateLanguageUI(lang) {
     const names = { om: 'Oromiffa', am: 'አማርኛ', en: 'English' };
     
-    // Update current label
+    // Update current label (desktop dropdown)
     const currentEl = document.getElementById('navLangCurrent');
     if (currentEl) currentEl.textContent = names[lang] || 'Oromiffa';
 
@@ -390,9 +478,9 @@
         applyTheme(next);
         
         // Toast feedback
-        if (window.toast) {
+        if (window.toast && typeof window.toast.info === 'function') {
           const names = { dark: '🌙 Dark Mode', light: '☀️ Light Mode' };
-          toast.info(names[next], 'Ifa jijjiirameera');
+          window.toast.info(names[next], 'Ifa jijjiirameera');
         }
       });
     }
@@ -449,5 +537,6 @@
   // ==========================================
   window.changeLanguage = changeLanguage;
   window.applyTheme = applyTheme;
+  window.updateLanguageUI = updateLanguageUI;
 
 })();
