@@ -1,7 +1,7 @@
 // ============================================
 // NAV-MASTER.JS — Universal Nav + Theme
 // Malka Noonoo Project
-// Works on ALL pages automatically
+// Complete Final Version
 // ============================================
 
 (function() {
@@ -10,11 +10,11 @@
   console.log('🚀 nav-master.js loaded');
 
   // ==========================================
-  // CONFIG
+  // 1. CONFIG
   // ==========================================
   const SKIP_PAGES = [
-    'dashboard.html',   // Has its own sidebar
-    'login.html',       // Auth page (own layout)
+    'dashboard.html',
+    'login.html',
     'register.html',
     'forgot-password.html'
   ];
@@ -52,17 +52,15 @@
   ];
 
   // ==========================================
-  // DETECT PAGE
+  // 2. HELPERS
   // ==========================================
   function getCurrentPage() {
     const path = window.location.pathname;
-    const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-    return filename;
+    return path.substring(path.lastIndexOf('/') + 1) || 'index.html';
   }
 
   function shouldSkipNav() {
-    const currentPage = getCurrentPage();
-    return SKIP_PAGES.includes(currentPage);
+    return SKIP_PAGES.includes(getCurrentPage());
   }
 
   function isMobile() {
@@ -70,7 +68,7 @@
   }
 
   // ==========================================
-  // BUILD NAV HTML
+  // 3. BUILD NAV HTML
   // ==========================================
   function buildNavHTML() {
     const currentPage = getCurrentPage();
@@ -80,7 +78,6 @@
     // Build main links
     const linksHTML = NAV_LINKS.map(link => {
       if (link.items) {
-        // Dropdown
         const isActive = link.items.some(item => item.href === currentPage);
         return `
           <div class="nav-dropdown ${isActive ? 'active' : ''}">
@@ -101,7 +98,6 @@
           </div>
         `;
       } else {
-        // Simple link
         return `
           <a href="${link.href}" 
              class="${link.href === currentPage ? 'active' : ''}"
@@ -112,7 +108,7 @@
       }
     }).join('');
 
-    // Build language dropdown items
+    // Language dropdown items
     const langItemsHTML = LANGS.map(lang => `
       <button class="nav-lang-item ${lang.code === currentLang ? 'active' : ''}" 
               type="button" 
@@ -123,7 +119,7 @@
       </button>
     `).join('');
 
-    // Build mobile language buttons
+    // Mobile language buttons
     const mobileLangHTML = LANGS.map(lang => `
       <button class="lang-mobile ${lang.code === currentLang ? 'active' : ''}" 
               type="button" 
@@ -161,13 +157,13 @@
               </div>
             </div>
 
-            <!-- Mobile Languages (inline) -->
+            <!-- Mobile languages -->
             <div class="mobile-langs">
               ${mobileLangHTML}
             </div>
           </nav>
 
-          <!-- Actions -->
+          <!-- ACTIONS -->
           <div class="header-actions">
             <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
               <span class="theme-icon">🌙</span>
@@ -182,7 +178,7 @@
   }
 
   // ==========================================
-  // INJECT NAV
+  // 4. INJECT NAV
   // ==========================================
   function injectNav() {
     if (shouldSkipNav()) {
@@ -190,78 +186,73 @@
       return false;
     }
 
-    // Remove existing header (yoo jira)
+    // Remove existing header
     const existing = document.querySelector('.header');
     if (existing) {
       existing.remove();
       console.log('🗑️ Old header removed');
     }
 
-    // Build new nav
+    // Build + insert
     const navHTML = buildNavHTML();
     const temp = document.createElement('div');
     temp.innerHTML = navHTML;
     const navElement = temp.firstElementChild;
 
-    // Insert at body start
     document.body.insertBefore(navElement, document.body.firstChild);
     console.log('✅ Nav injected');
     return true;
   }
 
   // ==========================================
-  // SETUP NAV EVENTS
+  // 5. SETUP NAV EVENTS
   // ==========================================
   function setupNavEvents() {
-    console.log('🧭 Setting up nav events...');
-
     const menuToggle = document.getElementById('menuToggle');
     const nav = document.getElementById('nav');
 
-    // ========================================
-    // 1. Mobile menu toggle
-    // ========================================
+    // ----------------------------------------
+    // 5.1 MOBILE MENU TOGGLE (Robust)
+    // ----------------------------------------
     if (menuToggle && nav) {
-      menuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
+      menuToggle.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         
         const isOpen = nav.classList.toggle('open');
         menuToggle.textContent = isOpen ? '✕' : '☰';
-        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         
         // Body scroll lock
-        if (isOpen && isMobile()) {
+        if (isOpen) {
           document.body.style.overflow = 'hidden';
         } else {
           document.body.style.overflow = '';
         }
         
-        console.log('📱 Menu toggled:', isOpen ? 'OPEN' : 'CLOSED');
+        console.log('📱 Menu:', isOpen ? 'OPEN' : 'CLOSED');
       });
 
-      // Close menu on link click (mobile only)
+      // Close menu on nav link click (mobile)
       nav.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
           if (isMobile()) {
             nav.classList.remove('open');
             menuToggle.textContent = '☰';
-            menuToggle.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
           }
         });
       });
     }
 
-    // ========================================
-    // 2. Dropdown toggles (Piroojektii, Odeeffannoo, Afaan)
-    // ========================================
+    // ----------------------------------------
+    // 5.2 DROPDOWN TOGGLES
+    // ----------------------------------------
     document.querySelectorAll('.nav-dropdown-toggle').forEach(toggle => {
-      toggle.addEventListener('click', (e) => {
+      toggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const dropdown = toggle.closest('.nav-dropdown');
+        const dropdown = this.closest('.nav-dropdown');
         if (!dropdown) return;
 
         const wasOpen = dropdown.classList.contains('open');
@@ -272,46 +263,50 @@
         });
 
         // Toggle current
-        dropdown.classList.toggle('open', !wasOpen);
-        
-        console.log('📂 Dropdown:', wasOpen ? 'CLOSED' : 'OPEN');
-      });
-    });
-
-    // ========================================
-    // 3. Language selection (desktop dropdown)
-    // ========================================
-    document.querySelectorAll('.nav-lang-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        changeLanguage(item.dataset.lang);
-        // Close all dropdowns
-        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-      });
-    });
-
-    // ========================================
-    // 4. Language selection (mobile buttons)
-    // ========================================
-    document.querySelectorAll('.lang-mobile').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        changeLanguage(btn.dataset.lang);
-        
-        // Close mobile menu
-        if (nav && menuToggle) {
-          nav.classList.remove('open');
-          menuToggle.textContent = '☰';
-          menuToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
+        if (!wasOpen) {
+          dropdown.classList.add('open');
+        } else {
+          dropdown.classList.remove('open');
         }
       });
     });
 
-    // ========================================
-    // 5. Outside click — close dropdowns + menu
-    // ========================================
+    // ----------------------------------------
+    // 5.3 LANGUAGE SELECTION (Dropdown)
+    // ----------------------------------------
+    document.querySelectorAll('.nav-lang-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const lang = this.dataset.lang;
+        changeLanguage(lang);
+        
+        // Close dropdowns
+        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+      });
+    });
+
+    // ----------------------------------------
+    // 5.4 LANGUAGE SELECTION (Mobile)
+    // ----------------------------------------
+    document.querySelectorAll('.lang-mobile').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const lang = this.dataset.lang;
+        changeLanguage(lang);
+        
+        // Close mobile menu
+        if (nav) {
+          nav.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        if (menuToggle) menuToggle.textContent = '☰';
+      });
+    });
+
+    // ----------------------------------------
+    // 5.5 OUTSIDE CLICK — Close dropdowns/menu
+    // ----------------------------------------
     document.addEventListener('click', (e) => {
       // Close dropdowns
       if (!e.target.closest('.nav-dropdown')) {
@@ -319,57 +314,51 @@
       }
       
       // Close mobile menu
-      if (nav && menuToggle) {
-        const isMenuOpen = nav.classList.contains('open');
+      if (nav && menuToggle && nav.classList.contains('open')) {
         const clickedInsideNav = nav.contains(e.target);
         const clickedToggle = menuToggle.contains(e.target);
         
-        if (isMenuOpen && !clickedInsideNav && !clickedToggle) {
+        if (!clickedInsideNav && !clickedToggle) {
           nav.classList.remove('open');
           menuToggle.textContent = '☰';
-          menuToggle.setAttribute('aria-expanded', 'false');
           document.body.style.overflow = '';
         }
       }
     });
 
-    // ========================================
-    // 6. ESC key
-    // ========================================
+    // ----------------------------------------
+    // 5.6 ESC KEY
+    // ----------------------------------------
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        // Close dropdowns
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
         
-        // Close mobile menu
-        if (nav && menuToggle) {
+        if (nav) {
           nav.classList.remove('open');
-          menuToggle.textContent = '☰';
-          menuToggle.setAttribute('aria-expanded', 'false');
           document.body.style.overflow = '';
         }
+        if (menuToggle) menuToggle.textContent = '☰';
       }
     });
 
-    // ========================================
-    // 7. Window resize — reset states
-    // ========================================
+    // ----------------------------------------
+    // 5.7 RESIZE — Close menu on desktop
+    // ----------------------------------------
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        // Yoo desktop ta'e — mobile menu cufi
-        if (!isMobile() && nav && menuToggle) {
+        if (!isMobile() && nav && nav.classList.contains('open')) {
           nav.classList.remove('open');
-          menuToggle.textContent = '☰';
+          if (menuToggle) menuToggle.textContent = '☰';
           document.body.style.overflow = '';
         }
       }, 200);
     });
 
-    // ========================================
-    // 8. Scroll effect
-    // ========================================
+    // ----------------------------------------
+    // 5.8 SCROLL EFFECT
+    // ----------------------------------------
     const header = document.querySelector('.header');
     if (header) {
       let ticking = false;
@@ -388,64 +377,42 @@
       }, { passive: true });
     }
 
-    // ========================================
-    // 9. Sync language on change
-    // ========================================
-    window.addEventListener('languageChanged', (e) => {
-      const lang = e.detail?.lang;
-      if (!lang) return;
-      updateLanguageUI(lang);
-    });
-
-    // ========================================
-    // 10. Initial language state
-    // ========================================
-    const currentLang = (typeof window.getCurrentLang === 'function') 
-      ? window.getCurrentLang() 
-      : (localStorage.getItem('mn_lang') || 'om');
-    updateLanguageUI(currentLang);
-
     console.log('✅ Nav events ready');
   }
 
   // ==========================================
-  // CHANGE LANGUAGE
+  // 6. CHANGE LANGUAGE
   // ==========================================
   function changeLanguage(lang) {
     if (!lang) return;
-
+    
     console.log('🌐 Changing language to:', lang);
     localStorage.setItem('mn_lang', lang);
     document.documentElement.lang = lang;
-
-    // Update UI instantly
+    
+    // Update UI
     updateLanguageUI(lang);
-
-    // Call external setLang (i18n.js) if exists
+    
+    // Call external setLang if exists
     if (typeof window.setLang === 'function') {
       try {
         window.setLang(lang);
       } catch (err) {
         console.warn('setLang error:', err);
       }
-    } else {
-      // Fallback: reload page
-      console.log('⚠️ setLang not found — reloading page');
-      setTimeout(() => window.location.reload(), 100);
-      return;
     }
-
-    // Dispatch event for other scripts
+    
+    // Dispatch event
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
   }
 
   function updateLanguageUI(lang) {
     const names = { om: 'Oromiffa', am: 'አማርኛ', en: 'English' };
     
-    // Update current label (desktop dropdown)
+    // Update label
     const currentEl = document.getElementById('navLangCurrent');
     if (currentEl) currentEl.textContent = names[lang] || 'Oromiffa';
-
+    
     // Update active states
     document.querySelectorAll('.nav-lang-item').forEach(i => {
       i.classList.toggle('active', i.dataset.lang === lang);
@@ -456,19 +423,18 @@
   }
 
   // ==========================================
-  // DARK MODE — Universal
+  // 7. DARK MODE — Universal
   // ==========================================
+  const THEME_KEY = 'mn_theme';
+
   function initTheme() {
-    const THEME_KEY = 'mn_theme';
-    
-    // Determine initial theme
     const saved = localStorage.getItem(THEME_KEY);
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initial = saved || (prefersDark ? 'dark' : 'light');
 
     applyTheme(initial);
 
-    // Setup toggle button
+    // Setup toggle
     const toggle = document.getElementById('themeToggle');
     if (toggle) {
       toggle.addEventListener('click', (e) => {
@@ -478,14 +444,14 @@
         applyTheme(next);
         
         // Toast feedback
-        if (window.toast && typeof window.toast.info === 'function') {
+        if (window.toast) {
           const names = { dark: '🌙 Dark Mode', light: '☀️ Light Mode' };
-          window.toast.info(names[next], 'Ifa jijjiirameera');
+          toast.info(names[next], 'Ifa jijjiirameera');
         }
       });
     }
 
-    // Listen to system changes
+    // System preference listener
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem(THEME_KEY)) {
         applyTheme(e.matches ? 'dark' : 'light');
@@ -497,17 +463,23 @@
 
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('mn_theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
 
-    // Update toggle icon
+    // Update icon
     const icon = document.querySelector('.theme-toggle .theme-icon');
     if (icon) {
       icon.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
+
+    // Update nav background (mobile menu)
+    const nav = document.getElementById('nav');
+    if (nav && isMobile()) {
+      nav.style.background = theme === 'dark' ? '#1e293b' : '#ffffff';
+    }
   }
 
   // ==========================================
-  // INIT
+  // 8. INIT
   // ==========================================
   function init() {
     console.log('🚀 nav-master init...');
@@ -525,7 +497,7 @@
     console.log('✅ nav-master ready');
   }
 
-  // Run on DOM ready
+  // Run
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -533,10 +505,9 @@
   }
 
   // ==========================================
-  // GLOBAL EXPORTS
+  // 9. GLOBAL EXPORTS
   // ==========================================
   window.changeLanguage = changeLanguage;
   window.applyTheme = applyTheme;
-  window.updateLanguageUI = updateLanguageUI;
 
 })();
