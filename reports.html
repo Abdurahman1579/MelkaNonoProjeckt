@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="om">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gabaasa fi Iftoomina — Malka Noonoo</title>
+    <meta
+      name="description"
+      content="Gabaasa galii, baasii, qabeenya fi auditii Malka Noonoo — ifa ta'een"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <link rel="stylesheet" href="css/nav-master.css" />
+    <link rel="stylesheet" href="css/reports.css" />
+    <link rel="stylesheet" href="css/ui-ux.css" />
+
+    <!-- Supabase + Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  </head>
+  <body data-page-title="reports.title">
+    <!-- NAV — Automatic (nav-master.js) -->
+
+    <!-- ==========================================
+       PAGE HERO
+       ========================================== -->
+    <section class="page-hero">
+      <div class="container">
+        <h1 data-i18n="reports.title">Gabaasa fi Iftoomina</h1>
+        <p data-i18n="reports.subtitle">
+          Galii, baasii, qabeenya fi gabaasa auditii — ifa ta'een.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       SUMMARY CARDS (Public Dashboard)
+       ========================================== -->
+    <section class="section">
+      <div class="container">
+        <div class="reports-summary">
+          <div class="report-card">
+            <div class="report-icon">💰</div>
+            <div class="report-body">
+              <span class="report-label" data-i18n="reports.total_raised"
+                >Galii Waliigalaa</span
+              >
+              <strong class="report-value" id="repRaised">0 ETB</strong>
+              <span class="report-trend" id="repRaisedTrend">—</span>
+            </div>
+          </div>
+
+          <div class="report-card">
+            <div class="report-icon">💸</div>
+            <div class="report-body">
+              <span class="report-label" data-i18n="reports.total_expenses"
+                >Baasii Waliigalaa</span
+              >
+              <strong class="report-value" id="repExpenses">0 ETB</strong>
+              <span class="report-trend" id="repExpensesTrend">—</span>
+            </div>
+          </div>
+
+          <div class="report-card">
+            <div class="report-icon">🏢</div>
+            <div class="report-body">
+              <span class="report-label" data-i18n="reports.total_assets"
+                >Qabeenya</span
+              >
+              <strong class="report-value" id="repAssets">0</strong>
+              <span class="report-trend" id="repAssetsTrend">—</span>
+            </div>
+          </div>
+
+          <div class="report-card">
+            <div class="report-icon">📊</div>
+            <div class="report-body">
+              <span class="report-label" data-i18n="reports.percent"
+                >Raawwii</span
+              >
+              <strong class="report-value" id="repPercent">0%</strong>
+              <span class="report-trend" id="repPercentTrend">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       TABS — Monthly / Annual / Audit
+       ========================================== -->
+    <section class="section section-alt">
+      <div class="container">
+        <!-- Tab Navigation -->
+        <div class="report-tabs">
+          <button type="button" class="report-tab active" data-tab="monthly">
+            <span>📅</span>
+            <span data-i18n="reports.tab.monthly">Ji'aan</span>
+          </button>
+          <button type="button" class="report-tab" data-tab="annual">
+            <span>📆</span>
+            <span data-i18n="reports.tab.annual">Waggaan</span>
+          </button>
+          <button type="button" class="report-tab" data-tab="audit">
+            <span>🔍</span>
+            <span data-i18n="reports.tab.audit">Audit</span>
+          </button>
+          <button type="button" class="report-tab" data-tab="charts">
+            <span>📈</span>
+            <span data-i18n="reports.tab.charts">Charts</span>
+          </button>
+        </div>
+
+        <!-- ======================================
+           TAB 1: MONTHLY
+           ====================================== -->
+        <div class="report-panel active" data-tab="monthly">
+          <div class="report-header">
+            <div>
+              <h2 data-i18n="reports.monthly.title">Gabaasa Ji'aa</h2>
+              <p class="text-muted" data-i18n="reports.monthly.sub">
+                Galii, baasii fi qabeenya ji'aan ala.
+              </p>
+            </div>
+            <div class="report-controls">
+              <select id="monthSelect"></select>
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="exportMonthlyPDF()"
+              >
+                📄 PDF
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="exportMonthlyExcel()"
+              >
+                📊 Excel
+              </button>
+            </div>
+          </div>
+
+          <!-- Monthly Summary -->
+          <div class="report-grid-3">
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.monthly.revenue"
+                >Galii Ji'aa</span
+              >
+              <strong class="metric-value" id="monthlyRevenue">0 ETB</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.monthly.expenses"
+                >Baasii Ji'aa</span
+              >
+              <strong class="metric-value" id="monthlyExpenses">0 ETB</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.monthly.net"
+                >Bu'aa Qulqulluu</span
+              >
+              <strong class="metric-value" id="monthlyNet">0 ETB</strong>
+            </div>
+          </div>
+
+          <!-- Monthly Donations Table -->
+          <div class="report-section">
+            <h3 data-i18n="reports.monthly.donations">Gumaacha Ji'aa</h3>
+            <div class="table-wrap">
+              <table id="monthlyDonationsTable">
+                <thead>
+                  <tr>
+                    <th data-i18n="table.number">#</th>
+                    <th data-i18n="table.date">Guyyaa</th>
+                    <th data-i18n="table.name">Maqaa</th>
+                    <th data-i18n="table.amount">Gumaacha</th>
+                    <th data-i18n="table.method">Mala</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="loading" data-i18n="loading.generic">
+                      Fe'amaa jira...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Monthly Expenses Table -->
+          <div class="report-section">
+            <h3 data-i18n="reports.monthly.expenses_list">Baasii Ji'aa</h3>
+            <div class="table-wrap">
+              <table id="monthlyExpensesTable">
+                <thead>
+                  <tr>
+                    <th data-i18n="table.number">#</th>
+                    <th data-i18n="table.date">Guyyaa</th>
+                    <th data-i18n="table.category">Ramaddii</th>
+                    <th data-i18n="table.description">Ibsa</th>
+                    <th data-i18n="table.amount">Baasii</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="loading" data-i18n="loading.generic">
+                      Fe'amaa jira...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================
+           TAB 2: ANNUAL
+           ====================================== -->
+        <div class="report-panel" data-tab="annual">
+          <div class="report-header">
+            <div>
+              <h2 data-i18n="reports.annual.title">Gabaasa Waggaa</h2>
+              <p class="text-muted" data-i18n="reports.annual.sub">
+                Gabaasa waggaa guutuu — galii, baasii fi qabeenya.
+              </p>
+            </div>
+            <div class="report-controls">
+              <select id="yearSelect"></select>
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="exportAnnualPDF()"
+              >
+                📄 PDF
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="exportAnnualExcel()"
+              >
+                📊 Excel
+              </button>
+            </div>
+          </div>
+
+          <!-- Annual Summary -->
+          <div class="report-grid-4">
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.annual.revenue"
+                >Galii Waggaa</span
+              >
+              <strong class="metric-value" id="annualRevenue">0 ETB</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.annual.expenses"
+                >Baasii Waggaa</span
+              >
+              <strong class="metric-value" id="annualExpenses">0 ETB</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.annual.net"
+                >Bu'aa Qulqulluu</span
+              >
+              <strong class="metric-value" id="annualNet">0 ETB</strong>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label" data-i18n="reports.annual.donors"
+                >Gumaachitoota</span
+              >
+              <strong class="metric-value" id="annualDonors">0</strong>
+            </div>
+          </div>
+
+          <!-- Annual Chart -->
+          <div class="report-section">
+            <h3 data-i18n="reports.annual.chart">Galii/Baasii Ji'aan</h3>
+            <div class="chart-wrap-lg">
+              <canvas id="annualChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Annual Breakdown -->
+          <div class="report-section">
+            <h3 data-i18n="reports.annual.breakdown">Ramaddii Baasii</h3>
+            <div class="table-wrap">
+              <table id="annualBreakdownTable">
+                <thead>
+                  <tr>
+                    <th data-i18n="table.category">Ramaddii</th>
+                    <th data-i18n="table.amount">Baasii</th>
+                    <th data-i18n="reports.percent_share">%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="3" class="loading" data-i18n="loading.generic">
+                      Fe'amaa jira...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================
+           TAB 3: AUDIT
+           ====================================== -->
+        <div class="report-panel" data-tab="audit">
+          <div class="report-header">
+            <div>
+              <h2 data-i18n="reports.audit.title">Gabaasa Auditii</h2>
+              <p class="text-muted" data-i18n="reports.audit.sub">
+                Gabaasa mirkaneessaa — ifa ta'e.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="exportAuditPDF()"
+            >
+              📄 Audit PDF
+            </button>
+          </div>
+
+          <!-- Audit Summary -->
+          <div class="audit-summary">
+            <div class="audit-item">
+              <div class="audit-item-icon">✅</div>
+              <div>
+                <strong data-i18n="reports.audit.verified"
+                  >Gumaacha Mirkanaa'e</strong
+                >
+                <span id="auditConfirmed">—</span>
+              </div>
+            </div>
+            <div class="audit-item">
+              <div class="audit-item-icon">⏳</div>
+              <div>
+                <strong data-i18n="reports.audit.pending">Pending</strong>
+                <span id="auditPending">—</span>
+              </div>
+            </div>
+            <div class="audit-item">
+              <div class="audit-item-icon">❌</div>
+              <div>
+                <strong data-i18n="reports.audit.failed">Failed</strong>
+                <span id="auditFailed">—</span>
+              </div>
+            </div>
+            <div class="audit-item">
+              <div class="audit-item-icon">📋</div>
+              <div>
+                <strong data-i18n="reports.audit.logs">Sochii Logs</strong>
+                <span id="auditLogs">—</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audit Log Table -->
+          <div class="report-section">
+            <h3 data-i18n="reports.audit.recent">Sochii Dhiyoo</h3>
+            <div class="table-wrap">
+              <table id="auditLogTable">
+                <thead>
+                  <tr>
+                    <th data-i18n="table.number">#</th>
+                    <th data-i18n="reports.audit.time">Yeroo</th>
+                    <th data-i18n="reports.audit.actor">Actor</th>
+                    <th data-i18n="reports.audit.action">Sochii</th>
+                    <th data-i18n="table.description">Ibsa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="loading" data-i18n="loading.generic">
+                      Fe'amaa jira...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Audit Note -->
+          <div class="audit-note">
+            <div class="audit-note-icon">🔒</div>
+            <div>
+              <strong data-i18n="reports.audit.note_title"
+                >Mirkaneessaa Ifa Ta'e</strong
+              >
+              <p data-i18n="reports.audit.note_desc">
+                Gabaasni auditii kun Sochii log hunda dabalata. Fuula dashboard
+                irratti dabalata ilaaluu dandeessa.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================
+           TAB 4: CHARTS
+           ====================================== -->
+        <div class="report-panel" data-tab="charts">
+          <div class="report-header">
+            <div>
+              <h2 data-i18n="reports.charts.title">Gabaasa Suuraa</h2>
+              <p class="text-muted" data-i18n="reports.charts.sub">
+                Galii, baasii fi qabeenya suuraan agarsiifame.
+              </p>
+            </div>
+          </div>
+
+          <!-- Charts Grid -->
+          <div class="report-charts-grid">
+            <div class="chart-card">
+              <h3 data-i18n="reports.chart.revenue">📈 Galii Ji'aan</h3>
+              <div class="chart-wrap">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3 data-i18n="reports.chart.tiers">🥧 Sadarkaa Gumaachaa</h3>
+              <div class="chart-wrap">
+                <canvas id="tiersChart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3 data-i18n="reports.chart.expenses">📊 Baasii Ramaddii</h3>
+              <div class="chart-wrap">
+                <canvas id="expensesChart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card chart-card-wide">
+              <h3 data-i18n="reports.chart.comparison">📉 Galii vs Baasii</h3>
+              <div class="chart-wrap">
+                <canvas id="comparisonChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       TRANSPARENCY CTA
+       ========================================== -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <h2 data-i18n="reports.transparency.title">
+          Ifa Ta'e fi Itti Gaafatamummaa
+        </h2>
+        <p data-i18n="reports.transparency.desc">
+          Gumaachni keessan hundi galmee ifa ta'een hordofama. Gabaasni waggaa
+          fi auditii maxxanfama.
+        </p>
+        <a
+          href="contact.html"
+          class="btn btn-primary btn-lg"
+          data-i18n="nav.contact"
+          >Nu Quunnamaa</a
+        >
+      </div>
+    </section>
+
+    <!-- ==========================================
+       FOOTER
+       ========================================== -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4 data-i18n="brand.name">Malka Noonoo</h4>
+          <p data-i18n-html="footer.address">
+            Mana Marii Dhimmoota Islaamummaa<br />Kutaa Magaalaa Malka Noonoo
+          </p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.links">Geessituu</h4>
+          <a href="index.html" data-i18n="nav.home">Fuula Duraa</a>
+          <a href="about.html" data-i18n="nav.about">Waa'ee</a>
+          <a href="progress.html" data-i18n="nav.progress">Sadarkaa</a>
+          <a href="masgidoota.html" data-i18n="nav.masjidos">Masgiidota</a>
+          <a href="reports.html" data-i18n="nav.reports">Gabaasa</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.support">Deeggarsa</h4>
+          <a href="donate.html" data-i18n="nav.donate">Gumaachi</a>
+          <a href="contact.html" data-i18n="nav.contact">Quunnamtii</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.legal">Seera</h4>
+          <a href="privacy.html" data-i18n="privacy.title">Iccitii</a>
+          <a href="terms.html" data-i18n="terms.title">Waliigaltee</a>
+          <a href="login.html" data-i18n="nav.login">Seensa</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2025 Malka Noonoo Mana Marii.</p>
+      </div>
+    </footer>
+
+    <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/ui-ux.js"></script>
+    <script src="js/nav-master.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/reports.js"></script>
+  </body>
+</html>
