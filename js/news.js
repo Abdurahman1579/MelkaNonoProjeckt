@@ -1,5 +1,5 @@
 // ============================================
-// NEWS.JS — Odeeffannoo (News) + Comments
+// NEWS.JS — Odeeffannoo (News) + Comments + I18N
 // Malka Noonoo Project
 // ============================================
 
@@ -15,66 +15,37 @@ const newsState = {
 };
 
 // ============================================
-// 2. FALLBACK SAMPLE DATA
+// 2. FALLBACK SAMPLE DATA (Keys waliin)
 // ============================================
 const SAMPLE_NEWS = [
   {
     id: 1,
-    title: 'Piroojektiin ijaarsaa jalqabame',
-    excerpt: 'Jaarmiyaa G+3 bittuuf tartiiba jalqabnee jirra. Gumaachitoonni hirmaachaa jiru.',
-    body: `Piroojektiin Mana Marii Dhimmoota Islaamummaa Malka Noonoo Kutaa Magaalaa jalqabameera.
-
-Jaarmiyaa G+3 bittuu fi meeshaalee biroo bituuf tartiibni hojii jalqabameera. Hawaasa bal'aan hirmaachaa jira.
-
-Nagaa fi galatoomaa hawaasa hundaaf!`,
+    titleKey: 'news.sample.1.title',
+    bodyKey: 'news.sample.1.body',
     category: 'announcement',
     icon: '📢',
     date: '2025-01-15'
   },
   {
     id: 2,
-    title: 'Gabaasa raawwii — Ji\'a 1',
-    excerpt: 'Galii waliigalaa hanga ammaatti argame fi hojiiwwan raawwataman.',
-    body: `Ji'a jalqabaa keessatti galii gaarii argameera.
-
-Hojiiwwan raawwataman:
-• Walgahii hoggansaa
-• Koree piroojektii uumuu
-• Gumaacha walitti qabuu
-
-Gabaasa guutuu ji'aan ala maxxanfama.`,
+    titleKey: 'news.sample.2.title',
+    bodyKey: 'news.sample.2.body',
     category: 'progress',
     icon: '📊',
     date: '2025-02-01'
   },
   {
     id: 3,
-    title: 'Sagantaa gumaacha hawaasaa',
-    excerpt: 'Sagantaan gumaacha hawaasaa aanaalee sadeen keessatti gaggeeffama.',
-    body: `Sagantaan gumaacha hawaasaa aanaalee Malka Gafarsa, Bero, fi Nono keessatti gaggeeffama.
-
-Guyyaa: Wiixata dhufu
-Yeroo: 3:00 PM
-Bakka: Masgiida Al-Nuur
-
-Hirmaannaan keessan barbaachisaa dha!`,
+    titleKey: 'news.sample.3.title',
+    bodyKey: 'news.sample.3.body',
     category: 'event',
     icon: '🎉',
     date: '2025-02-10'
   },
   {
     id: 4,
-    title: 'Ifa ta\'e — Gabaasa faayinaansii',
-    excerpt: 'Gabaasni faayinaansii ifa ta\'een maxxanfameera. Ilaaluu dandeessu.',
-    body: `Gabaasni faayinaansii piroojektii ifa ta'een maxxanfameera.
-
-Qabiyyee:
-• Galii ji'aa
-• Baasii ji'aa
-• Qabeenya jira
-• Karoora itti aanu
-
-Gabaasa guutuu dashboard irratti argita.`,
+    titleKey: 'news.sample.4.title',
+    bodyKey: 'news.sample.4.body',
     category: 'press',
     icon: '📰',
     date: '2025-02-20'
@@ -82,7 +53,66 @@ Gabaasa guutuu dashboard irratti argita.`,
 ];
 
 // ============================================
-// 3. INIT
+// 3. HELPERS
+// ============================================
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || '';
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+}
+
+// ============================================
+// 4. TRANSLATE NEWS ITEM
+// ============================================
+function translateNews(n) {
+  const lang = (typeof getCurrentLang === 'function')
+    ? getCurrentLang()
+    : (localStorage.getItem('mn_lang') || 'om');
+
+  // Yoo sample (hardcoded keys)
+  if (n.titleKey) {
+    return {
+      ...n,
+      _title: tr(n.titleKey, ''),
+      _body: tr(n.bodyKey, ''),
+      _excerpt: tr(n.bodyKey, '').substring(0, 120) + '...'
+    };
+  }
+
+  // DB content — Priority 1: columns
+  let title = n.title || '';
+  let body = n.body || '';
+
+  if (lang === 'am' && n.title_am) {
+    title = n.title_am;
+    body = n.body_am || body;
+  } else if (lang === 'en' && n.title_en) {
+    title = n.title_en;
+    body = n.body_en || body;
+  }
+
+  return {
+    ...n,
+    _title: title,
+    _body: body,
+    _excerpt: (body || '').substring(0, 120) + ((body || '').length > 120 ? '...' : '')
+  };
+}
+
+// ============================================
+// 5. INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', initNews);
 
@@ -98,7 +128,7 @@ async function initNews() {
 }
 
 // ============================================
-// 4. LOAD NEWS
+// 6. LOAD NEWS
 // ============================================
 async function loadNews() {
   try {
@@ -117,8 +147,11 @@ async function loadNews() {
       newsState.allNews = data.map((a, i) => ({
         id: a.id,
         title: a.title,
-        excerpt: (a.body || '').substring(0, 120) + ((a.body || '').length > 120 ? '...' : ''),
         body: a.body || '',
+        title_am: a.title_am || null,
+        title_en: a.title_en || null,
+        body_am: a.body_am || null,
+        body_en: a.body_en || null,
         category: a.category || 'announcement',
         icon: getCategoryIcon(a.category, i),
         date: a.created_at
@@ -129,7 +162,6 @@ async function loadNews() {
     renderNews(newsState.filtered);
 
     console.log(`✅ Loaded ${newsState.allNews.length} news`);
-
   } catch (err) {
     console.error('❌ News load error:', err);
     newsState.allNews = SAMPLE_NEWS;
@@ -153,7 +185,7 @@ function getCategoryIcon(category, index = 0) {
 }
 
 // ============================================
-// 5. RENDER NEWS GRID
+// 7. RENDER NEWS GRID
 // ============================================
 function renderNews(list) {
   const grid = document.getElementById('newsGrid');
@@ -163,51 +195,49 @@ function renderNews(list) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column: 1/-1;">
         <div class="empty-state-illustration">📰</div>
-        <h3 class="empty-state-title" data-i18n="news.empty">Odeeffannoon hin jiru.</h3>
-        <p class="empty-state-desc">Filters jijjiirii ykn booda deebi'i.</p>
+        <h3 class="empty-state-title">${tr('news.empty', 'Odeeffannoon hin jiru.')}</h3>
+        <p class="empty-state-desc">${tr('empty.search', 'Filters jijjiirii ykn booda deebi\'i.')}</p>
       </div>
     `;
     return;
   }
 
   const categoryLabels = {
-    announcement: t('news.cat.announcement') || 'Beeksisa',
-    progress: t('news.cat.progress') || 'Gabaasa',
-    event: t('news.cat.event') || 'Sagantaa',
-    press: t('news.cat.press') || 'Gaazexaa'
+    announcement: tr('news.cat.announcement', 'Beeksisa'),
+    progress: tr('news.cat.progress', 'Gabaasa'),
+    event: tr('news.cat.event', 'Sagantaa'),
+    press: tr('news.cat.press', 'Gaazexaa')
   };
 
-  grid.innerHTML = list.map(n => `
-    <article class="news-card" data-id="${n.id}" onclick="openNews(${n.id})">
-      <div class="news-image">
-        <span class="news-category">${categoryLabels[n.category] || n.category}</span>
-        ${n.icon || '📰'}
-      </div>
-      <div class="news-body">
-        <div class="news-date">
-          📅 ${new Date(n.date).toLocaleDateString('om-ET', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
+  grid.innerHTML = list.map(n => {
+    const tn = translateNews(n);
+    return `
+      <article class="news-card" data-id="${n.id}" onclick="openNews(${n.id})">
+        <div class="news-image">
+          <span class="news-category">${categoryLabels[n.category] || n.category}</span>
+          ${n.icon || '📰'}
         </div>
-        <h3>${escapeHtml(n.title)}</h3>
-        <p>${escapeHtml(n.excerpt || '')}</p>
-        <div class="news-read-more">
-          <span data-i18n="news.readmore">Dubbisi</span> →
+        <div class="news-body">
+          <div class="news-date">
+            📅 ${new Date(n.date).toLocaleDateString('om-ET', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </div>
+          <h3>${escapeHtml(tn._title)}</h3>
+          <p>${escapeHtml(tn._excerpt)}</p>
+          <div class="news-read-more">
+            <span>${tr('news.readmore', 'Dubbisi')}</span> →
+          </div>
         </div>
-      </div>
-    </article>
-  `).join('');
-
-  // Apply translations on new elements
-  if (typeof applyTranslations === 'function') {
-    applyTranslations();
-  }
+      </article>
+    `;
+  }).join('');
 }
 
 // ============================================
-// 6. FILTERS
+// 8. FILTERS
 // ============================================
 function setupFilters() {
   const search = document.getElementById('newsSearch');
@@ -222,10 +252,11 @@ function applyFilters() {
   const cat = document.getElementById('newsCategory')?.value || '';
 
   newsState.filtered = newsState.allNews.filter(n => {
-    const matchesQ = !q || 
-      n.title.toLowerCase().includes(q) || 
-      (n.excerpt || '').toLowerCase().includes(q) ||
-      (n.body || '').toLowerCase().includes(q);
+    const tn = translateNews(n);
+    const matchesQ = !q ||
+      tn._title.toLowerCase().includes(q) ||
+      tn._excerpt.toLowerCase().includes(q) ||
+      tn._body.toLowerCase().includes(q);
     const matchesCat = !cat || n.category === cat;
     return matchesQ && matchesCat;
   });
@@ -234,7 +265,7 @@ function applyFilters() {
 }
 
 // ============================================
-// 7. OPEN NEWS — MODAL + COMMENTS
+// 9. OPEN NEWS — MODAL + COMMENTS
 // ============================================
 function openNews(id) {
   const news = newsState.allNews.find(n => n.id === id);
@@ -245,55 +276,54 @@ function openNews(id) {
 
   const modal = document.getElementById('newsModal');
   const body = document.getElementById('modalBody');
-
   if (!modal || !body) return;
 
+  const tn = translateNews(news);
+
   const categoryLabels = {
-    announcement: t('news.cat.announcement') || 'Beeksisa',
-    progress: t('news.cat.progress') || 'Gabaasa',
-    event: t('news.cat.event') || 'Sagantaa',
-    press: t('news.cat.press') || 'Gaazexaa'
+    announcement: tr('news.cat.announcement', 'Beeksisa'),
+    progress: tr('news.cat.progress', 'Gabaasa'),
+    event: tr('news.cat.event', 'Sagantaa'),
+    press: tr('news.cat.press', 'Gaazexaa')
   };
 
   body.innerHTML = `
     <div class="modal-hero">
       <span class="news-category">${categoryLabels[news.category] || news.category}</span>
-      <h2>${escapeHtml(news.title)}</h2>
+      <h2>${escapeHtml(tn._title)}</h2>
       <div class="news-date">
-        📅 ${new Date(news.date).toLocaleDateString('om-ET', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
+        📅 ${new Date(news.date).toLocaleDateString('om-ET', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
         })}
       </div>
     </div>
 
-    <div class="modal-text">${escapeHtml(news.body || news.excerpt)}</div>
-    
-    <!-- 🆕 COMMENTS SECTION -->
+    <div class="modal-text">${escapeHtml(tn._body)}</div>
+
+    <!-- COMMENTS SECTION -->
     <div class="modal-comments" id="commentsContainer">
-      <div class="loading">💬 Yaada fe'amaa jira...</div>
+      <div class="loading">${tr('loading.generic', 'Fe\'amaa jira...')}</div>
     </div>
   `;
 
-  // Open modal
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
   console.log('📖 Opened news:', id);
 
-  // 🆕 Load comments
+  // Load comments
   setTimeout(() => {
     if (typeof window.renderCommentsInModal === 'function') {
       window.renderCommentsInModal(news.id, 'commentsContainer');
     } else {
-      console.warn('⚠️ comments.js hin fe\'amne');
       const container = document.getElementById('commentsContainer');
       if (container) {
         container.innerHTML = `
           <div class="comments-empty">
             <div class="comments-empty-icon">💬</div>
-            <p>Comments feature hin jiru.</p>
+            <p>${tr('comments.error', 'Comments hin jiru.')}</p>
           </div>
         `;
       }
@@ -302,7 +332,7 @@ function openNews(id) {
 }
 
 // ============================================
-// 8. CLOSE MODAL
+// 10. CLOSE MODAL
 // ============================================
 function closeModal() {
   const modal = document.getElementById('newsModal');
@@ -310,50 +340,39 @@ function closeModal() {
 
   modal.classList.remove('open');
   document.body.style.overflow = '';
-  
   console.log('📖 Modal closed');
 }
 
-// ============================================
-// 9. MODAL EVENTS
-// ============================================
 function setupModalEvents() {
-  // Close button
   document.getElementById('modalClose')?.addEventListener('click', closeModal);
 
-  // Outside click
   document.getElementById('newsModal')?.addEventListener('click', (e) => {
     if (e.target.id === 'newsModal') closeModal();
   });
 
-  // ESC key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
 }
 
 // ============================================
-// 10. LANGUAGE CHANGE
+// 11. LANGUAGE CHANGE
 // ============================================
 window.addEventListener('languageChanged', () => {
+  console.log('🌐 Language changed — re-rendering news');
   renderNews(newsState.filtered);
-});
 
-// ============================================
-// 11. HELPERS
-// ============================================
-function escapeHtml(str) {
-  return String(str || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  }[c]));
-}
+  // Yoo modal banaa jira — deebi'ii banii
+  const modal = document.getElementById('newsModal');
+  if (modal && modal.classList.contains('open')) {
+    // Modal cufi (sababni: comments reload)
+    console.log('ℹ️ Modal open — hintalla');
+  }
+});
 
 // ============================================
 // 12. GLOBAL EXPORTS
 // ============================================
 window.openNews = openNews;
 window.closeModal = closeModal;
+window.SAMPLE_NEWS = SAMPLE_NEWS;

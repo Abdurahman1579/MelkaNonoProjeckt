@@ -1,58 +1,95 @@
 // ============================================
-// TEAM PAGE
+// TEAM PAGE — I18N SUPPORT
+// Malka Noonoo Project
 // ============================================
 
+console.log('👥 team.js loaded');
+
+// ============================================
+// 1. TEAM DATA — Maqaan qofa (proper nouns)
+// Roles/bios translations.js irraa dhufu
+// ============================================
 const TEAM_DATA = {
   leadership: [
     {
+      id: 1,
       name: 'Sheikh Ahmed Ibrahim',
-      role: 'Hoggansa Ol\'aanaa',
-      bio: 'Hoggansa Mana Marii — waggaa 15 muuxannoo qaba.',
+      roleKey: 'team.role.chairman',
+      bioKey: 'team.bio.chairman',
       initials: 'AI',
       phone: '+251911000001',
       email: 'chair@malkanoonoo.org'
     },
     {
+      id: 2,
       name: 'Ustadh Yusuf Mohammed',
-      role: 'Imaama fi Dubbii',
-      bio: 'Ogeessa dubbii fi barnoota Islaamaa.',
+      roleKey: 'team.role.imam',
+      bioKey: 'team.bio.imam',
       initials: 'YM',
       phone: '+251911000002',
       email: 'imam@malkanoonoo.org'
     },
     {
+      id: 3,
       name: 'Dr. Omar Hussein',
-      role: 'Gorsaa Ol\'aanaa',
-      bio: 'Ogeessa faayinaansii — PhD Economics.',
+      roleKey: 'team.role.advisor',
+      bioKey: 'team.bio.advisor',
       initials: 'OH',
       phone: '+251911000003',
       email: 'advisor@malkanoonoo.org'
     }
   ],
   committee: [
-    { name: 'Ahmed Abdi', role: 'Hoggansa Piroojektii', initials: 'AA' },
-    { name: 'Fatima Ali', role: 'Faayinaansii', initials: 'FA' },
-    { name: 'Ibrahim Nur', role: 'Gumaacha', initials: 'IN' },
-    { name: 'Zainab Hassan', role: 'Qabeenya', initials: 'ZH' },
-    { name: 'Mohammed Said', role: 'Qabeenya Bulchiinsa', initials: 'MS' },
-    { name: 'Halima Ahmed', role: 'Bittaa', initials: 'HA' },
-    { name: 'Yusuf Karim', role: 'Qophii Keessaa', initials: 'YK' },
-    { name: 'Aisha Omar', role: 'Kireeffannaa', initials: 'AO' },
-    { name: 'Bilal Mohammed', role: 'Hordoffii & Gabaasa', initials: 'BM' }
+    { id: 4, name: 'Ahmed Abdi', roleKey: 'team.role.project_head', initials: 'AA' },
+    { id: 5, name: 'Fatima Ali', roleKey: 'team.role.finance', initials: 'FA' },
+    { id: 6, name: 'Ibrahim Nur', roleKey: 'team.role.fundraising', initials: 'IN' },
+    { id: 7, name: 'Zainab Hassan', roleKey: 'team.role.assets', initials: 'ZH' },
+    { id: 8, name: 'Mohammed Said', roleKey: 'team.role.asset_mgmt', initials: 'MS' },
+    { id: 9, name: 'Halima Ahmed', roleKey: 'team.role.procurement', initials: 'HA' },
+    { id: 10, name: 'Yusuf Karim', roleKey: 'team.role.internal_setup', initials: 'YK' },
+    { id: 11, name: 'Aisha Omar', roleKey: 'team.role.rental', initials: 'AO' },
+    { id: 12, name: 'Bilal Mohammed', roleKey: 'team.role.monitoring', initials: 'BM' }
   ],
   advisory: [
-    { name: 'Dr. Ibrahim Hassan', role: 'Ogeessa Seeraa', initials: 'IH' },
-    { name: 'Engineer Ali Yusuf', role: 'Ogeessa Ijaarsaa', initials: 'AY' },
-    { name: 'CPA Fatuma Ahmed', role: 'Audit', initials: 'FA' },
-    { name: 'Dr. Aisha Mohammed', role: 'Ogeessa Barnootaa', initials: 'AM' }
+    { id: 13, name: 'Dr. Ibrahim Hassan', roleKey: 'team.role.legal', initials: 'IH' },
+    { id: 14, name: 'Engineer Ali Yusuf', roleKey: 'team.role.engineer', initials: 'AY' },
+    { id: 15, name: 'CPA Fatuma Ahmed', roleKey: 'team.role.audit', initials: 'FA' },
+    { id: 16, name: 'Dr. Aisha Mohammed', roleKey: 'team.role.education', initials: 'AM' }
   ]
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderTeam();
-});
+// ============================================
+// 2. HELPERS
+// ============================================
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || '';
+}
 
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+}
+
+// ============================================
+// 3. INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', renderTeam);
+window.addEventListener('languageChanged', renderTeam);
+
+// ============================================
+// 4. RENDER TEAM
+// ============================================
 function renderTeam() {
+  console.log('🎨 Rendering team...');
   renderGroup('leadershipGrid', TEAM_DATA.leadership, true);
   renderGroup('committeeGrid', TEAM_DATA.committee, false);
   renderGroup('advisoryGrid', TEAM_DATA.advisory, false);
@@ -62,25 +99,36 @@ function renderGroup(elementId, list, showContact) {
   const grid = document.getElementById(elementId);
   if (!grid) return;
 
-  if (!list.length) {
+  if (!list || !list.length) {
     grid.innerHTML = `<div class="loading">—</div>`;
     return;
   }
 
-  grid.innerHTML = list.map(p => `
-    <div class="team-card">
-      <div class="team-avatar">${p.initials || p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}</div>
-      <h3>${p.name}</h3>
-      <div class="team-role">${p.role}</div>
-      ${p.bio ? `<p class="team-bio">${p.bio}</p>` : ''}
-      ${showContact && (p.phone || p.email) ? `
-        <div class="team-contact">
-          ${p.phone ? `<a href="tel:${p.phone}" title="Bilbila">📞</a>` : ''}
-          ${p.email ? `<a href="mailto:${p.email}" title="Email">✉️</a>` : ''}
+  grid.innerHTML = list.map(p => {
+    const role = tr(p.roleKey, '');
+    const bio = p.bioKey ? tr(p.bioKey, '') : '';
+
+    return `
+      <div class="team-card">
+        <div class="team-avatar">
+          ${escapeHtml(p.initials || p.name.split(' ').map(n => n[0]).join('').slice(0, 2))}
         </div>
-      ` : ''}
-    </div>
-  `).join('');
+        <h3>${escapeHtml(p.name)}</h3>
+        <div class="team-role">${escapeHtml(role)}</div>
+        ${bio ? `<p class="team-bio">${escapeHtml(bio)}</p>` : ''}
+        ${showContact && (p.phone || p.email) ? `
+          <div class="team-contact">
+            ${p.phone ? `<a href="tel:${p.phone}" title="Bilbila">📞</a>` : ''}
+            ${p.email ? `<a href="mailto:${p.email}" title="Email">✉️</a>` : ''}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
 }
 
-window.addEventListener('languageChanged', renderTeam);
+// ============================================
+// 5. GLOBAL EXPORTS
+// ============================================
+window.TEAM_DATA = TEAM_DATA;
+window.renderTeam = renderTeam;

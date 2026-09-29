@@ -1,7 +1,9 @@
 // ============================================
-// MASJIDOS.JS — Grid + Map + Autocomplete
+// MASJIDOS.JS — Grid + Map + Autocomplete + I18N
 // Malka Noonoo Project
 // ============================================
+
+console.log('🕌 masjidos.js loaded');
 
 // ---------- State ----------
 const masjidState = {
@@ -14,35 +16,66 @@ const masjidState = {
 };
 
 // ============================================
-// INIT
+// 1. TRANSLATION HELPER (DB content)
+// ============================================
+function translateMasjid(m) {
+  const lang = (typeof getCurrentLang === 'function')
+    ? getCurrentLang()
+    : (localStorage.getItem('mn_lang') || 'om');
+
+  // Priority 1: DB columns
+  if (lang === 'am' && m.name_am) {
+    return {
+      ...m,
+      _name: m.name_am,
+      _description: m.description_am || m.description,
+      _kebele: m.kebele,
+      _woreda: m.woreda
+    };
+  }
+  if (lang === 'en' && m.name_en) {
+    return {
+      ...m,
+      _name: m.name_en,
+      _description: m.description_en || m.description,
+      _kebele: m.kebele,
+      _woreda: m.woreda
+    };
+  }
+  // Priority 2: Fallback — DB default
+  return {
+    ...m,
+    _name: m.name || '—',
+    _description: m.description || '',
+    _kebele: m.kebele,
+    _woreda: m.woreda
+  };
+}
+
+// ============================================
+// 2. INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', initMasjidos);
 
 async function initMasjidos() {
   console.log('🕌 Init masjidos...');
 
-  // Show skeleton
   const grid = document.getElementById('masjidGrid');
   if (grid) {
     grid.innerHTML = skeletonGrid ? skeletonGrid(6) : '<div class="loading">Fe\'amaa jira...</div>';
   }
 
-  // Fetch
   await loadMasjidos();
-
-  // Setup
   setupSearch();
   setupFilters();
   setupViewToggle();
-
-  // Render
   applyFilters();
 
   console.log(`✅ Loaded ${masjidState.all.length} masjidos`);
 }
 
 // ============================================
-// LOAD DATA
+// 3. LOAD DATA
 // ============================================
 async function loadMasjidos() {
   try {
@@ -54,7 +87,6 @@ async function loadMasjidos() {
     if (error) throw error;
     masjidState.all = data || [];
 
-    // Yoo empty ta'e — sample data
     if (!masjidState.all.length) {
       console.warn('⚠️ No masjidos — sample data fayyadama');
       masjidState.all = getSampleMasjidos();
@@ -68,14 +100,14 @@ async function loadMasjidos() {
 
 function getSampleMasjidos() {
   return [
-    { id: 1, name: 'Masgiida Al-Nuur', woreda: 'Malka Gafarsa', kebele: 'Kebele 01', member_count: 250, latitude: 9.0100, longitude: 38.7600, imam_name: 'Sheikh Ahmed Ibrahim' },
-    { id: 2, name: 'Masgiida Al-Furqan', woreda: 'Bero', kebele: 'Kebele 02', member_count: 180, latitude: 9.0150, longitude: 38.7650 },
-    { id: 3, name: 'Masgiida Al-Hidaya', woreda: 'Nono', kebele: 'Kebele 03', member_count: 320, latitude: 9.0200, longitude: 38.7700 }
+    { id: 1, name: 'Masgiida Al-Nuur', name_am: 'የአል-ኑር መስጊድ', name_en: 'Al-Nuur Masjid', woreda: 'Malka Gafarsa', kebele: 'Kebele 01', member_count: 250, latitude: 9.0100, longitude: 38.7600, imam_name: 'Sheikh Ahmed Ibrahim' },
+    { id: 2, name: 'Masgiida Al-Furqan', name_am: 'የአል-ፉርቃን መስጊድ', name_en: 'Al-Furqan Masjid', woreda: 'Bero', kebele: 'Kebele 02', member_count: 180, latitude: 9.0150, longitude: 38.7650 },
+    { id: 3, name: 'Masgiida Al-Hidaya', name_am: 'የአል-ሂዳያ መስጊድ', name_en: 'Al-Hidaya Masjid', woreda: 'Nono', kebele: 'Kebele 03', member_count: 320, latitude: 9.0200, longitude: 38.7700 }
   ];
 }
 
 // ============================================
-// SEARCH + AUTOCOMPLETE
+// 4. SEARCH + AUTOCOMPLETE
 // ============================================
 function setupSearch() {
   const input = document.getElementById('searchMasjid');
@@ -104,7 +136,6 @@ function setupSearch() {
     if (e.target.value.trim().length > 0) showAutocomplete(e.target.value.trim());
   });
 
-  // Keyboard nav
   input.addEventListener('keydown', (e) => {
     const items = dropdown.querySelectorAll('.autocomplete-item');
     if (!items.length) return;
@@ -130,14 +161,12 @@ function setupSearch() {
     }
   });
 
-  // Click outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.search-autocomplete-wrap')) {
       closeAutocomplete();
     }
   });
 
-  // Clear
   clearBtn.addEventListener('click', () => {
     input.value = '';
     clearBtn.style.display = 'none';
@@ -151,47 +180,45 @@ function showAutocomplete(query) {
   const dropdown = document.getElementById('autocompleteDropdown');
   const q = query.toLowerCase();
 
-  // Find matches
   const matches = masjidState.all
     .filter(m => {
-      const text = `${m.name} ${m.woreda} ${m.kebele || ''} ${m.imam_name || ''}`.toLowerCase();
+      const translated = translateMasjid(m);
+      const text = `${translated._name} ${m.name} ${m.woreda} ${m.kebele || ''} ${m.imam_name || ''}`.toLowerCase();
       return text.includes(q);
     })
-    .slice(0, 8); // Max 8
+    .slice(0, 8);
 
   if (!matches.length) {
     dropdown.innerHTML = `
       <div class="autocomplete-empty">
-        🔍 "${escapeHtml(query)}" — hin argamne
+        🔍 "${escapeHtml(query)}" — ${tr('empty.results', 'hin argamne')}
       </div>
     `;
     dropdown.classList.add('open');
     return;
   }
 
-  dropdown.innerHTML = matches.map((m, i) => `
-    <div class="autocomplete-item" data-id="${m.id}" data-index="${i}">
-      <span class="autocomplete-item-icon">🕌</span>
-      <div class="autocomplete-item-body">
-        <div class="autocomplete-item-title">${highlight(m.name, query)}</div>
-        <div class="autocomplete-item-sub">${m.woreda} • ${m.kebele || ''}</div>
+  dropdown.innerHTML = matches.map((m, i) => {
+    const t = translateMasjid(m);
+    return `
+      <div class="autocomplete-item" data-id="${m.id}" data-index="${i}">
+        <span class="autocomplete-item-icon">🕌</span>
+        <div class="autocomplete-item-body">
+          <div class="autocomplete-item-title">${highlight(t._name, query)}</div>
+          <div class="autocomplete-item-sub">${escapeHtml(m.woreda)} • ${escapeHtml(m.kebele || '')}</div>
+        </div>
+        <span class="autocomplete-item-badge">${m.member_count || 0}</span>
       </div>
-      <span class="autocomplete-item-badge">${m.member_count || 0}</span>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   dropdown.classList.add('open');
   masjidState.autocompleteIndex = -1;
 
-  // Click handlers
   dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
     item.addEventListener('click', () => {
       const id = Number(item.dataset.id);
-      const masjid = masjidState.all.find(m => m.id === id);
-      if (masjid) {
-        // Navigate to detail page
-        window.location.href = `masjid-detail.html?id=${id}`;
-      }
+      window.location.href = `masjid-detail.html?id=${id}`;
     });
   });
 }
@@ -216,18 +243,8 @@ function highlight(text, query) {
   return escapeHtml(text).replace(regex, '<span class="autocomplete-highlight">$1</span>');
 }
 
-function escapeHtml(str) {
-  return String(str || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
-}
-
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 // ============================================
-// FILTERS
+// 5. FILTERS
 // ============================================
 function setupFilters() {
   document.getElementById('filterWoreda')?.addEventListener('change', applyFilters);
@@ -238,7 +255,8 @@ function applyFilters() {
   const woreda = document.getElementById('filterWoreda')?.value || '';
 
   masjidState.filtered = masjidState.all.filter(m => {
-    const text = `${m.name} ${m.woreda} ${m.kebele || ''} ${m.imam_name || ''}`.toLowerCase();
+    const t = translateMasjid(m);
+    const text = `${t._name} ${m.name} ${m.woreda} ${m.kebele || ''} ${m.imam_name || ''}`.toLowerCase();
     const matchesQ = !q || text.includes(q);
     const matchesWoreda = !woreda || m.woreda === woreda;
     return matchesQ && matchesWoreda;
@@ -254,7 +272,7 @@ function updateStats() {
   const breakdownEl = document.getElementById('woredaBreakdown');
 
   if (countEl) {
-    countEl.textContent = `${masjidState.filtered.length} masgiidota`;
+    countEl.textContent = `${masjidState.filtered.length} ${tr('masjidos.count', 'masgiidota')}`;
   }
 
   if (breakdownEl) {
@@ -269,7 +287,7 @@ function updateStats() {
 }
 
 // ============================================
-// GRID VIEW
+// 6. GRID VIEW
 // ============================================
 function renderGrid(list) {
   const grid = document.getElementById('masjidGrid');
@@ -278,19 +296,19 @@ function renderGrid(list) {
   if (!list.length) {
     grid.innerHTML = createEmptyState({
       icon: '🕌',
-      title: 'Masgiida hin argamne',
-      message: 'Filters jijjiirii ykn barbaadi.',
+      title: tr('masjidos.not_found', 'Masgiida hin argamne'),
+      message: tr('masjidos.not_found.desc', 'Filters jijjiirii ykn barbaadi.'),
     });
     return;
   }
 
   grid.innerHTML = list.map(m => {
-    // First photo if exists
+    const t = translateMasjid(m);
     const photos = Array.isArray(m.photos) ? m.photos : [];
     const firstPhoto = photos[0];
 
     const imageContent = firstPhoto
-      ? `<img src="${firstPhoto}" alt="${escapeHtml(m.name)}" class="masjid-photo" loading="lazy" />`
+      ? `<img src="${firstPhoto}" alt="${escapeHtml(t._name)}" class="masjid-photo" loading="lazy" />`
       : `<span>🕌</span>`;
 
     return `
@@ -300,13 +318,13 @@ function renderGrid(list) {
           ${imageContent}
         </div>
         <div class="masjid-card-body">
-          <h3>${escapeHtml(m.name)}</h3>
+          <h3>${escapeHtml(t._name)}</h3>
           <p class="masjid-loc">
             <span>📍</span> ${escapeHtml(m.kebele || '')}
           </p>
           <div class="masjid-members">
             <span>👥</span>
-            <span>${m.member_count || 0} miseensota</span>
+            <span>${m.member_count || 0} ${tr('masjidos.members', 'miseensota')}</span>
             <span class="masjid-card-arrow">→</span>
           </div>
         </div>
@@ -316,7 +334,7 @@ function renderGrid(list) {
 }
 
 // ============================================
-// MAP VIEW
+// 7. MAP VIEW
 // ============================================
 function setupViewToggle() {
   document.querySelectorAll('.view-btn').forEach(btn => {
@@ -345,9 +363,8 @@ function initMap() {
   if (masjidState.map) return;
 
   const mapEl = document.getElementById('masjidosMap');
-  if (!mapEl) return;
+  if (!mapEl || typeof L === 'undefined') return;
 
-  // Default center: Sheger / Addis
   masjidState.map = L.map('masjidosMap').setView([9.0100, 38.7600], 12);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -361,18 +378,12 @@ function initMap() {
 function updateMap() {
   if (!masjidState.map) return;
 
-  // Clear existing markers
   masjidState.markers.forEach(m => masjidState.map.removeLayer(m));
   masjidState.markers = [];
 
-  // Filter valid coords
-  const validMasjidos = masjidState.filtered.filter(m =>
-    m.latitude && m.longitude
-  );
-
+  const validMasjidos = masjidState.filtered.filter(m => m.latitude && m.longitude);
   if (!validMasjidos.length) return;
 
-  // Custom icon
   const customIcon = L.divIcon({
     className: 'masjid-marker',
     html: '<div class="masjid-marker-pin"><span>🕌</span></div>',
@@ -381,22 +392,21 @@ function updateMap() {
     popupAnchor: [0, -40]
   });
 
-  // Add markers
   validMasjidos.forEach(m => {
+    const t = translateMasjid(m);
     const marker = L.marker([m.latitude, m.longitude], { icon: customIcon })
       .addTo(masjidState.map)
       .bindPopup(`
         <div class="map-popup">
-          <h4>${escapeHtml(m.name)}</h4>
+          <h4>${escapeHtml(t._name)}</h4>
           <p>${escapeHtml(m.woreda)} • ${escapeHtml(m.kebele || '')}</p>
-          <a href="masjid-detail.html?id=${m.id}">Ilaali →</a>
+          <a href="masjid-detail.html?id=${m.id}">${tr('masjidos.arrow', 'Ilaali')} →</a>
         </div>
       `);
 
     masjidState.markers.push(marker);
   });
 
-  // Fit bounds
   if (masjidState.markers.length) {
     const group = L.featureGroup(masjidState.markers);
     masjidState.map.fitBounds(group.getBounds().pad(0.15));
@@ -404,8 +414,31 @@ function updateMap() {
 }
 
 // ============================================
-// LANGUAGE CHANGE
+// 8. HELPERS
+// ============================================
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || '';
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ============================================
+// 9. LANGUAGE CHANGE
 // ============================================
 window.addEventListener('languageChanged', () => {
+  console.log('🌐 Language changed — re-rendering masjidos');
   renderGrid(masjidState.filtered);
+  updateMap();
 });

@@ -1,29 +1,21 @@
 // ============================================
-// MAIN JS — Navigation & Interactions
+// MAIN JS — Counter Animation + Scroll Reveal
+// Malka Noonoo Project
 // ============================================
+// ⚠️ NOTE: Menu toggle nav-master.js keessatti hojjeta.
+//    Kun faayilii counter fi scroll-reveal qofa qaba.
 
-// Menu toggle (mobile)
-const menuToggle = document.getElementById("menuToggle");
-const nav = document.getElementById("nav");
-
-if (menuToggle && nav) {
-  menuToggle.addEventListener("click", () => {
-    nav.classList.toggle("open");
-  });
-
-  // Nav link click = close menu
-  nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => nav.classList.remove("open"));
-  });
-}
+console.log('⚙️ main.js loaded');
 
 // ============================================
-// COUNTER ANIMATION
+// 1. COUNTER ANIMATION
 // ============================================
 function animateValue(el, start, end, duration = 1500) {
+  if (!el) return;
+
   const startTime = performance.now();
   const isCurrency =
-    el.textContent.includes("ETB") || el.dataset.currency === "true";
+    el.textContent.includes('ETB') || el.dataset.currency === 'true';
 
   function update(currentTime) {
     const elapsed = currentTime - startTime;
@@ -39,27 +31,64 @@ function animateValue(el, start, end, duration = 1500) {
 
     if (progress < 1) requestAnimationFrame(update);
   }
+
   requestAnimationFrame(update);
 }
 
 // ============================================
-// SCROLL REVEAL
+// 2. SCROLL REVEAL (IntersectionObserver)
 // ============================================
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-      }
-    });
-  },
-  { threshold: 0.1 },
-);
+function initScrollReveal() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target); // Yeroo tokko qofa
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
 
-document.querySelectorAll(".card, .tier, .announcement").forEach((el) => {
-  el.style.opacity = "0";
-  el.style.transform = "translateY(20px)";
-  el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-  observer.observe(el);
+  const targets = document.querySelectorAll(
+    '.card, .tier, .announcement, .news-card, .team-card, .benefit-card, .role-card'
+  );
+
+  targets.forEach((el) => {
+    // Yoo duraan AOS ta'e — darbi
+    if (el.hasAttribute('data-aos')) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+}
+
+// ============================================
+// 3. HELPER — formatETB (yoo supabase.js hin fe'amne)
+// ============================================
+if (typeof window.formatETB !== 'function') {
+  window.formatETB = function (amount) {
+    return new Intl.NumberFormat('en-ET', {
+      style: 'currency',
+      currency: 'ETB',
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+}
+
+// ============================================
+// 4. INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  initScrollReveal();
+  console.log('✅ main.js ready');
 });
+
+// ============================================
+// 5. GLOBAL EXPORTS
+// ============================================
+window.animateValue = animateValue;

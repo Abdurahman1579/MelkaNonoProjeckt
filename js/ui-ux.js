@@ -1,22 +1,29 @@
 // ============================================
-// UI-UX.JS — Advanced Components
+// UI-UX.JS — Advanced Components (i18n)
 // Malka Noonoo Project
 // ============================================
 
+console.log('🎨 ui-ux.js loaded');
+
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || '';
+}
+
 // ============================================
-// 33. DARK MODE TOGGLE
+// 1. DARK MODE TOGGLE
 // ============================================
 const THEME_KEY = 'mn_theme';
 
 function initDarkMode() {
-  // Check saved theme or system preference
   const saved = localStorage.getItem(THEME_KEY);
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = saved || (prefersDark ? 'dark' : 'light');
-
   setTheme(theme);
 
-  // Add toggle button to header
   const headerActions = document.querySelector('.header-actions');
   if (headerActions && !document.querySelector('.theme-toggle')) {
     const btn = document.createElement('button');
@@ -24,13 +31,9 @@ function initDarkMode() {
     btn.setAttribute('aria-label', 'Toggle theme');
     btn.type = 'button';
     btn.addEventListener('click', toggleTheme);
-    // Insert before lang switcher
     const langSwitcher = document.getElementById('langSwitcher');
-    if (langSwitcher) {
-      headerActions.insertBefore(btn, langSwitcher);
-    } else {
-      headerActions.appendChild(btn);
-    }
+    if (langSwitcher) headerActions.insertBefore(btn, langSwitcher);
+    else headerActions.appendChild(btn);
     updateThemeIcon();
   }
 }
@@ -47,8 +50,8 @@ function toggleTheme() {
   setTheme(next);
   showToast({
     type: 'info',
-    title: next === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode',
-    message: next === 'dark' ? 'Ifa dukkanaa jalqabameera' : 'Ifa ifaa jalqabameera',
+    title: next === 'dark' ? '🌙 ' + tr('ui.theme.dark', 'Ifa Dukkanaa') : '☀️ ' + tr('ui.theme.light', 'Ifa Ifaa'),
+    message: tr('ui.theme.changed', 'Theme jijjiirameera'),
     duration: 2000
   });
 }
@@ -60,15 +63,12 @@ function updateThemeIcon() {
   btn.textContent = theme === 'dark' ? '☀️' : '🌙';
 }
 
-// Listen to system changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-  if (!localStorage.getItem(THEME_KEY)) {
-    setTheme(e.matches ? 'dark' : 'light');
-  }
+  if (!localStorage.getItem(THEME_KEY)) setTheme(e.matches ? 'dark' : 'light');
 });
 
 // ============================================
-// 34. LOADING SKELETONS
+// 2. SKELETONS
 // ============================================
 function skeletonCard() {
   return `
@@ -99,14 +99,13 @@ function skeletonGrid(count = 6, type = 'card') {
   return html;
 }
 
-// Show skeleton in element
 function showSkeleton(element, count = 6) {
   if (!element) return;
   element.innerHTML = skeletonGrid(count);
 }
 
 // ============================================
-// 35. TOAST NOTIFICATIONS
+// 3. TOAST NOTIFICATIONS
 // ============================================
 function ensureToastContainer() {
   let container = document.querySelector('.toast-container');
@@ -126,13 +125,7 @@ function showToast({
   showProgress = true
 } = {}) {
   const container = ensureToastContainer();
-
-  const icons = {
-    success: '✅',
-    error: '❌',
-    warning: '⚠️',
-    info: 'ℹ️'
-  };
+  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
 
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
@@ -147,17 +140,8 @@ function showToast({
   `;
 
   container.appendChild(toast);
-
-  // Close button
-  toast.querySelector('.toast-close').addEventListener('click', () => {
-    removeToast(toast);
-  });
-
-  // Auto-dismiss
-  if (duration > 0) {
-    setTimeout(() => removeToast(toast), duration);
-  }
-
+  toast.querySelector('.toast-close').addEventListener('click', () => removeToast(toast));
+  if (duration > 0) setTimeout(() => removeToast(toast), duration);
   return toast;
 }
 
@@ -166,7 +150,6 @@ function removeToast(toast) {
   setTimeout(() => toast.remove(), 300);
 }
 
-// Shortcuts
 const toast = {
   success: (title, message, duration) => showToast({ type: 'success', title, message, duration }),
   error: (title, message, duration) => showToast({ type: 'error', title, message, duration: duration || 6000 }),
@@ -175,36 +158,35 @@ const toast = {
 };
 
 // ============================================
-// 36. BREADCRUMBS
+// 4. BREADCRUMBS
 // ============================================
 function generateBreadcrumbs() {
   const container = document.querySelector('.page-hero .container');
   if (!container) return;
 
-  // Don't add on home page
   const path = window.location.pathname;
   const filename = path.substring(path.lastIndexOf('/') + 1);
   if (filename === 'index.html' || filename === '' || filename === '/') return;
 
-  const routeNames = {
-    'about.html': 'Waa\'ee',
-    'progress.html': 'Sadarkaa',
-    'masgidoota.html': 'Masgiidota',
-    'news.html': 'Odeeffannoo',
-    'gallery.html': 'Suuraa',
-    'reports.html': 'Gabaasa',
-    'faq.html': 'FAQ',
-    'team.html': 'Koree',
-    'volunteer.html': 'Fedhii',
-    'contact.html': 'Quunnamtii',
-    'donate.html': 'Gumaachi',
-    'login.html': 'Seensa',
-    'privacy.html': 'Iccitii',
-    'terms.html': 'Waliigaltee'
+  const routeKeys = {
+    'about.html': 'nav.about',
+    'progress.html': 'nav.progress',
+    'masgidoota.html': 'nav.masjidos',
+    'news.html': 'nav.news',
+    'gallery.html': 'nav.gallery',
+    'reports.html': 'nav.reports',
+    'faq.html': 'nav.faq',
+    'team.html': 'nav.team',
+    'volunteer.html': 'nav.volunteer',
+    'contact.html': 'nav.contact',
+    'donate.html': 'nav.donate',
+    'login.html': 'nav.login',
+    'privacy.html': 'privacy.title',
+    'terms.html': 'terms.title'
   };
 
-  const currentPage = routeNames[filename];
-  if (!currentPage) return;
+  const currentKey = routeKeys[filename];
+  if (!currentKey) return;
 
   const breadcrumbs = document.createElement('nav');
   breadcrumbs.className = 'breadcrumbs';
@@ -212,21 +194,19 @@ function generateBreadcrumbs() {
 
   breadcrumbs.innerHTML = `
     <a href="index.html" class="breadcrumb-item">
-      <span>🏠</span> ${t('nav.home') || 'Fuula Duraa'}
+      <span>🏠</span> ${tr('breadcrumb.home', 'Fuula Duraa')}
     </a>
     <span class="breadcrumb-separator">›</span>
-    <span class="breadcrumb-item active">${currentPage}</span>
+    <span class="breadcrumb-item active">${tr(currentKey, '')}</span>
   `;
 
-  // Insert at top of page-hero container
   container.insertBefore(breadcrumbs, container.firstChild);
 }
 
 // ============================================
-// 37. BACK TO TOP
+// 5. BACK TO TOP
 // ============================================
 function initBackToTop() {
-  // Create button
   const btn = document.createElement('button');
   btn.className = 'back-to-top';
   btn.setAttribute('aria-label', 'Back to top');
@@ -234,33 +214,27 @@ function initBackToTop() {
   btn.innerHTML = '<span>↑</span>';
   document.body.appendChild(btn);
 
-  // Show/hide on scroll
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        if (window.scrollY > 400) {
-          btn.classList.add('visible');
-        } else {
-          btn.classList.remove('visible');
-        }
+        if (window.scrollY > 400) btn.classList.add('visible');
+        else btn.classList.remove('visible');
         ticking = false;
       });
       ticking = true;
     }
   });
 
-  // Scroll to top
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
 // ============================================
-// 38. AOS ANIMATIONS
+// 6. AOS
 // ============================================
 function initAOS() {
-  // If element has data-aos, observe it
   const elements = document.querySelectorAll('[data-aos]');
   if (!elements.length) return;
 
@@ -268,21 +242,15 @@ function initAOS() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('aos-animate');
-        // Unobserve after animation
         observer.unobserve(entry.target);
       }
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
   elements.forEach(el => observer.observe(el));
 }
 
-// Auto-add data-aos to common elements
 function autoAOS() {
-  // Auto-animate cards, tiers, sections
   const autoTargets = document.querySelectorAll(
     '.card:not([data-aos]), .tier:not([data-aos]), ' +
     '.news-card:not([data-aos]), .team-card:not([data-aos]), ' +
@@ -299,48 +267,39 @@ function autoAOS() {
 }
 
 // ============================================
-// 39. CUSTOM SVG — Icons / Empty States
+// 7. EMPTY STATE
 // ============================================
 function createEmptyState({
   icon = '📭',
-  title = 'Hin jiru',
-  message = 'Odeeffannoon hin jiru.',
+  title = null,
+  message = null,
   actionText = '',
   actionHref = ''
 } = {}) {
   return `
     <div class="empty-state">
       <div class="empty-state-illustration">${icon}</div>
-      <h3 class="empty-state-title">${title}</h3>
-      <p class="empty-state-desc">${message}</p>
+      <h3 class="empty-state-title">${title || tr('empty.generic', 'Hin jiru')}</h3>
+      <p class="empty-state-desc">${message || tr('empty.generic', 'Odeeffannoon hin jiru.')}</p>
       ${actionText ? `<a href="${actionHref}" class="btn btn-primary">${actionText}</a>` : ''}
     </div>
   `;
 }
 
-// Preload common SVG illustrations
-const SVG_ICONS = {
-  success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
-  error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-  check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
-  star: `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
-};
-
 // ============================================
-// 40. MODAL DIALOGS (Reusable)
+// 8. MODAL DIALOGS
 // ============================================
 let activeModal = null;
 
 function openModal({
   title = '',
   body = '',
-  size = 'md', // sm, md, lg, full
+  size = 'md',
   showFooter = false,
   footerHTML = '',
   onOpen = null,
   onClose = null
 } = {}) {
-  // Close existing
   if (activeModal) closeModal();
 
   const modal = document.createElement('div');
@@ -358,44 +317,28 @@ function openModal({
 
   document.body.appendChild(modal);
   document.body.style.overflow = 'hidden';
-
-  // Trigger animation
   requestAnimationFrame(() => modal.classList.add('open'));
-
   activeModal = modal;
 
-  // Close handlers
   modal.querySelector('.modal-base-close').addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
 
-  // ESC key
   const escHandler = (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-      document.removeEventListener('keydown', escHandler);
-    }
+    if (e.key === 'Escape') { closeModal(); document.removeEventListener('keydown', escHandler); }
   };
   document.addEventListener('keydown', escHandler);
 
   if (onOpen) onOpen(modal);
 
-  return {
-    modal,
-    close: closeModal,
-    setBody: (html) => {
-      modal.querySelector('.modal-base-body').innerHTML = html;
-    }
-  };
+  return { modal, close: closeModal, setBody: (html) => { modal.querySelector('.modal-base-body').innerHTML = html; } };
 }
 
 function closeModal() {
   if (!activeModal) return;
-
   const modal = activeModal;
   modal.classList.add('closing');
-
   setTimeout(() => {
     modal.remove();
     document.body.style.overflow = '';
@@ -403,43 +346,34 @@ function closeModal() {
   }, 200);
 }
 
-// Confirm dialog (convenience)
 function confirmDialog({
-  title = 'Mirkaneessi',
-  message = 'Dhuguma raawwachuu barbaadda?',
-  confirmText = 'Eeyyee',
-  cancelText = 'Lakki',
-  type = 'warning'
+  title = null,
+  message = null,
+  confirmText = null,
+  cancelText = null
 } = {}) {
   return new Promise((resolve) => {
     const modal = openModal({
-      title,
-      body: `<p style="font-size: 15px; color: var(--text-secondary);">${message}</p>`,
+      title: title || tr('modal.confirm', 'Mirkaneessi'),
+      body: `<p style="font-size: 15px; color: var(--text-secondary);">${message || tr('modal.delete.confirm', 'Dhuguma raawwachuu barbaadda?')}</p>`,
       size: 'sm',
       showFooter: true,
       footerHTML: `
-        <button type="button" class="btn btn-outline" data-action="cancel">${cancelText}</button>
-        <button type="button" class="btn btn-primary" data-action="confirm">${confirmText}</button>
+        <button type="button" class="btn btn-outline" data-action="cancel">${cancelText || tr('modal.cancel', 'Lakki')}</button>
+        <button type="button" class="btn btn-primary" data-action="confirm">${confirmText || tr('modal.yes', 'Eeyyee')}</button>
       `,
       onOpen: (m) => {
-        m.querySelector('[data-action="cancel"]').addEventListener('click', () => {
-          closeModal();
-          resolve(false);
-        });
-        m.querySelector('[data-action="confirm"]').addEventListener('click', () => {
-          closeModal();
-          resolve(true);
-        });
+        m.querySelector('[data-action="cancel"]').addEventListener('click', () => { closeModal(); resolve(false); });
+        m.querySelector('[data-action="confirm"]').addEventListener('click', () => { closeModal(); resolve(true); });
       }
     });
   });
 }
 
 // ============================================
-// INIT ALL
+// INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🎨 Initializing UI-UX components...');
   initDarkMode();
   generateBreadcrumbs();
   initBackToTop();
@@ -447,7 +381,9 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ UI-UX ready');
 });
 
-// Global exports
+// ============================================
+// GLOBAL EXPORTS
+// ============================================
 window.showToast = showToast;
 window.toast = toast;
 window.openModal = openModal;

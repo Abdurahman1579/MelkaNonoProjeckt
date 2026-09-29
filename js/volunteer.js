@@ -1,171 +1,176 @@
 // ============================================
-// VOLUNTEER PAGE — With Rich Modal Content
+// VOLUNTEER PAGE — I18N SUPPORT
+// Malka Noonoo Project
 // ============================================
 
+console.log('🤝 volunteer.js loaded');
+
 // ============================================
-// 1. BENEFIT DATA — Rich Islamic Content
+// 1. HELPERS
+// ============================================
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || '';
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+// ============================================
+// 2. BENEFIT DATA — Keys only (Arabic stays)
 // ============================================
 const BENEFIT_DATA = {
   reward: {
     icon: '🤲',
-    title: 'Ajira Guddaa',
-    subtitle: 'Hawaasa keessan tajaajiluu — ajira Islaamaa fi hawaasaa argattu.',
+    key: 'volunteer.benefit.reward',
+    role: 'fundraiser',
     sections: [
       {
-        heading: '📖 Qur\'aana Keessatti',
+        headingKey: 'volunteer.benefit.reward.s1.heading',
+        textKey: 'volunteer.benefit.reward.s1.text',
         ayah: 'وَمَنْ أَحْسَنُ قَوْلًا مِّمَّن دَعَا إِلَى اللَّهِ وَعَمِلَ صَالِحًا وَقَالَ إِنَّنِي مِنَ الْمُسْلِمِينَ',
         ayahTranslation: '"Namni Allaahitti waamee, hojii gaarii hojjatee, "ani Muslimoota irraa ta\'eera" jedhe — namni isa caalaa dubbii gaarii eenyu qaba?"',
-        ayahRef: 'Suura Fussilat 41:33',
-        text: 'Kun aayata guddaa dha — namni hawaasa tajaajilu, dubbii gaarii dubbatu, fi hojii gaarii hojjetu — sadarkaa ol\'aanaa Allaah biratti qaba.'
+        ayahRef: 'Suura Fussilat 41:33'
       },
       {
-        heading: '🕌 Hadiisa Keessatti',
+        headingKey: 'volunteer.benefit.reward.s2.heading',
+        textKey: 'volunteer.benefit.reward.s2.text',
         hadith: 'خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ',
         hadithTranslation: '"Namoota irraa isa gaariin — namootaaf isa bu\'aa guddaa qabu dha."',
-        hadithRef: 'Hadiisa — Bukhari fi Muslim',
-        text: 'Nabi Muhammad (s.a.w.) hawaasa tajaajiluu guddaa qabeessaa dha. Namni hawaasa isaa tajaajilu — namoota gaarii keessaa tokko ta\'a.'
+        hadithRef: 'Hadiisa — Bukhari fi Muslim'
       },
       {
-        heading: '💡 Ajira Piroojektii',
-        text: 'Piroojektiin kun masgiidota 85, barnoota, fi tajaajila hawaasaa cimsa. Hirmaannaan keessan qooda guddaa qaba — jaarmiyaa G+3, konkolaataa, fi galii dhaabbataa uumuu keessatti hirmaachaa jirta.'
+        headingKey: 'volunteer.benefit.reward.s3.heading',
+        textKey: 'volunteer.benefit.reward.s3.text'
       },
       {
-        heading: '✅ Maal Argatta?',
-        list: [
-          'Ajira Islaamaa — barakaadha hojii keessan',
-          'Nagahee guddaa qalbii — sababa hawaasa tajaajiluu',
-          'Beekamtii hawaasa fi hoggansa',
-          'Raseenii hirmaannaa — hojii keessan dhugaa ta\'uu',
-          'Dua\'a booda illee ajiraa itti fufa'
-        ]
+        headingKey: 'volunteer.benefit.reward.s4.heading',
+        listKeys: ['volunteer.benefit.reward.s4.1', 'volunteer.benefit.reward.s4.2',
+                   'volunteer.benefit.reward.s4.3', 'volunteer.benefit.reward.s4.4',
+                   'volunteer.benefit.reward.s4.5']
       }
     ],
     testimonial: {
-      quote: 'Yeroo fedhii ta\'ee hawaasa tajaajile — jireenya koo jijjiirame. Nagaheen qalbii koo guddaa dha.',
-      author: 'Ahmed A., Fedhii 2024'
+      quoteKey: 'volunteer.testimonial.reward.quote',
+      authorKey: 'volunteer.testimonial.reward.author',
+      quoteDefault: 'Yeroo fedhii ta\'ee hawaasa tajaajile — jireenya koo jijjiirame. Nagaheen qalbii koo guddaa dha.',
+      authorDefault: 'Ahmed A., Fedhii 2024'
     },
-    cta: 'Tajaajila Jalqabi',
-    role: 'fundraiser'
+    ctaKey: 'volunteer.benefit.reward.cta'
   },
 
   experience: {
     icon: '🎓',
-    title: 'Muuxannoo fi Dandeettii',
-    subtitle: 'Dandeettii haaraa barachuu — bulchiinsa, ijaarsa, faayinaansii.',
+    key: 'volunteer.benefit.experience',
+    role: 'accountant',
     sections: [
       {
-        heading: '📚 Dandeettii Argatta',
-        list: [
-          '**Bulchiinsa Piroojektii** — karoora, raawwii, hordoffii',
-          '**Ijaarsa fi Jaarmiyaa** — design, construction, quality',
-          '**Faayinaansii fi Herrega** — galii, baasii, audit',
-          '**Miidiyaa fi Beeksisa** — content creation, social media',
-          '**Walitti Dhufeenya Hawaasaa** — communication, networking',
-          '**Seera fi Sanada** — legal documents, contracts'
-        ]
+        headingKey: 'volunteer.benefit.experience.s1.heading',
+        listKeys: ['volunteer.benefit.experience.s1.1', 'volunteer.benefit.experience.s1.2',
+                   'volunteer.benefit.experience.s1.3', 'volunteer.benefit.experience.s1.4',
+                   'volunteer.benefit.experience.s1.5']
       },
       {
-        heading: '🎯 Leenjii',
-        text: 'Ogeeyyii fi hoggantoota waliin hojjechuun muuxannoo dhugaa argatta. Leenjii adda addaa:'
+        headingKey: 'volunteer.benefit.experience.s2.heading',
+        textKey: 'volunteer.benefit.experience.s2.text'
       },
       {
-        heading: '💼 Raseenii fi Beekamtii',
-        text: 'Yeroo xumurtan, **raseenii muuxannoo** argattu — hojii barbaaduuf, daldala jalqabuuf, ykn barnoota itti fufuuf gargaara. Reference letter hoggansa Mana Marii irraa argatta.'
+        headingKey: 'volunteer.benefit.experience.s3.heading',
+        textKey: 'volunteer.benefit.experience.s3.text'
       },
       {
-        heading: '🌟 Fakkeenya',
-        text: 'Fedhiiwwan duraanii — booda hojii argataniiru, daldala jalqabaniiru, ykn hoggansa hawaasaa ta\'aniiru.'
+        headingKey: 'volunteer.benefit.experience.s4.heading',
+        textKey: 'volunteer.benefit.experience.s4.text'
       }
     ],
     testimonial: {
-      quote: 'Fedhii ta\'uu jalqabe — bulchiinsa fi faayinaansii baradhe. Amma hojii guddaa qaba.',
-      author: 'Fatima H., Fedhii 2023'
+      quoteKey: 'volunteer.testimonial.experience.quote',
+      authorKey: 'volunteer.testimonial.experience.author',
+      quoteDefault: 'Fedhii ta\'uu jalqabe — bulchiinsa fi faayinaansii baradhe. Amma hojii guddaa qaba.',
+      authorDefault: 'Fatima H., Fedhii 2023'
     },
-    cta: 'Muuxannoo Jalqabi',
-    role: 'accountant'
+    ctaKey: 'volunteer.benefit.experience.cta'
   },
 
   network: {
     icon: '🌐',
-    title: 'Walitti Dhufeenya (Networking)',
-    subtitle: 'Namoota haaraa fi hawaasa adda addaa waliin hojjechuu.',
+    key: 'volunteer.benefit.network',
+    role: 'social',
     sections: [
       {
-        heading: '🕌 Hadiisa',
+        headingKey: 'volunteer.benefit.network.s1.heading',
+        textKey: 'volunteer.benefit.network.s1.text',
         hadith: 'الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا',
         hadithTranslation: '"Mu\'umni Mu\'uminaaf akka ijaarsaa dha — tokkoon isaa tokko cimsa."',
-        hadithRef: 'Hadiisa — Bukhari fi Muslim',
-        text: 'Muslimoonni wal cimsuu qabu. Networking — kun waliin hojjechuu, waliin cimsuu, fi waliin guddachuu dha.'
+        hadithRef: 'Hadiisa — Bukhari fi Muslim'
       },
       {
-        heading: '👥 Namoota Argatta',
-        list: [
-          '**Hoggantoota Mana Marii** — hoggansa 9',
-          '**Ogeeyyii fi Raawwattoota** — seera, ijaarsa, faayinaansii',
-          '**Daldaltoota fi Deeggartoota** — hawaasa daldalaa',
-          '**Barattoota fi Dargaggoota** — dhaloota haaraa',
-          '**Masgiidota 85** — aanaalee 3 keessatti',
-          '**Hawaasa Bal\'aa** — ida\'amaa fi dhimma'
-        ]
+        headingKey: 'volunteer.benefit.network.s2.heading',
+        listKeys: ['volunteer.benefit.network.s2.1', 'volunteer.benefit.network.s2.2',
+                   'volunteer.benefit.network.s2.3', 'volunteer.benefit.network.s2.4']
       },
       {
-        heading: '🤝 Faayidaa',
-        text: 'Networking faayidaa guddaa qaba:'
+        headingKey: 'volunteer.benefit.network.s3.heading',
+        textKey: 'volunteer.benefit.network.s3.text'
       },
       {
-        heading: '🌟 Fakkeenya',
-        text: 'Namoonni hedduu fedhii keessatti wal arguun — daldala, hojii, fi kaayyoo biroof waliin hojjetaniiru.'
+        headingKey: 'volunteer.benefit.network.s4.heading',
+        textKey: 'volunteer.benefit.network.s4.text'
       }
     ],
     testimonial: {
-      quote: 'Yeroo fedhii ta\'ee, namoota gaarii argadhe. Amma daldala koo cimsuuf waliin hojjenna.',
-      author: 'Ibrahim N., Fedhii 2023'
+      quoteKey: 'volunteer.testimonial.network.quote',
+      authorKey: 'volunteer.testimonial.network.author',
+      quoteDefault: 'Yeroo fedhii ta\'ee, namoota gaarii argadhe. Amma daldala koo cimsuuf waliin hojjenna.',
+      authorDefault: 'Ibrahim N., Fedhii 2023'
     },
-    cta: 'Hawaasa Walqunnami',
-    role: 'social'
+    ctaKey: 'volunteer.benefit.network.cta'
   },
 
   honor: {
     icon: '⭐',
-    title: 'Kabaja fi Beekamtii',
-    subtitle: 'Raseenii fi beekamtii hirmaannaa argachuu.',
+    key: 'volunteer.benefit.honor',
+    role: 'promoter',
     sections: [
       {
-        heading: '📖 Qur\'aana',
+        headingKey: 'volunteer.benefit.honor.s1.heading',
+        textKey: 'volunteer.benefit.honor.s1.text',
         ayah: 'وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ',
         ayahTranslation: '"Jedhi: "Hojjedhaa! Allaah, ergamaan isaa, fi Mu\'umtoonni hojii keessan ni argu.""',
-        ayahRef: 'Suura At-Tawbah 9:105',
-        text: 'Hojii keessan Allaah biratti beekama. Kanaafis, hawaasa birattis beekamtii argatta.'
+        ayahRef: 'Suura At-Tawbah 9:105'
       },
       {
-        heading: '🏆 Raseenii',
-        text: 'Yeroo xumurtan:'
+        headingKey: 'volunteer.benefit.honor.s2.heading',
+        textKey: 'volunteer.benefit.honor.s2.text'
       },
       {
-        heading: '🌟 Beekamtii',
-        list: [
-          '**Maqaa keessan marsariitii** — fuula `team.html` irratti maxxanfama',
-          '**Sagantaa beekamtii** — waliigaltee waggaa',
-          '**Facebook / Telegram** — share fi beekamtii',
-          '**Hawaasa keessanitti beekama** — kabaja guddaa'
-        ]
+        headingKey: 'volunteer.benefit.honor.s3.heading',
+        listKeys: ['volunteer.benefit.honor.s3.1', 'volunteer.benefit.honor.s3.2',
+                   'volunteer.benefit.honor.s3.3', 'volunteer.benefit.honor.s3.4']
       },
       {
-        heading: '💎 Kabaja Qalbii',
-        text: 'Kabajni guddaan — qalbii keessan keessa jira. Namni hawaasa isaa tajaajile — nagahee qalbii argata. Kun humna dhuunfaa fi barakaadha jireenyaa dha.'
+        headingKey: 'volunteer.benefit.honor.s4.heading',
+        textKey: 'volunteer.benefit.honor.s4.text'
       }
     ],
     testimonial: {
-      quote: 'Raseenii fi beekamtii argadhe — kun kabaja guddaa dha. Hawaasa koo biratti beekame.',
-      author: 'Halima A., Fedhii 2024'
+      quoteKey: 'volunteer.testimonial.honor.quote',
+      authorKey: 'volunteer.testimonial.honor.author',
+      quoteDefault: 'Raseenii fi beekamtii argadhe — kun kabaja guddaa dha. Hawaasa koo biratti beekame.',
+      authorDefault: 'Halima A., Fedhii 2024'
     },
-    cta: 'Amma Galmaa\'i',
-    role: 'promoter'
+    ctaKey: 'volunteer.benefit.honor.cta'
   }
 };
 
 // ============================================
-// 2. MODAL OPEN / CLOSE
+// 3. OPEN BENEFIT MODAL
 // ============================================
 function openBenefitModal(key) {
   const data = BENEFIT_DATA[key];
@@ -174,11 +179,14 @@ function openBenefitModal(key) {
   const body = document.getElementById('benefitModalBody');
   if (!body) return;
 
+  const title = tr(data.key + '.title', '');
+  const subtitle = tr(data.key + '.subtitle', '');
+
   body.innerHTML = `
     <div class="modal-benefit-hero">
       <div class="modal-benefit-icon">${data.icon}</div>
-      <h2>${data.title}</h2>
-      <p>${data.subtitle}</p>
+      <h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(subtitle)}</p>
     </div>
 
     <div class="modal-benefit-body">
@@ -186,15 +194,15 @@ function openBenefitModal(key) {
 
       ${data.testimonial ? `
         <div class="benefit-testimonial">
-          <div class="testimonial-quote">"${data.testimonial.quote}"</div>
-          <div class="testimonial-author">— ${data.testimonial.author}</div>
+          <div class="testimonial-quote">"${escapeHtml(tr(data.testimonial.quoteKey, data.testimonial.quoteDefault))}"</div>
+          <div class="testimonial-author">— ${escapeHtml(tr(data.testimonial.authorKey, data.testimonial.authorDefault))}</div>
         </div>
       ` : ''}
 
       <div class="modal-benefit-cta">
-        <button type="button" class="btn btn-primary btn-lg btn-block" 
+        <button type="button" class="btn btn-primary btn-lg btn-block"
                 onclick="closeBenefitModal(); goToForm('${data.role}')">
-          ${data.cta} →
+          ${escapeHtml(tr(data.ctaKey, 'Jalqabi'))} →
         </button>
       </div>
     </div>
@@ -207,9 +215,12 @@ function openBenefitModal(key) {
 }
 
 function renderSection(s) {
+  const heading = escapeHtml(tr(s.headingKey, ''));
+  const text = s.textKey ? escapeHtml(tr(s.textKey, '')) : '';
+
   return `
     <div class="benefit-section">
-      <h3>${s.heading}</h3>
+      <h3>${heading}</h3>
       ${s.ayah ? `
         <div class="ayah-box">
           <div class="ayah-arabic">${s.ayah}</div>
@@ -224,8 +235,12 @@ function renderSection(s) {
           <div class="hadith-ref">${s.hadithRef}</div>
         </div>
       ` : ''}
-      ${s.text ? `<p>${s.text}</p>` : ''}
-      ${s.list ? `<ul class="benefit-list">${s.list.map(li => `<li>${li}</li>`).join('')}</ul>` : ''}
+      ${text ? `<p>${text}</p>` : ''}
+      ${s.listKeys ? `
+        <ul class="benefit-list">
+          ${s.listKeys.map(k => `<li>${escapeHtml(tr(k, ''))}</li>`).join('')}
+        </ul>
+      ` : ''}
     </div>
   `;
 }
@@ -236,16 +251,12 @@ function closeBenefitModal() {
 }
 
 // ============================================
-// 3. GO TO FORM (scroll + pre-fill role)
+// 4. GO TO FORM
 // ============================================
 function goToForm(roleValue) {
-  // Scroll to form section
   const formSection = document.getElementById('volunteerFormSection');
-  if (formSection) {
-    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  if (formSection) formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  // Highlight form
   const form = document.getElementById('volunteerForm');
   if (form) {
     form.style.boxShadow = '0 0 0 4px var(--green-300)';
@@ -253,7 +264,6 @@ function goToForm(roleValue) {
     setTimeout(() => { form.style.boxShadow = ''; }, 2500);
   }
 
-  // Pre-fill role
   if (roleValue) {
     const roleSelect = document.getElementById('volunteerRole');
     if (roleSelect) {
@@ -261,23 +271,14 @@ function goToForm(roleValue) {
       setTimeout(() => roleSelect.focus(), 500);
     }
   }
-
-  console.log('📝 Scrolled to form, role prefilled:', roleValue);
 }
 
 // ============================================
-// 4. EVENT LISTENERS
+// 5. EVENT LISTENERS
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Clickable benefit cards
   document.querySelectorAll('.benefit-card.clickable').forEach(card => {
-    // Click
-    card.addEventListener('click', () => {
-      const key = card.dataset.benefit;
-      openBenefitModal(key);
-    });
-
-    // Keyboard (Enter / Space)
+    card.addEventListener('click', () => openBenefitModal(card.dataset.benefit));
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -286,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Role cards — click to prefill + scroll
   document.querySelectorAll('.role-card').forEach(card => {
     card.addEventListener('click', () => {
       const role = card.dataset.role;
@@ -294,23 +294,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Modal close
   document.getElementById('benefitModalClose')?.addEventListener('click', closeBenefitModal);
   document.getElementById('benefitModal')?.addEventListener('click', (e) => {
     if (e.target.id === 'benefitModal') closeBenefitModal();
   });
 
-  // ESC key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeBenefitModal();
   });
 
-  // Form submit
   document.getElementById('volunteerForm')?.addEventListener('submit', handleVolunteerSubmit);
 });
 
 // ============================================
-// 5. FORM SUBMIT
+// 6. FORM SUBMIT
 // ============================================
 async function handleVolunteerSubmit(e) {
   e.preventDefault();
@@ -319,7 +316,7 @@ async function handleVolunteerSubmit(e) {
   const fd = new FormData(e.target);
 
   btn.disabled = true;
-  btn.textContent = 'Ergaa jira...';
+  btn.textContent = tr('donate.form.submitting', 'Ergaa jira...');
   msg.className = 'form-message';
 
   const volunteer = {
@@ -340,7 +337,6 @@ async function handleVolunteerSubmit(e) {
 
     if (error) {
       console.warn('DB insert failed:', error.message);
-
       if (error.code === '42P01' || error.message.includes('does not exist')) {
         msg.textContent = '⚠️ Table mn_volunteers hin jiru — SQL galchi.';
       } else {
@@ -348,17 +344,16 @@ async function handleVolunteerSubmit(e) {
       }
       msg.className = 'form-message error';
       btn.disabled = false;
-      btn.textContent = 'Galmee Galchi';
+      btn.textContent = tr('volunteer.form.submit', 'Galmee Galchi');
       return;
     }
 
-    msg.textContent = '✅ Galmeen keessan milkaa\'eera! Nu quunnamna.';
+    msg.textContent = tr('volunteer.form.success', '✅ Galmeen keessan milkaa\'eera! Nu quunnamna.');
     msg.className = 'form-message success';
     e.target.reset();
 
-    // Send admin notification (silent)
+    if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), volunteer.name);
     notifyAdmin(volunteer).catch(err => console.warn('Notify failed:', err));
-
   } catch (err) {
     console.error('Volunteer error:', err);
     msg.textContent = '❌ ' + err.message;
@@ -366,12 +361,9 @@ async function handleVolunteerSubmit(e) {
   }
 
   btn.disabled = false;
-  btn.textContent = 'Galmee Galchi';
+  btn.textContent = tr('volunteer.form.submit', 'Galmee Galchi');
 }
 
-// ============================================
-// 6. ADMIN NOTIFICATION (silent)
-// ============================================
 async function notifyAdmin(volunteer) {
   try {
     await fetch(`${SUPABASE_URL}/functions/v1/send-notification`, {
@@ -386,17 +378,27 @@ async function notifyAdmin(volunteer) {
           name: volunteer.name,
           phone: volunteer.phone,
           email: volunteer.email,
-          message: `🤝 Fedhii haaraa: ${volunteer.role} — ${volunteer.hours} | Aanaa: ${volunteer.woreda} | Dandeettii: ${volunteer.skills || '—'}`
+          message: `🤝 Fedhii haaraa: ${volunteer.role} — ${volunteer.hours} | Aanaa: ${volunteer.woreda}`
         }
       })
     });
-  } catch (err) {
-    // Silent fail
-  }
+  } catch (err) {}
 }
 
 // ============================================
-// 7. GLOBAL EXPORTS
+// 7. LANGUAGE CHANGE
+// ============================================
+window.addEventListener('languageChanged', () => {
+  console.log('🌐 Language changed — volunteer.js');
+  const modal = document.getElementById('benefitModal');
+  if (modal && modal.classList.contains('open')) {
+    // Modal banaa jira — cufi
+    closeBenefitModal();
+  }
+});
+
+// ============================================
+// 8. GLOBAL EXPORTS
 // ============================================
 window.openBenefitModal = openBenefitModal;
 window.closeBenefitModal = closeBenefitModal;

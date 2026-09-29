@@ -4,7 +4,7 @@
 // Complete Final Version
 // ============================================
 
-(function() {
+(function () {
   'use strict';
 
   console.log('🚀 nav-master.js loaded');
@@ -215,20 +215,20 @@
     // 5.1 MOBILE MENU TOGGLE (Robust)
     // ----------------------------------------
     if (menuToggle && nav) {
-      menuToggle.addEventListener('click', function(e) {
+      menuToggle.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const isOpen = nav.classList.toggle('open');
         menuToggle.textContent = isOpen ? '✕' : '☰';
-        
+
         // Body scroll lock
         if (isOpen) {
           document.body.style.overflow = 'hidden';
         } else {
           document.body.style.overflow = '';
         }
-        
+
         console.log('📱 Menu:', isOpen ? 'OPEN' : 'CLOSED');
       });
 
@@ -248,7 +248,7 @@
     // 5.2 DROPDOWN TOGGLES
     // ----------------------------------------
     document.querySelectorAll('.nav-dropdown-toggle').forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
+      toggle.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -275,13 +275,13 @@
     // 5.3 LANGUAGE SELECTION (Dropdown)
     // ----------------------------------------
     document.querySelectorAll('.nav-lang-item').forEach(item => {
-      item.addEventListener('click', function(e) {
+      item.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const lang = this.dataset.lang;
         changeLanguage(lang);
-        
+
         // Close dropdowns
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
       });
@@ -291,10 +291,10 @@
     // 5.4 LANGUAGE SELECTION (Mobile)
     // ----------------------------------------
     document.querySelectorAll('.lang-mobile').forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         const lang = this.dataset.lang;
         changeLanguage(lang);
-        
+
         // Close mobile menu
         if (nav) {
           nav.classList.remove('open');
@@ -312,12 +312,12 @@
       if (!e.target.closest('.nav-dropdown')) {
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
       }
-      
+
       // Close mobile menu
       if (nav && menuToggle && nav.classList.contains('open')) {
         const clickedInsideNav = nav.contains(e.target);
         const clickedToggle = menuToggle.contains(e.target);
-        
+
         if (!clickedInsideNav && !clickedToggle) {
           nav.classList.remove('open');
           menuToggle.textContent = '☰';
@@ -332,7 +332,7 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-        
+
         if (nav) {
           nav.classList.remove('open');
           document.body.style.overflow = '';
@@ -383,36 +383,40 @@
   // ==========================================
   // 6. CHANGE LANGUAGE
   // ==========================================
+  // ⚠️ NOTE: Kun function i18n.js keessatti setLang() waama.
+  //    setLang() — applyTranslations + updateLangSwitcher + dispatch
+  //    Kanaaf asitti dispatch lammaffaa HIN barbaachisu.
   function changeLanguage(lang) {
     if (!lang) return;
-    
+
     console.log('🌐 Changing language to:', lang);
     localStorage.setItem('mn_lang', lang);
     document.documentElement.lang = lang;
-    
-    // Update UI
+
+    // Update nav UI
     updateLanguageUI(lang);
-    
-    // Call external setLang if exists
+
+    // Call i18n.js setLang — kunis applyTranslations + dispatch godha
     if (typeof window.setLang === 'function') {
       try {
         window.setLang(lang);
       } catch (err) {
         console.warn('setLang error:', err);
       }
+    } else {
+      // Fallback — yoo i18n.js hin fe'amne
+      console.warn('⚠️ setLang() hin jiru — fallback dispatch');
+      window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
     }
-    
-    // Dispatch event
-    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
   }
 
   function updateLanguageUI(lang) {
     const names = { om: 'Oromiffa', am: 'አማርኛ', en: 'English' };
-    
+
     // Update label
     const currentEl = document.getElementById('navLangCurrent');
     if (currentEl) currentEl.textContent = names[lang] || 'Oromiffa';
-    
+
     // Update active states
     document.querySelectorAll('.nav-lang-item').forEach(i => {
       i.classList.toggle('active', i.dataset.lang === lang);
@@ -442,7 +446,7 @@
         const current = document.documentElement.getAttribute('data-theme') || 'light';
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
-        
+
         // Toast feedback
         if (window.toast) {
           const names = { dark: '🌙 Dark Mode', light: '☀️ Light Mode' };

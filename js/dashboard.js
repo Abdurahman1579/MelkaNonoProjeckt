@@ -1,6 +1,8 @@
 // ============================================
-// DASHBOARD.JS — Malka Noonoo (Full)
+// DASHBOARD.JS — Malka Noonoo (Full + i18n)
 // ============================================
+
+console.log('📊 dashboard.js loaded');
 
 const dashState = {
   charts: { revenue: null, tiers: null, expenses: null },
@@ -9,6 +11,17 @@ const dashState = {
   selectedDonationIds: new Set(),
   initialized: false
 };
+
+// ============================================
+// HELPER — Safe translation
+// ============================================
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || key;
+}
 
 // ============================================
 // INIT
@@ -51,9 +64,12 @@ async function initDashboard() {
 
     await loadOverview();
     setTimeout(updateBadges, 1500);
+
+    // Apply translations to dynamically rendered i18n elements
+    if (typeof applyTranslations === 'function') applyTranslations();
   } catch (err) {
     console.error('❌ Init error:', err);
-    if (window.toast) toast.error('Dogoggora', 'Daashboordii banuu hin dandeessisu');
+    if (window.toast) toast.error(tr('toast.error', 'Dogoggora'), 'Daashboordii banuu hin dandeessisu');
   }
 }
 
@@ -79,10 +95,12 @@ function setupTabs() {
       document.querySelectorAll('.dash-tab').forEach(s => s.classList.remove('active'));
       document.querySelector(`.dash-tab[data-tab="${tab}"]`)?.classList.add('active');
 
-      const span = link.querySelector('span:not(.dash-nav-icon):not(.badge-count)');
+      const span = link.querySelector('span[data-i18n]');
       const titleEl = document.getElementById('dashTitle');
-      if (titleEl) {
-        titleEl.textContent = span?.dataset.i18n ? t(span.dataset.i18n) : (span?.textContent || 'Dashboard');
+      if (titleEl && span) {
+        const key = span.dataset.i18n;
+        titleEl.dataset.i18n = key;
+        titleEl.textContent = tr(key, span.textContent);
       }
 
       if (window.innerWidth <= 900) document.getElementById('dashSidebar')?.classList.remove('open');
@@ -167,7 +185,7 @@ function renderRevenueChart(donations) {
   dashState.charts.revenue = new Chart(ctx, {
     type: 'line',
     data: { labels: months.map(m => m.label), datasets: [{
-      label: 'Galii', data: totals, borderColor: '#22a06b',
+      label: tr('reports.annual.revenue', 'Galii'), data: totals, borderColor: '#22a06b',
       backgroundColor: 'rgba(34, 160, 107, 0.1)', fill: true, tension: 0.4, borderWidth: 3,
       pointBackgroundColor: '#22a06b', pointRadius: 5
     }]},
@@ -241,7 +259,7 @@ function setupDonationForm() {
     };
 
     if (donation.amount < 1) {
-      msg.textContent = '❌ Gumaacha sirrii galchi';
+      msg.textContent = '❌ ' + tr('form.amount.required', 'Gumaacha sirrii galchi');
       msg.className = 'form-message error';
       return;
     }
@@ -252,10 +270,10 @@ function setupDonationForm() {
       msg.className = 'form-message error';
       return;
     }
-    msg.textContent = '✅ Galii galmeeffameera!';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Galii galmeeffameera!');
     msg.className = 'form-message success';
     e.target.reset();
-    if (window.toast) toast.success('Milkaa\'e', `Gumaacha ${formatETB(donation.amount)} galmeeffameera`);
+    if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), `${formatETB(donation.amount)}`);
     await logActivity('donation', 'manual_created', `${donation.donor_name} — ${donation.amount}`);
     loadDonations();
     loadOverview();
@@ -289,7 +307,7 @@ function applyDonationFilters() {
 function renderDonationsTable(list) {
   const tb = document.querySelector('#donationsTable tbody');
   if (!tb) return;
-  if (!list.length) { tb.innerHTML = `<tr><td colspan="11" class="loading">${t('table.empty') || 'Hin jiru.'}</td></tr>`; return; }
+  if (!list.length) { tb.innerHTML = `<tr><td colspan="11" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
 
   tb.innerHTML = list.map((d, i) => `
     <tr>
@@ -344,21 +362,22 @@ function setupDonationFilters() {
 function updateSelectedCount() {
   const c = document.getElementById('donSelectedCount');
   const b = document.getElementById('bulkConfirmBtn');
-  if (c) c.textContent = `${dashState.selectedDonationIds.size} filatame`;
-  if (b) b.disabled = dashState.selectedDonationIds.size === 0;
+  const count = dashState.selectedDonationIds.size;
+  if (c) c.textContent = `${count} ${tr('dash.bulk.selected', 'filatame')}`;
+  if (b) b.disabled = count === 0;
 }
 
 async function confirmDonation(id) {
-  if (!confirm('Mirkaneessuu?')) return;
+  if (!confirm(tr('modal.confirm', 'Mirkaneessuu?'))) return;
   const { error } = await db.from('mn_donations').update({ status: 'confirmed' }).eq('id', id);
   if (error) return alert('❌ ' + error.message);
   await logActivity('donation', 'confirmed', `Donation #${id}`);
   loadDonations(); loadOverview();
-  if (window.toast) toast.success('Milkaa\'e', 'Mirkanaa\'e');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), tr('status.confirmed', 'Mirkanaa\'e'));
 }
 
 async function deleteDonation(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_donations').delete().eq('id', id);
   await logActivity('donation', 'deleted', `Donation #${id}`);
   loadDonations(); loadOverview();
@@ -366,12 +385,12 @@ async function deleteDonation(id) {
 
 async function bulkConfirm() {
   const ids = Array.from(dashState.selectedDonationIds);
-  if (!ids.length || !confirm(`${ids.length} mirkaneessuu?`)) return;
+  if (!ids.length || !confirm(`${ids.length} ${tr('modal.confirm', 'mirkaneessuu?')}`)) return;
   await db.from('mn_donations').update({ status: 'confirmed' }).in('id', ids);
   dashState.selectedDonationIds.clear();
   updateSelectedCount();
   loadDonations(); loadOverview();
-  if (window.toast) toast.success('Milkaa\'e', `${ids.length} mirkanaa'an`);
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), `${ids.length} ✓`);
 }
 
 // ============================================
@@ -381,7 +400,7 @@ async function loadExpenses() {
   const { data } = await db.from('mn_expenses').select('*').order('created_at', { ascending: false });
   const tb = document.querySelector('#expensesTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((e, i) => `
     <tr><td>${i + 1}</td><td>${e.category}</td><td>${e.description || '—'}</td>
     <td><strong>${formatETB(e.amount)}</strong></td><td>${badge(e.status)}</td>
@@ -401,7 +420,8 @@ function setupExpenseForm() {
     };
     const { error } = await db.from('mn_expenses').insert([exp]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Galmeeffameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Galmeeffameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     await logActivity('expense', 'created', exp.category);
     loadExpenses(); loadOverview();
@@ -409,7 +429,7 @@ function setupExpenseForm() {
 }
 
 async function deleteExpense(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_expenses').delete().eq('id', id);
   await logActivity('expense', 'deleted', `Expense #${id}`);
   loadExpenses(); loadOverview();
@@ -422,7 +442,7 @@ async function loadAssets() {
   const { data } = await db.from('mn_assets').select('*').order('id', { ascending: false });
   const tb = document.querySelector('#assetsTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((a, i) => `
     <tr><td>${i + 1}</td><td>${a.name}</td><td>${a.category || '—'}</td>
     <td>${a.quantity || 1}</td><td>${formatETB(a.purchase_price || 0)}</td>
@@ -444,14 +464,15 @@ function setupAssetForm() {
     };
     const { error } = await db.from('mn_assets').insert([asset]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Galmeeffameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Galmeeffameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadAssets(); loadOverview();
   });
 }
 
 async function deleteAsset(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_assets').delete().eq('id', id);
   loadAssets(); loadOverview();
 }
@@ -463,7 +484,7 @@ async function loadRentals() {
   const { data } = await db.from('mn_rentals').select('*').order('id', { ascending: false });
   const tb = document.querySelector('#rentalsTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((r, i) => `
     <tr><td>${i + 1}</td><td>${r.tenant_name}</td><td>${r.tenant_phone || '—'}</td>
     <td>${r.space_description || '—'}</td><td>${formatETB(r.monthly_rent || 0)}</td>
@@ -485,14 +506,15 @@ function setupRentalForm() {
     };
     const { error } = await db.from('mn_rentals').insert([rental]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Galmeeffameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Galmeeffameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadRentals();
   });
 }
 
 async function deleteRental(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_rentals').delete().eq('id', id);
   loadRentals();
 }
@@ -503,7 +525,6 @@ async function deleteRental(id) {
 async function loadReportsFull() {
   console.log('📊 Loading reports...');
 
-  // Populate month selector
   const monthSelect = document.getElementById('reportMonth');
   if (monthSelect && !monthSelect.options.length) {
     const now = new Date();
@@ -574,7 +595,7 @@ function renderHighlights() {
   const list = document.getElementById('highlightsList');
   if (!list) return;
   if (!currentHighlights.length) {
-    list.innerHTML = '<p class="text-muted" style="font-size: 12px;">Hin jiru — tokko dabalii.</p>';
+    list.innerHTML = `<p class="text-muted" style="font-size: 12px;">${tr('empty.generic', 'Hin jiru — tokko dabalii.')}</p>`;
     return;
   }
   list.innerHTML = currentHighlights.map((h, i) => `
@@ -640,7 +661,7 @@ function setupReportWritingForm() {
 
     msg.textContent = editingId ? '✅ Gabaasni haaromfameera!' : '✅ Gabaasni olkaa\'ameera!';
     msg.className = 'form-message success';
-    if (window.toast) toast.success('Milkaa\'e', 'Gabaasni olkaa\'ameera');
+    if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Gabaasni olkaa\'ameera');
 
     form.reset();
     currentHighlights = [];
@@ -652,7 +673,7 @@ function setupReportWritingForm() {
   });
 
   document.getElementById('clearReportBtn')?.addEventListener('click', () => {
-    if (!confirm('Qabiyyee haquu?')) return;
+    if (!confirm(tr('modal.confirm', 'Qabiyyee haquu?'))) return;
     form.reset();
     currentHighlights = [];
     renderHighlights();
@@ -675,7 +696,7 @@ async function loadReportsList() {
   if (!tb) return;
 
   if (!data?.length) {
-    tb.innerHTML = '<tr><td colspan="7" class="loading">Reports hin jiru. Gabaasa haaraa barreessi!</td></tr>';
+    tb.innerHTML = `<tr><td colspan="7" class="loading">Reports hin jiru. Gabaasa haaraa barreessi!</td></tr>`;
     return;
   }
 
@@ -763,7 +784,7 @@ window.viewReport = async function(id) {
       size: 'lg',
       showFooter: true,
       footerHTML: `
-        <button class="btn btn-outline" onclick="closeModal()">Cufi</button>
+        <button class="btn btn-outline" onclick="closeModal()">${tr('modal.close', 'Cufi')}</button>
         <button class="btn btn-primary" onclick="closeModal(); editReport(${data.id})">✏️ Gulaali</button>
       `
     });
@@ -777,15 +798,15 @@ window.togglePublishReport = async function(id, currentStatus) {
     published_at: newStatus === 'published' ? new Date().toISOString() : null
   }).eq('id', id);
   if (error) return alert('❌ ' + error.message);
-  if (window.toast) toast.success('Milkaa\'e', newStatus === 'published' ? 'Published' : 'Draft');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), newStatus === 'published' ? 'Published' : 'Draft');
   loadReportsList();
 };
 
 window.deleteReport = async function(id) {
-  if (!confirm('Balleessuu? Kun deebi\'uu hin danda\'u!')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu? Kun deebi\'uu hin danda\'u!'))) return;
   const { error } = await db.from('mn_reports').delete().eq('id', id);
   if (error) return alert('❌ ' + error.message);
-  if (window.toast) toast.success('Milkaa\'e', 'Balleeffameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Balleeffameera');
   loadReportsList();
 };
 
@@ -845,7 +866,7 @@ window.generateReport = async function(type, format) {
     if (format === 'pdf') await generatePDFReport(type);
     else if (format === 'excel') await generateExcelReport(type);
     msg.textContent = `✅ ${format.toUpperCase()} milkaa'inaan buufameera!`;
-    if (window.toast) toast.success('Milkaa\'e', 'Gabaasni uumameera');
+    if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Gabaasni uumameera');
   } catch (err) {
     console.error(err);
     msg.textContent = '❌ ' + err.message;
@@ -1030,7 +1051,7 @@ async function loadActivity() {
   const { data } = await query;
   const tb = document.querySelector('#activityTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="5" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="5" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((a, i) => `
     <tr><td>${i + 1}</td><td>${new Date(a.created_at).toLocaleString('om-ET')}</td>
     <td>${a.user_email}</td><td>${a.type} — ${a.action}</td><td>${a.description || '—'}</td></tr>
@@ -1053,7 +1074,7 @@ async function loadAnnouncements() {
   const { data } = await db.from('mn_announcements').select('*').order('created_at', { ascending: false });
   const tb = document.querySelector('#announcementsTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((a, i) => `
     <tr><td>${i + 1}</td><td>${a.title}</td>
     <td>${(a.body || '').substring(0, 50)}...</td>
@@ -1071,7 +1092,8 @@ function setupAnnouncementForm() {
     const ann = { title: fd.get('title'), body: fd.get('body') || null, is_public: fd.get('is_public') === 'on' };
     const { error } = await db.from('mn_announcements').insert([ann]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Maxxanfameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Maxxanfameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     await logActivity('announcement', 'created', ann.title);
     loadAnnouncements(); updateBadges();
@@ -1079,7 +1101,7 @@ function setupAnnouncementForm() {
 }
 
 async function deleteAnnouncement(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_announcements').delete().eq('id', id);
   loadAnnouncements(); updateBadges();
 }
@@ -1089,7 +1111,7 @@ async function loadNews() {
   dashState.allNews = data || [];
   const tb = document.querySelector('#newsTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((n, i) => `
     <tr><td>${i + 1}</td><td>${n.title}</td><td>${n.category || 'announcement'}</td>
     <td>${n.is_public ? '✅' : '❌'}</td>
@@ -1107,14 +1129,15 @@ function setupNewsForm() {
     const news = { title: fd.get('title'), body: fd.get('body'), category: fd.get('category'), is_public: fd.get('is_public') === 'on' };
     const { error } = await db.from('mn_announcements').insert([news]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Maxxanfameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Maxxanfameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadNews();
   });
 }
 
 async function deleteNews(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_announcements').delete().eq('id', id);
   loadNews(); updateBadges();
 }
@@ -1129,7 +1152,7 @@ async function loadComments() {
   const { data } = await query;
   const tb = document.querySelector('#commentsTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
 
   tb.innerHTML = data.map((c, i) => `
     <tr><td>${i + 1}</td><td>${c.author_name || '—'}</td><td>${c.author_email || '—'}</td>
@@ -1148,7 +1171,7 @@ async function loadComments() {
 
 window.approveComment = async function(id) {
   await db.from('mn_news_comments').update({ status: 'approved' }).eq('id', id);
-  if (window.toast) toast.success('Milkaa\'e', 'Approved');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Approved');
   loadComments(); updateBadges();
 };
 
@@ -1158,7 +1181,7 @@ window.rejectComment = async function(id) {
 };
 
 window.deleteComment = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_news_comments').delete().eq('id', id);
   loadComments(); updateBadges();
 };
@@ -1170,7 +1193,7 @@ async function loadGallery() {
   const { data } = await db.from('mn_gallery').select('*').order('display_order');
   const tb = document.querySelector('#galleryTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="5" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="5" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((g, i) => `
     <tr><td>${i + 1}</td>
     <td><img src="${g.image_url}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 6px;" onerror="this.style.display='none'" /></td>
@@ -1187,14 +1210,15 @@ function setupGalleryForm() {
     const item = { title: fd.get('title'), image_url: fd.get('image_url'), description: fd.get('description') || null, category: fd.get('category') };
     const { error } = await db.from('mn_gallery').insert([item]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Dabalameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Dabalameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadGallery();
   });
 }
 
 window.deleteGalleryItem = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_gallery').delete().eq('id', id);
   loadGallery();
 };
@@ -1206,7 +1230,7 @@ async function loadMasjidos() {
   const { data } = await db.from('mn_masjidos').select('*').order('name');
   const tb = document.querySelector('#masjidosTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((m, i) => `
     <tr><td>${i + 1}</td><td>${m.name}</td><td>${m.woreda}</td>
     <td>${m.kebele || '—'}</td><td>${m.member_count || 0}</td>
@@ -1222,14 +1246,15 @@ function setupMasjidForm() {
     const masjid = { name: fd.get('name'), woreda: fd.get('woreda'), kebele: fd.get('kebele') || null, member_count: Number(fd.get('member_count')) || 0 };
     const { error } = await db.from('mn_masjidos').insert([masjid]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Dabalameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Dabalameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadMasjidos();
   });
 }
 
 async function deleteMasjid(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_masjidos').delete().eq('id', id);
   loadMasjidos();
 }
@@ -1241,7 +1266,7 @@ async function loadTeam() {
   const { data } = await db.from('mn_team_members').select('*').order('display_order');
   const tb = document.querySelector('#teamTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="6" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((t, i) => `
     <tr><td>${i + 1}</td><td>${t.name}</td><td>${t.role}</td>
     <td>${t.category}</td><td>${t.phone || '—'}</td>
@@ -1263,14 +1288,15 @@ function setupTeamForm() {
     };
     const { error } = await db.from('mn_team_members').insert([team]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Dabalameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Dabalameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadTeam();
   });
 }
 
 window.deleteTeamMember = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_team_members').delete().eq('id', id);
   loadTeam();
 };
@@ -1285,7 +1311,7 @@ async function loadVolunteers() {
   const { data } = await query;
   const tb = document.querySelector('#volunteersTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="8" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="8" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((v, i) => `
     <tr><td>${i + 1}</td><td>${v.name}</td><td>${v.phone || '—'}</td>
     <td>${v.woreda || '—'}</td><td>${v.role || '—'}</td><td>${v.hours || '—'}</td>
@@ -1302,7 +1328,7 @@ async function loadVolunteers() {
 
 window.approveVolunteer = async function(id) {
   await db.from('mn_volunteers').update({ status: 'approved' }).eq('id', id);
-  if (window.toast) toast.success('Milkaa\'e', 'Approved');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Approved');
   loadVolunteers(); updateBadges();
 };
 
@@ -1312,7 +1338,7 @@ window.rejectVolunteer = async function(id) {
 };
 
 window.deleteVolunteer = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_volunteers').delete().eq('id', id);
   loadVolunteers(); updateBadges();
 };
@@ -1324,7 +1350,7 @@ async function loadMilestones() {
   const { data } = await db.from('mn_project_milestones').select('*').order('id');
   const tb = document.querySelector('#milestonesTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((m, i) => {
     const pct = ((m.current_amount || 0) / (m.target_amount || 1) * 100).toFixed(1);
     return `
@@ -1352,7 +1378,8 @@ function setupMilestoneForm() {
     };
     const { error } = await db.from('mn_project_milestones').insert([ms]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Dabalameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Dabalameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadMilestones();
   });
@@ -1362,12 +1389,12 @@ window.updateMilestone = async function(id, current) {
   const n = prompt('Raawwii haaraa (ETB):', current);
   if (n === null) return;
   await db.from('mn_project_milestones').update({ current_amount: Number(n) }).eq('id', id);
-  if (window.toast) toast.success('Milkaa\'e', 'Haaromfameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Haaromfameera');
   loadMilestones();
 };
 
 window.deleteMilestone = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_project_milestones').delete().eq('id', id);
   loadMilestones();
 };
@@ -1382,7 +1409,7 @@ async function loadMessages() {
   const { data } = await query;
   const tb = document.querySelector('#messagesTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="7" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((m, i) => `
     <tr><td>${i + 1}</td><td>${m.name}</td><td>${m.phone || '—'}</td>
     <td title="${m.message}">${(m.message || '').substring(0, 50)}...</td>
@@ -1401,14 +1428,14 @@ window.viewMessage = async function(id) {
     openModal({
       title: `✉️ ${data.name}`,
       body: `
-        <p><strong>Bilbila:</strong> ${data.phone || '—'}</p>
-        <p><strong>Imeelii:</strong> ${data.email || '—'}</p>
-        <p><strong>Guyyaa:</strong> ${new Date(data.created_at).toLocaleString('om-ET')}</p>
+        <p><strong>${tr('table.phone', 'Bilbila')}:</strong> ${data.phone || '—'}</p>
+        <p><strong>${tr('table.email', 'Imeelii')}:</strong> ${data.email || '—'}</p>
+        <p><strong>${tr('table.date', 'Guyyaa')}:</strong> ${new Date(data.created_at).toLocaleString('om-ET')}</p>
         <hr style="margin: 12px 0; border: none; border-top: 1px solid #e2e8f0;" />
         <p style="white-space: pre-wrap;">${data.message}</p>
       `,
       size: 'md', showFooter: true,
-      footerHTML: `<button class="btn btn-primary" onclick="closeModal()">Cufi</button>`
+      footerHTML: `<button class="btn btn-primary" onclick="closeModal()">${tr('modal.close', 'Cufi')}</button>`
     });
   }
   if (data.status === 'new') {
@@ -1418,7 +1445,7 @@ window.viewMessage = async function(id) {
 };
 
 window.deleteMessage = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_contact_messages').delete().eq('id', id);
   loadMessages(); updateBadges();
 };
@@ -1430,7 +1457,7 @@ async function loadFaqs() {
   const { data } = await db.from('mn_faqs').select('*').order('display_order');
   const tb = document.querySelector('#faqTable tbody');
   if (!tb) return;
-  if (!data?.length) { tb.innerHTML = `<tr><td colspan="4" class="loading">${t('table.empty')}</td></tr>`; return; }
+  if (!data?.length) { tb.innerHTML = `<tr><td colspan="4" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`; return; }
   tb.innerHTML = data.map((f, i) => `
     <tr><td>${i + 1}</td><td>${f.question}</td><td>${f.category}</td>
     <td><button class="btn-icon danger" onclick="deleteFaq(${f.id})">🗑</button></td></tr>
@@ -1445,14 +1472,15 @@ function setupFaqForm() {
     const faq = { question: fd.get('question'), answer: fd.get('answer'), category: fd.get('category') };
     const { error } = await db.from('mn_faqs').insert([faq]);
     if (error) { msg.textContent = '❌ ' + error.message; msg.className = 'form-message error'; return; }
-    msg.textContent = '✅ Dabalameera!'; msg.className = 'form-message success';
+    msg.textContent = '✅ ' + tr('toast.save.success', 'Dabalameera!');
+    msg.className = 'form-message success';
     e.target.reset();
     loadFaqs();
   });
 }
 
 window.deleteFaq = async function(id) {
-  if (!confirm('Balleessuu?')) return;
+  if (!confirm(tr('modal.delete.confirm', 'Balleessuu?'))) return;
   await db.from('mn_faqs').delete().eq('id', id);
   loadFaqs();
 };
@@ -1464,7 +1492,7 @@ async function loadSettings() {
   const { data } = await db.from('mn_site_settings').select('*').order('key');
   const form = document.getElementById('settingsForm');
   if (!form) return;
-  if (!data?.length) { form.innerHTML = '<p class="text-muted">Settings hin jiru.</p>'; return; }
+  if (!data?.length) { form.innerHTML = `<p class="text-muted">${tr('empty.generic', 'Settings hin jiru.')}</p>`; return; }
   form.innerHTML = `
     <div class="stack-form">
       ${data.map(s => `
@@ -1492,7 +1520,7 @@ window.saveSettings = async function() {
   }
   msg.textContent = `✅ ${saved} settings saved!`;
   msg.className = 'form-message success';
-  if (window.toast) toast.success('Milkaa\'e', `${saved} settings olkaa'ameera`);
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), `${saved} settings olkaa'ameera`);
 };
 
 // ============================================
@@ -1513,7 +1541,7 @@ function setupFilterListeners() {
 // ============================================
 function setupLogout() {
   document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-    if (!confirm('Dhuguma ba\'uu barbaadda?')) return;
+    if (!confirm(tr('modal.confirm', 'Dhuguma ba\'uu barbaadda?'))) return;
     await db.auth.signOut();
     window.location.href = 'login.html';
   });
@@ -1521,13 +1549,21 @@ function setupLogout() {
 
 function setupLanguageSync() {
   window.addEventListener('languageChanged', () => {
+    console.log('🌐 Dashboard language changed');
     const active = document.querySelector('.dash-nav a.active');
     if (active) {
-      const span = active.querySelector('span:not(.dash-nav-icon):not(.badge-count)');
+      const span = active.querySelector('span[data-i18n]');
       const titleEl = document.getElementById('dashTitle');
-      if (titleEl) titleEl.textContent = span?.dataset.i18n ? t(span.dataset.i18n) : (span?.textContent || 'Dashboard');
+      if (titleEl && span) {
+        titleEl.dataset.i18n = span.dataset.i18n;
+        titleEl.textContent = tr(span.dataset.i18n, span.textContent);
+      }
     }
     loadOverview();
+    const currentTab = document.querySelector('.dash-nav a.active')?.dataset.tab;
+    if (currentTab && currentTab !== 'overview') loadTab(currentTab);
+
+    if (typeof applyTranslations === 'function') applyTranslations();
   });
 }
 

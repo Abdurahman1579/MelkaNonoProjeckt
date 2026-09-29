@@ -1,26 +1,30 @@
 // ============================================
-// PDF RECEIPT GENERATOR — Malka Noonoo
+// PDF RECEIPT GENERATOR — Malka Noonoo (i18n)
 // ============================================
 
-const { jsPDF } = window.jspdf;
+console.log('📄 pdf-receipt.js loaded');
+
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || '';
+}
 
 async function generatePDFReceipt(donation) {
   console.log('📄 Generating PDF receipt...', donation);
 
-  const doc = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4'
-  });
+  const { jsPDF } = window.jspdf;
+  if (!jsPDF) throw new Error('PDF library hin fe\'amne');
 
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageW = doc.internal.pageSize.getWidth();
 
-  // ============ HEADER ============
-  // Green header bar
-  doc.setFillColor(26, 107, 79);  // --green-700
+  // HEADER
+  doc.setFillColor(26, 107, 79);
   doc.rect(0, 0, pageW, 40, 'F');
 
-  // Logo circle
   doc.setFillColor(255, 255, 255);
   doc.circle(30, 20, 10, 'F');
   doc.setTextColor(26, 107, 79);
@@ -28,28 +32,25 @@ async function generatePDFReceipt(donation) {
   doc.setFont('helvetica', 'bold');
   doc.text('☪', 26, 24);
 
-  // Brand
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Malka Noonoo', 50, 18);
+  doc.text(tr('brand.name', 'Malka Noonoo'), 50, 18);
 
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  doc.text('Mana Marii Dhimmoota Islaamummaa', 50, 24);
+  doc.text(tr('brand.subtitle', 'Mana Marii Dhimmoota Islaamummaa'), 50, 24);
   doc.text('Malka Noonoo Sub-city, Sheger, Ethiopia', 50, 30);
 
-  // Receipt title
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.text('DONATION RECEIPT', pageW - 15, 18, { align: 'right' });
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  doc.text('Raseenii Gumaachaa', pageW - 15, 24, { align: 'right' });
+  doc.text(tr('donate.success.pdf', 'Raseenii Gumaachaa'), pageW - 15, 24, { align: 'right' });
 
-  // ============ RECEIPT INFO ============
+  // RECEIPT INFO
   let y = 55;
-
   doc.setTextColor(17, 24, 39);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
@@ -58,13 +59,13 @@ async function generatePDFReceipt(donation) {
   doc.text(donation.receipt_no || 'MN-' + Date.now(), 50, y);
 
   doc.setFont('helvetica', 'bold');
-  doc.text('Guyyaa:', pageW - 65, y);
+  doc.text(tr('table.date', 'Guyyaa') + ':', pageW - 65, y);
   doc.setFont('helvetica', 'normal');
   doc.text(formatDate(donation.created_at || new Date()), pageW - 40, y);
 
   y += 8;
 
-  // ============ DONOR INFO ============
+  // DONOR INFO
   doc.setDrawColor(220, 220, 220);
   doc.line(15, y, pageW - 15, y);
   y += 8;
@@ -72,19 +73,19 @@ async function generatePDFReceipt(donation) {
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(26, 107, 79);
-  doc.text('Odeeffannoo Gumaachaa', 15, y);
+  doc.text(tr('donate.step.info', 'Odeeffannoo Gumaachaa'), 15, y);
   y += 8;
 
   doc.setTextColor(17, 24, 39);
   doc.setFontSize(10);
 
   const donorRows = [
-    ['Maqaa', donation.donor_name || '—'],
-    ['Bilbila', donation.donor_phone || '—'],
-    ['Imeelii', donation.donor_email || '—'],
-    ['Sadarkaa', donation.tier || '—'],
-    ['Mala Kaffaltii', donation.payment_method || '—'],
-    ['Yeroo Gumaachaa', donation.frequency || 'one-time']
+    [tr('donate.form.name', 'Maqaa'), donation.donor_name || '—'],
+    [tr('donate.form.phone', 'Bilbila'), donation.donor_phone || '—'],
+    [tr('donate.form.email', 'Imeelii'), donation.donor_email || '—'],
+    [tr('table.tier', 'Sadarkaa'), donation.tier || '—'],
+    [tr('table.method', 'Mala Kaffaltii'), donation.payment_method || '—'],
+    [tr('table.frequency', 'Yeroo'), donation.frequency || 'one-time']
   ];
 
   donorRows.forEach(([label, value]) => {
@@ -97,31 +98,28 @@ async function generatePDFReceipt(donation) {
 
   y += 4;
 
-  // ============ AMOUNT BOX ============
-  doc.setFillColor(209, 250, 229);  // --green-100
+  // AMOUNT BOX
+  doc.setFillColor(209, 250, 229);
   doc.roundedRect(15, y, pageW - 30, 22, 3, 3, 'F');
-
   doc.setTextColor(26, 107, 79);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text('GUMAACHA WALIIGALAA', 22, y + 8);
-
+  doc.text(tr('table.amount', 'GUMAACHA WALIIGALAA').toUpperCase(), 22, y + 8);
   doc.setFontSize(18);
   doc.text(formatETB(donation.amount), pageW - 22, y + 14, { align: 'right' });
 
   y += 30;
 
-  // ============ THANK YOU ============
+  // THANK YOU
   doc.setTextColor(17, 24, 39);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'italic');
-  const thanks = 'Galatoomaa gumaacha keessaniif! Gumaachni keessan dhaabbataa, barnoota, fi tajaajila hawaasaaf oola. Allah isin barakeessi!';
-  const splitThanks = doc.splitTextToSize(thanks, pageW - 30);
-  doc.text(splitThanks, 15, y);
+  const thanks = tr('donate.success.note', 'Galatoomaa gumaacha keessaniif! Gumaachni keessan dhaabbataa, barnoota, fi tajaajila hawaasaaf oola. Allah isin barakeessi!');
+  const split = doc.splitTextToSize(thanks, pageW - 30);
+  doc.text(split, 15, y);
+  y += split.length * 5 + 10;
 
-  y += splitThanks.length * 5 + 10;
-
-  // ============ FOOTER ============
+  // FOOTER
   doc.setDrawColor(220, 220, 220);
   doc.line(15, y, pageW - 15, y);
   y += 8;
@@ -129,23 +127,18 @@ async function generatePDFReceipt(donation) {
   doc.setFontSize(8);
   doc.setTextColor(107, 114, 128);
   doc.setFont('helvetica', 'normal');
-  doc.text('Malka Noonoo Mana Marii Dhimmoota Islaamummaa', 15, y);
+  doc.text(tr('brand.name', 'Malka Noonoo') + ' ' + tr('brand.subtitle', 'Mana Marii'), 15, y);
   doc.text('info@malkanoonoo.org  |  +251 9xx xxx xxx', 15, y + 5);
 
-  const qrY = y + 20;
   doc.setFontSize(7);
-  doc.text('Raseenii kana PDF offfline olkaa\'i. Gabaasa ifa ta\'e dashboard irratti ilaali.', 15, qrY);
-  doc.text('Raseenii #: ' + (donation.receipt_no || 'MN-' + Date.now()), 15, qrY + 5);
+  doc.text('Raseenii #: ' + (donation.receipt_no || 'MN-' + Date.now()), 15, y + 20);
 
-  // Save
   const filename = `Malka-Noonoo-Receipt-${donation.receipt_no || Date.now()}.pdf`;
   doc.save(filename);
-
   console.log('✅ PDF saved:', filename);
   return filename;
 }
 
-// ---------- HELPERS ----------
 function formatDate(date) {
   const d = new Date(date);
   const day = String(d.getDate()).padStart(2, '0');
@@ -153,3 +146,5 @@ function formatDate(date) {
   const year = d.getFullYear();
   return `${day}/${month}/${year}`;
 }
+
+window.generatePDFReceipt = generatePDFReceipt;

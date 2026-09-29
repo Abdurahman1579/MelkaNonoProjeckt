@@ -38,13 +38,15 @@
       </div>
 
       <nav class="dash-nav">
-        <span class="dash-nav-section">MAIN</span>
+        <span class="dash-nav-section" data-i18n="dash.section.main">MAIN</span>
         <a href="#" class="active" data-tab="overview">
           <span class="dash-nav-icon">📊</span
           ><span data-i18n="dash.overview">Waliigalaa</span>
         </a>
 
-        <span class="dash-nav-section">FINANCE</span>
+        <span class="dash-nav-section" data-i18n="dash.section.finance"
+          >FINANCE</span
+        >
         <a href="#" data-tab="donations"
           ><span class="dash-nav-icon">💰</span
           ><span data-i18n="dash.donations">Gumaacha</span></a
@@ -62,61 +64,83 @@
           ><span data-i18n="dash.rentals">Kireeffannaa</span></a
         >
 
-        <span class="dash-nav-section">ANALYTICS</span>
+        <span class="dash-nav-section" data-i18n="dash.section.analytics"
+          >ANALYTICS</span
+        >
         <a href="#" data-tab="reports"
-          ><span class="dash-nav-icon">📊</span><span>Gabaasa</span></a
+          ><span class="dash-nav-icon">📊</span
+          ><span data-i18n="dash.reports">Gabaasa</span></a
         >
         <a href="#" data-tab="activity"
           ><span class="dash-nav-icon">📋</span
           ><span data-i18n="dash.activity">Sochii</span></a
         >
 
-        <span class="dash-nav-section">CONTENT</span>
+        <span class="dash-nav-section" data-i18n="dash.section.content"
+          >CONTENT</span
+        >
         <a href="#" data-tab="announcements"
           ><span class="dash-nav-icon">📢</span
           ><span data-i18n="dash.announcements">Beeksisa</span></a
         >
         <a href="#" data-tab="news"
-          ><span class="dash-nav-icon">📰</span><span>Odeeffannoo</span></a
+          ><span class="dash-nav-icon">📰</span
+          ><span data-i18n="dash.news">Odeeffannoo</span></a
         >
         <a href="#" data-tab="comments">
-          <span class="dash-nav-icon">💬</span><span>Comments</span>
+          <span class="dash-nav-icon">💬</span
+          ><span data-i18n="dash.comments">Yaada</span>
           <span class="badge-count" id="badgeComments">0</span>
         </a>
         <a href="#" data-tab="gallery"
-          ><span class="dash-nav-icon">📸</span><span>Gallery</span></a
+          ><span class="dash-nav-icon">📸</span
+          ><span data-i18n="dash.gallery">Suuraa</span></a
         >
 
-        <span class="dash-nav-section">ORGANIZATION</span>
+        <span class="dash-nav-section" data-i18n="dash.section.organization"
+          >ORGANIZATION</span
+        >
         <a href="#" data-tab="masjidos"
           ><span class="dash-nav-icon">🕌</span
           ><span data-i18n="dash.masjidos">Masgiidota</span></a
         >
         <a href="#" data-tab="team"
-          ><span class="dash-nav-icon">👥</span><span>Team</span></a
+          ><span class="dash-nav-icon">👥</span
+          ><span data-i18n="dash.team">Koree</span></a
         >
         <a href="#" data-tab="volunteers">
-          <span class="dash-nav-icon">🤝</span><span>Volunteers</span>
+          <span class="dash-nav-icon">🤝</span
+          ><span data-i18n="dash.volunteers">Fedhii</span>
           <span class="badge-count" id="badgeVolunteers">0</span>
         </a>
 
-        <span class="dash-nav-section">PROJECT</span>
+        <span class="dash-nav-section" data-i18n="dash.section.project"
+          >PROJECT</span
+        >
         <a href="#" data-tab="milestones"
-          ><span class="dash-nav-icon">🎯</span><span>Milestones</span></a
+          ><span class="dash-nav-icon">🎯</span
+          ><span data-i18n="dash.milestones">Milestone</span></a
         >
 
-        <span class="dash-nav-section">COMMUNICATION</span>
+        <span class="dash-nav-section" data-i18n="dash.section.communication"
+          >COMMUNICATION</span
+        >
         <a href="#" data-tab="messages">
-          <span class="dash-nav-icon">📩</span><span>Messages</span>
+          <span class="dash-nav-icon">📩</span
+          ><span data-i18n="dash.messages">Ergaa</span>
           <span class="badge-count" id="badgeMessages">0</span>
         </a>
         <a href="#" data-tab="faqs"
-          ><span class="dash-nav-icon">❓</span><span>FAQ</span></a
+          ><span class="dash-nav-icon">❓</span
+          ><span data-i18n="dash.faqs">FAQ</span></a
         >
 
-        <span class="dash-nav-section">SYSTEM</span>
+        <span class="dash-nav-section" data-i18n="dash.section.system"
+          >SYSTEM</span
+        >
         <a href="#" data-tab="settings"
-          ><span class="dash-nav-icon">⚙️</span><span>Settings</span></a
+          ><span class="dash-nav-icon">⚙️</span
+          ><span data-i18n="dash.settings">Qindaa'ina</span></a
         >
       </nav>
 
@@ -198,39 +222,44 @@
           <div class="quick-stat">
             <span class="quick-stat-icon">💬</span>
             <div>
-              <span>Comments Pending</span><strong id="qsComments">0</strong>
+              <span data-i18n="dash.quick.comments">Yaada Pending</span
+              ><strong id="qsComments">0</strong>
             </div>
           </div>
           <div class="quick-stat">
             <span class="quick-stat-icon">🤝</span>
             <div>
-              <span>Volunteers Pending</span
+              <span data-i18n="dash.quick.volunteers">Fedhii Pending</span
               ><strong id="qsVolunteers">0</strong>
             </div>
           </div>
           <div class="quick-stat">
             <span class="quick-stat-icon">📩</span>
             <div>
-              <span>New Messages</span><strong id="qsMessages">0</strong>
+              <span data-i18n="dash.quick.messages">Ergaa Haaraa</span
+              ><strong id="qsMessages">0</strong>
             </div>
           </div>
           <div class="quick-stat">
             <span class="quick-stat-icon">📰</span>
-            <div><span>News Published</span><strong id="qsNews">0</strong></div>
+            <div>
+              <span data-i18n="dash.quick.news">Odeeffannoo Maxxanfame</span
+              ><strong id="qsNews">0</strong>
+            </div>
           </div>
         </div>
 
         <div class="charts-grid">
           <div class="chart-card chart-card-wide">
-            <h3>📈 Galii Ji'aan</h3>
+            <h3 data-i18n="dash.chart.revenue">📈 Galii Ji'aan</h3>
             <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
           </div>
           <div class="chart-card">
-            <h3>🥧 Sadarkaa Gumaachaa</h3>
+            <h3 data-i18n="dash.chart.tiers">🥧 Sadarkaa Gumaachaa</h3>
             <div class="chart-wrap"><canvas id="tiersChart"></canvas></div>
           </div>
           <div class="chart-card">
-            <h3>📊 Baasii Ramaddii</h3>
+            <h3 data-i18n="dash.chart.expenses">📊 Baasii Ramaddii</h3>
             <div class="chart-wrap"><canvas id="expensesChart"></canvas></div>
           </div>
         </div>
@@ -239,8 +268,14 @@
       <!-- ==================== DONATIONS ==================== -->
       <section class="dash-tab" data-tab="donations">
         <div class="form-card form-card-gold">
-          <h3>💰 Galii Haaraa Galmeessi (Manual)</h3>
-          <p class="text-muted" style="margin-bottom: 14px">
+          <h3 data-i18n="dash.add.donation">
+            💰 Galii Haaraa Galmeessi (Manual)
+          </h3>
+          <p
+            class="text-muted"
+            style="margin-bottom: 14px"
+            data-i18n="dash.add.donation.desc"
+          >
             Maallaqa harkaa, baankii transfer, ykn odeeffannoo alaa irraa argame
             galmeessi.
           </p>
@@ -248,19 +283,27 @@
             <input
               type="text"
               name="donor_name"
+              data-i18n-placeholder="donate.form.name"
               placeholder="Maqaa *"
               required
             />
             <input
               type="tel"
               name="donor_phone"
+              data-i18n-placeholder="donate.form.phone"
               placeholder="Bilbila *"
               required
             />
-            <input type="email" name="donor_email" placeholder="Imeelii" />
+            <input
+              type="email"
+              name="donor_email"
+              data-i18n-placeholder="donate.form.email"
+              placeholder="Imeelii"
+            />
             <input
               type="number"
               name="amount"
+              data-i18n-placeholder="donate.form.amount"
               placeholder="Gumaacha (ETB) *"
               required
               min="1"
@@ -284,8 +327,19 @@
               <option value="chapa">Chapa</option>
             </select>
             <input type="text" name="payment_ref" placeholder="Ref #" />
-            <input type="text" name="note" placeholder="Yaada" />
-            <button type="submit" class="btn btn-primary">➕ Galmeessi</button>
+            <input
+              type="text"
+              name="note"
+              data-i18n-placeholder="donate.form.note"
+              placeholder="Yaada"
+            />
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Galmeessi
+            </button>
           </form>
           <div id="donationMsg" class="form-message"></div>
         </div>
@@ -294,6 +348,7 @@
           <input
             type="search"
             id="donSearch"
+            data-i18n-placeholder="dash.filter.search"
             placeholder="Maqaa / Bilbila barbaadi..."
           />
           <select id="donTier">
@@ -312,7 +367,12 @@
           </select>
           <input type="date" id="donFrom" />
           <input type="date" id="donTo" />
-          <button type="button" class="btn btn-outline" id="donClear">
+          <button
+            type="button"
+            class="btn btn-outline"
+            id="donClear"
+            data-i18n="dash.filter.clear"
+          >
             Haqi
           </button>
         </div>
@@ -325,6 +385,7 @@
               class="btn btn-primary"
               id="bulkConfirmBtn"
               disabled
+              data-i18n="dash.bulk.confirm"
             >
               ✓ Confirm
             </button>
@@ -350,21 +411,23 @@
             <thead>
               <tr>
                 <th><input type="checkbox" id="donSelectAll" /></th>
-                <th>#</th>
-                <th>Maqaa</th>
-                <th>Bilbila</th>
-                <th>Imeelii</th>
-                <th>Sadarkaa</th>
-                <th>Gumaacha</th>
-                <th>Mala</th>
-                <th>Haala</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
+                <th data-i18n="table.phone">Bilbila</th>
+                <th data-i18n="table.email">Imeelii</th>
+                <th data-i18n="table.tier">Sadarkaa</th>
+                <th data-i18n="table.amount">Gumaacha</th>
+                <th data-i18n="table.method">Mala</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="11" class="loading">Fe'amaa jira...</td>
+                <td colspan="11" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -374,18 +437,25 @@
       <!-- ==================== EXPENSES ==================== -->
       <section class="dash-tab" data-tab="expenses">
         <div class="form-card">
-          <h3>💸 Baasii Haaraa Galmeessi</h3>
+          <h3 data-i18n="dash.add.expense">💸 Baasii Haaraa Galmeessi</h3>
           <form id="addExpenseForm" class="inline-form">
             <input
               type="text"
               name="category"
+              data-i18n-placeholder="table.category"
               placeholder="Ramaddii *"
               required
             />
-            <input type="text" name="description" placeholder="Ibsa" />
+            <input
+              type="text"
+              name="description"
+              data-i18n-placeholder="table.description"
+              placeholder="Ibsa"
+            />
             <input
               type="number"
               name="amount"
+              data-i18n-placeholder="table.amount"
               placeholder="Baasii (ETB) *"
               required
               min="1"
@@ -396,7 +466,13 @@
               <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="expenseMsg" class="form-message"></div>
         </div>
@@ -404,18 +480,20 @@
           <table id="expensesTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Ramaddii</th>
-                <th>Ibsa</th>
-                <th>Baasii</th>
-                <th>Haala</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.category">Ramaddii</th>
+                <th data-i18n="table.description">Ibsa</th>
+                <th data-i18n="table.amount">Baasii</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="7" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -425,13 +503,25 @@
       <!-- ==================== ASSETS ==================== -->
       <section class="dash-tab" data-tab="assets">
         <div class="form-card">
-          <h3>🏢 Qabeenya Haaraa Galmeessi</h3>
+          <h3 data-i18n="dash.add.asset">🏢 Qabeenya Haaraa Galmeessi</h3>
           <form id="addAssetForm" class="inline-form">
-            <input type="text" name="name" placeholder="Maqaa *" required />
-            <input type="text" name="category" placeholder="Ramaddii" />
+            <input
+              type="text"
+              name="name"
+              data-i18n-placeholder="table.name"
+              placeholder="Maqaa *"
+              required
+            />
+            <input
+              type="text"
+              name="category"
+              data-i18n-placeholder="table.category"
+              placeholder="Ramaddii"
+            />
             <input
               type="number"
               name="quantity"
+              data-i18n-placeholder="table.quantity"
               placeholder="Baay'ina"
               min="1"
               value="1"
@@ -439,12 +529,19 @@
             <input
               type="number"
               name="purchase_price"
+              data-i18n-placeholder="table.price"
               placeholder="Gatii (ETB)"
               min="0"
               step="1"
             />
             <input type="date" name="purchase_date" />
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="assetMsg" class="form-message"></div>
         </div>
@@ -452,18 +549,20 @@
           <table id="assetsTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Maqaa</th>
-                <th>Ramaddii</th>
-                <th>Baay'ina</th>
-                <th>Gatii</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
+                <th data-i18n="table.category">Ramaddii</th>
+                <th data-i18n="table.quantity">Baay'ina</th>
+                <th data-i18n="table.price">Gatii</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="7" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -473,23 +572,31 @@
       <!-- ==================== RENTALS ==================== -->
       <section class="dash-tab" data-tab="rentals">
         <div class="form-card">
-          <h3>🏪 Kireeffannaa Haaraa Galmeessi</h3>
+          <h3 data-i18n="dash.add.rental">🏪 Kireeffannaa Haaraa Galmeessi</h3>
           <form id="addRentalForm" class="inline-form">
             <input
               type="text"
               name="tenant_name"
+              data-i18n-placeholder="table.tenant"
               placeholder="Kireeffataa *"
               required
             />
-            <input type="tel" name="tenant_phone" placeholder="Bilbila" />
+            <input
+              type="tel"
+              name="tenant_phone"
+              data-i18n-placeholder="table.phone"
+              placeholder="Bilbila"
+            />
             <input
               type="text"
               name="space_description"
+              data-i18n-placeholder="table.space"
               placeholder="Ibsa bakka"
             />
             <input
               type="number"
               name="monthly_rent"
+              data-i18n-placeholder="table.rent"
               placeholder="Kireeffannaa (ETB)"
               min="0"
               step="1"
@@ -500,7 +607,13 @@
               <option value="terminated">Terminated</option>
               <option value="expired">Expired</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="rentalMsg" class="form-message"></div>
         </div>
@@ -508,18 +621,20 @@
           <table id="rentalsTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Kireeffataa</th>
-                <th>Bilbila</th>
-                <th>Bakka</th>
-                <th>Kireeffannaa</th>
-                <th>Haala</th>
-                <th>Action</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.tenant">Kireeffataa</th>
+                <th data-i18n="table.phone">Bilbila</th>
+                <th data-i18n="table.space">Bakka</th>
+                <th data-i18n="table.rent">Kireeffannaa</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="7" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -725,18 +840,20 @@
             <table id="reportsListTable">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Mata-duree</th>
+                  <th data-i18n="table.number">#</th>
+                  <th data-i18n="table.title">Mata-duree</th>
                   <th>Gosa</th>
                   <th>Yeroo</th>
-                  <th>Galii</th>
-                  <th>Haala</th>
-                  <th>Action</th>
+                  <th data-i18n="table.amount">Galii</th>
+                  <th data-i18n="table.status">Haala</th>
+                  <th data-i18n="table.action">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="7" class="loading">Fe'amaa jira...</td>
+                  <td colspan="7" class="loading" data-i18n="loading.generic">
+                    Fe'amaa jira...
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -961,16 +1078,18 @@
           <table id="activityTable">
             <thead>
               <tr>
-                <th>#</th>
+                <th data-i18n="table.number">#</th>
                 <th>Yeroo</th>
                 <th>Actor</th>
                 <th>Sochii</th>
-                <th>Ibsa</th>
+                <th data-i18n="table.description">Ibsa</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="5" class="loading">Fe'amaa jira...</td>
+                <td colspan="5" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -980,21 +1099,33 @@
       <!-- ==================== ANNOUNCEMENTS ==================== -->
       <section class="dash-tab" data-tab="announcements">
         <div class="form-card">
-          <h3>📢 Beeksisa Haaraa Uumi</h3>
+          <h3 data-i18n="dash.add.announcement">📢 Beeksisa Haaraa Uumi</h3>
           <form id="addAnnouncementForm" class="stack-form">
             <input
               type="text"
               name="title"
+              data-i18n-placeholder="table.title"
               placeholder="Mata-duree *"
               required
             />
-            <textarea name="body" rows="4" placeholder="Qabiyyee..."></textarea>
+            <textarea
+              name="body"
+              rows="4"
+              data-i18n-placeholder="table.body"
+              placeholder="Qabiyyee..."
+            ></textarea>
             <label class="checkbox-row"
               ><input type="checkbox" name="is_public" checked /><span
                 >Public</span
               ></label
             >
-            <button type="submit" class="btn btn-primary">➕ Maxxansi</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Maxxansi
+            </button>
           </form>
           <div id="announcementMsg" class="form-message"></div>
         </div>
@@ -1002,17 +1133,19 @@
           <table id="announcementsTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Mata-duree</th>
-                <th>Qabiyyee</th>
-                <th>Public</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.title">Mata-duree</th>
+                <th data-i18n="table.body">Qabiyyee</th>
+                <th data-i18n="table.public">Public</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading">Fe'amaa jira...</td>
+                <td colspan="6" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1027,12 +1160,14 @@
             <input
               type="text"
               name="title"
+              data-i18n-placeholder="table.title"
               placeholder="Mata-duree *"
               required
             />
             <textarea
               name="body"
               rows="4"
+              data-i18n-placeholder="table.body"
               placeholder="Qabiyyee..."
               required
             ></textarea>
@@ -1047,7 +1182,13 @@
                 >Public</span
               ></label
             >
-            <button type="submit" class="btn btn-primary">➕ Maxxansi</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Maxxansi
+            </button>
           </form>
           <div id="newsMsg" class="form-message"></div>
         </div>
@@ -1055,17 +1196,19 @@
           <table id="newsTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Mata-duree</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.title">Mata-duree</th>
                 <th>Kategori</th>
-                <th>Haala</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading">Fe'amaa jira...</td>
+                <td colspan="6" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1093,18 +1236,20 @@
           <table id="commentsTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Maqaa</th>
-                <th>Imeelii</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
+                <th data-i18n="table.email">Imeelii</th>
                 <th>Yaada</th>
                 <th>News</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="7" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1119,6 +1264,7 @@
             <input
               type="text"
               name="title"
+              data-i18n-placeholder="table.title"
               placeholder="Mata-duree *"
               required
             />
@@ -1128,14 +1274,25 @@
               placeholder="Image URL *"
               required
             />
-            <input type="text" name="description" placeholder="Ibsa" />
+            <input
+              type="text"
+              name="description"
+              data-i18n-placeholder="table.description"
+              placeholder="Ibsa"
+            />
             <select name="category" required>
               <option value="masjid">Masgiida</option>
               <option value="construction">Ijaarsa</option>
               <option value="community">Hawaasa</option>
               <option value="event">Sagantaa</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="galleryMsg" class="form-message"></div>
         </div>
@@ -1143,16 +1300,18 @@
           <table id="galleryTable">
             <thead>
               <tr>
-                <th>#</th>
+                <th data-i18n="table.number">#</th>
                 <th>Preview</th>
-                <th>Mata-duree</th>
+                <th data-i18n="table.title">Mata-duree</th>
                 <th>Kategori</th>
-                <th>Action</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="5" class="loading">Fe'amaa jira...</td>
+                <td colspan="5" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1162,23 +1321,41 @@
       <!-- ==================== MASJIDOS ==================== -->
       <section class="dash-tab" data-tab="masjidos">
         <div class="form-card">
-          <h3>🕌 Masgiida Haaraa Dabali</h3>
+          <h3 data-i18n="dash.add.masjid">🕌 Masgiida Haaraa Dabali</h3>
           <form id="addMasjidForm" class="inline-form">
-            <input type="text" name="name" placeholder="Maqaa *" required />
+            <input
+              type="text"
+              name="name"
+              data-i18n-placeholder="table.name"
+              placeholder="Maqaa *"
+              required
+            />
             <select name="woreda" required>
               <option value="">— Aanaa —</option>
               <option value="Malka Gafarsa">Malka Gafarsa</option>
               <option value="Bero">Bero</option>
               <option value="Nono">Nono</option>
             </select>
-            <input type="text" name="kebele" placeholder="Kebele" />
+            <input
+              type="text"
+              name="kebele"
+              data-i18n-placeholder="table.kebele"
+              placeholder="Kebele"
+            />
             <input
               type="number"
               name="member_count"
+              data-i18n-placeholder="table.members"
               placeholder="Miseensota"
               min="0"
             />
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="masjidMsg" class="form-message"></div>
         </div>
@@ -1186,17 +1363,19 @@
           <table id="masjidosTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Maqaa</th>
-                <th>Aanaa</th>
-                <th>Kebele</th>
-                <th>Miseensota</th>
-                <th>Action</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
+                <th data-i18n="table.woreda">Aanaa</th>
+                <th data-i18n="table.kebele">Kebele</th>
+                <th data-i18n="table.members">Miseensota</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading">Fe'amaa jira...</td>
+                <td colspan="6" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1208,7 +1387,13 @@
         <div class="form-card">
           <h3>👥 Miseensa Haaraa</h3>
           <form id="addTeamForm" class="inline-form">
-            <input type="text" name="name" placeholder="Maqaa *" required />
+            <input
+              type="text"
+              name="name"
+              data-i18n-placeholder="table.name"
+              placeholder="Maqaa *"
+              required
+            />
             <input type="text" name="role" placeholder="Gahee *" required />
             <input
               type="text"
@@ -1216,15 +1401,31 @@
               placeholder="Initials"
               maxlength="3"
             />
-            <input type="tel" name="phone" placeholder="Bilbila" />
-            <input type="email" name="email" placeholder="Imeelii" />
+            <input
+              type="tel"
+              name="phone"
+              data-i18n-placeholder="table.phone"
+              placeholder="Bilbila"
+            />
+            <input
+              type="email"
+              name="email"
+              data-i18n-placeholder="table.email"
+              placeholder="Imeelii"
+            />
             <select name="category" required>
               <option value="">— Kategori —</option>
               <option value="leadership">Hoggansa</option>
               <option value="committee">Koree</option>
               <option value="advisory">Gorsaa</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="teamMsg" class="form-message"></div>
         </div>
@@ -1232,17 +1433,19 @@
           <table id="teamTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Maqaa</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
                 <th>Gahee</th>
                 <th>Kategori</th>
-                <th>Bilbila</th>
-                <th>Action</th>
+                <th data-i18n="table.phone">Bilbila</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading">Fe'amaa jira...</td>
+                <td colspan="6" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1263,19 +1466,21 @@
           <table id="volunteersTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Maqaa</th>
-                <th>Bilbila</th>
-                <th>Aanaa</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
+                <th data-i18n="table.phone">Bilbila</th>
+                <th data-i18n="table.woreda">Aanaa</th>
                 <th>Gahee</th>
                 <th>Sa'aatii</th>
-                <th>Haala</th>
-                <th>Action</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="8" class="loading">Fe'amaa jira...</td>
+                <td colspan="8" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1290,10 +1495,16 @@
             <input
               type="text"
               name="title"
+              data-i18n-placeholder="table.title"
               placeholder="Mata-duree *"
               required
             />
-            <input type="text" name="description" placeholder="Ibsa" />
+            <input
+              type="text"
+              name="description"
+              data-i18n-placeholder="table.description"
+              placeholder="Ibsa"
+            />
             <input
               type="number"
               name="target_amount"
@@ -1313,7 +1524,13 @@
               <option value="in_progress">In Progress</option>
               <option value="completed">Completed</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="milestoneMsg" class="form-message"></div>
         </div>
@@ -1321,18 +1538,20 @@
           <table id="milestonesTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Mata-duree</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.title">Mata-duree</th>
                 <th>Galma</th>
                 <th>Raawwii</th>
                 <th>%</th>
-                <th>Haala</th>
-                <th>Action</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="7" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1354,18 +1573,20 @@
           <table id="messagesTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Maqaa</th>
-                <th>Bilbila</th>
+                <th data-i18n="table.number">#</th>
+                <th data-i18n="table.name">Maqaa</th>
+                <th data-i18n="table.phone">Bilbila</th>
                 <th>Ergaa</th>
-                <th>Haala</th>
-                <th>Guyyaa</th>
-                <th>Action</th>
+                <th data-i18n="table.status">Haala</th>
+                <th data-i18n="table.date">Guyyaa</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="7" class="loading">Fe'amaa jira...</td>
+                <td colspan="7" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1396,7 +1617,13 @@
               <option value="project">Piroojektii</option>
               <option value="account">Herrega</option>
             </select>
-            <button type="submit" class="btn btn-primary">➕ Dabali</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-i18n="dash.action.add"
+            >
+              ➕ Dabali
+            </button>
           </form>
           <div id="faqMsg" class="form-message"></div>
         </div>
@@ -1404,15 +1631,17 @@
           <table id="faqTable">
             <thead>
               <tr>
-                <th>#</th>
+                <th data-i18n="table.number">#</th>
                 <th>Gaaffii</th>
                 <th>Kategori</th>
-                <th>Action</th>
+                <th data-i18n="table.action">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colspan="4" class="loading">Fe'amaa jira...</td>
+                <td colspan="4" class="loading" data-i18n="loading.generic">
+                  Fe'amaa jira...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1423,7 +1652,11 @@
       <section class="dash-tab" data-tab="settings">
         <div class="form-card">
           <h3>⚙️ Site Settings</h3>
-          <div id="settingsForm"><p class="text-muted">Fe'amaa jira...</p></div>
+          <div id="settingsForm">
+            <p class="text-muted" data-i18n="loading.generic">
+              Fe'amaa jira...
+            </p>
+          </div>
         </div>
       </section>
     </main>

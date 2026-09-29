@@ -1,7 +1,26 @@
 // ============================================
-// REPORTS.JS — Reports & Analytics
-// Malka Noonoo Project
+// REPORTS.JS — Reports & Analytics (i18n)
+// Malka Noonoo Project — Complete v2.0
 // ============================================
+
+console.log('📊 reports.js loaded');
+
+// ============================================
+// HELPER
+// ============================================
+function tr(key, fallback) {
+  if (typeof t === 'function') {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return fallback || key;
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
 
 // ============================================
 // 1. STATE
@@ -37,25 +56,23 @@ async function initReports() {
   console.log('📊 Reports init...');
 
   try {
-    // Load all data
     await loadAllData();
-
-    // Setup controls
     setupMonthSelect();
     setupYearSelect();
     setupTabs();
 
-    // Load default view
     await loadSummary();
     await loadMonthly();
     await loadAnnual();
     await loadAudit();
     await loadCharts();
 
+    if (typeof applyTranslations === 'function') applyTranslations();
+
     console.log('✅ Reports ready');
   } catch (err) {
     console.error('❌ Reports error:', err);
-    if (window.toast) toast.error('Dogoggora', 'Gabaasa fe\'uun hin danda\'amne');
+    if (window.toast) toast.error(tr('toast.error', 'Dogoggora'), 'Gabaasa fe\'uun hin danda\'amne');
   }
 }
 
@@ -92,7 +109,6 @@ async function loadSummary() {
   setText('repAssets', reportsState.data.assets.length);
   setText('repPercent', pct + '%');
 
-  // Trends (this month vs last)
   const trends = calculateTrends(confirmed, reportsState.data.expenses);
   updateTrend('repRaisedTrend', trends.revenue);
   updateTrend('repExpensesTrend', trends.expenses);
@@ -148,7 +164,7 @@ function updateTrend(id, percent) {
 
   const sign = percent > 0 ? '↑' : '↓';
   const abs = Math.abs(percent).toFixed(1);
-  el.textContent = `${sign} ${abs}% ${t('reports.vs_last_month') || 'ji\'a darbe irraa'}`;
+  el.textContent = `${sign} ${abs}% ${tr('reports.vs_last_month', 'ji\'a darbe irraa')}`;
   el.className = 'report-trend ' + (percent > 0 ? 'up' : 'down');
 }
 
@@ -166,7 +182,6 @@ function setupTabs() {
       document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
       document.querySelector(`.report-panel[data-tab="${target}"]`)?.classList.add('active');
 
-      // Reload charts when tab opens
       if (target === 'charts') {
         setTimeout(loadCharts, 100);
       }
@@ -182,7 +197,7 @@ function setupMonthSelect() {
   if (!select) return;
 
   const months = getLast12Months();
-  select.innerHTML = months.map((m, i) => 
+  select.innerHTML = months.map((m, i) =>
     `<option value="${m.year}-${m.month}" ${i === 0 ? 'selected' : ''}>${m.label}</option>`
   ).join('');
 
@@ -192,12 +207,14 @@ function setupMonthSelect() {
 function getLast12Months() {
   const months = [];
   const now = new Date();
+  const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'om';
   for (let i = 0; i < 12; i++) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     months.push({
       year: d.getFullYear(),
       month: d.getMonth(),
-      label: d.toLocaleDateString('om-ET', { year: 'numeric', month: 'long' })
+      label: d.toLocaleDateString(lang === 'am' ? 'am-ET' : lang === 'en' ? 'en-US' : 'om-ET',
+        { year: 'numeric', month: 'long' })
     });
   }
   return months;
@@ -217,7 +234,6 @@ async function loadMonthly() {
   const start = new Date(year, month, 1);
   const end = new Date(year, month + 1, 1);
 
-  // Filter
   const monthlyDonations = reportsState.data.donations.filter(d => {
     const dt = new Date(d.created_at);
     return dt >= start && dt < end && d.status === 'confirmed';
@@ -228,7 +244,6 @@ async function loadMonthly() {
     return dt >= start && dt < end;
   });
 
-  // Summary
   const revenue = monthlyDonations.reduce((s, d) => s + Number(d.amount), 0);
   const expenses = monthlyExpenses.reduce((s, e) => s + Number(e.amount), 0);
   const net = revenue - expenses;
@@ -237,7 +252,6 @@ async function loadMonthly() {
   setText('monthlyExpenses', formatETB(expenses));
   setText('monthlyNet', formatETB(net));
 
-  // Tables
   renderMonthlyDonations(monthlyDonations);
   renderMonthlyExpenses(monthlyExpenses);
 }
@@ -247,7 +261,7 @@ function renderMonthlyDonations(list) {
   if (!tb) return;
 
   if (!list.length) {
-    tb.innerHTML = `<tr><td colspan="5" class="loading">${t('table.empty') || 'Hin jiru.'}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="5" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`;
     return;
   }
 
@@ -267,7 +281,7 @@ function renderMonthlyExpenses(list) {
   if (!tb) return;
 
   if (!list.length) {
-    tb.innerHTML = `<tr><td colspan="5" class="loading">${t('table.empty') || 'Hin jiru.'}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="5" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`;
     return;
   }
 
@@ -292,7 +306,7 @@ function setupYearSelect() {
   const currentYear = new Date().getFullYear();
   const years = [currentYear, currentYear - 1, currentYear - 2];
 
-  select.innerHTML = years.map((y, i) => 
+  select.innerHTML = years.map((y, i) =>
     `<option value="${y}" ${i === 0 ? 'selected' : ''}>${y}</option>`
   ).join('');
 
@@ -318,7 +332,6 @@ async function loadAnnual() {
     return dt.getFullYear() === year;
   });
 
-  // Summary
   const revenue = yearDonations.reduce((s, d) => s + Number(d.amount), 0);
   const expenses = yearExpenses.reduce((s, e) => s + Number(e.amount), 0);
   const net = revenue - expenses;
@@ -329,17 +342,17 @@ async function loadAnnual() {
   setText('annualNet', formatETB(net));
   setText('annualDonors', donors);
 
-  // Chart
   renderAnnualChart(year, yearDonations, yearExpenses);
-
-  // Breakdown
   renderAnnualBreakdown(yearExpenses);
 }
 
 function renderAnnualChart(year, donations, expenses) {
+  const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'om';
+  const locale = lang === 'am' ? 'am-ET' : lang === 'en' ? 'en-US' : 'om-ET';
+
   const months = [];
   for (let m = 0; m < 12; m++) {
-    const label = new Date(year, m, 1).toLocaleDateString('om-ET', { month: 'short' });
+    const label = new Date(year, m, 1).toLocaleDateString(locale, { month: 'short' });
     const revenue = donations
       .filter(d => new Date(d.created_at).getMonth() === m)
       .reduce((s, d) => s + Number(d.amount), 0);
@@ -360,13 +373,13 @@ function renderAnnualChart(year, donations, expenses) {
       labels: months.map(m => m.label),
       datasets: [
         {
-          label: t('reports.annual.revenue') || 'Galii',
+          label: tr('reports.annual.revenue', 'Galii'),
           data: months.map(m => m.revenue),
           backgroundColor: '#22a06b',
           borderRadius: 6
         },
         {
-          label: t('reports.annual.expenses') || 'Baasii',
+          label: tr('reports.annual.expenses', 'Baasii'),
           data: months.map(m => m.expenses),
           backgroundColor: '#dc2626',
           borderRadius: 6
@@ -389,7 +402,7 @@ function renderAnnualChart(year, donations, expenses) {
           beginAtZero: true,
           ticks: {
             callback: v => v >= 1000000 ? (v / 1000000) + 'M'
-                        : v >= 1000 ? (v / 1000) + 'K' : v
+                      : v >= 1000 ? (v / 1000) + 'K' : v
           },
           grid: { color: '#f1f5f9' }
         },
@@ -404,11 +417,10 @@ function renderAnnualBreakdown(expenses) {
   if (!tb) return;
 
   if (!expenses.length) {
-    tb.innerHTML = `<tr><td colspan="3" class="loading">${t('table.empty') || 'Hin jiru.'}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="3" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`;
     return;
   }
 
-  // Group by category
   const categories = {};
   expenses.forEach(e => {
     categories[e.category] = (categories[e.category] || 0) + Number(e.amount);
@@ -442,12 +454,11 @@ async function loadAudit() {
   setText('auditFailed', failed);
   setText('auditLogs', reportsState.data.activity.length);
 
-  // Render logs
   const tb = document.querySelector('#auditLogTable tbody');
   if (!tb) return;
 
   if (!reportsState.data.activity.length) {
-    tb.innerHTML = `<tr><td colspan="5" class="loading">${t('table.empty') || 'Hin jiru.'}</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="5" class="loading">${tr('table.empty', 'Hin jiru.')}</td></tr>`;
     return;
   }
 
@@ -495,7 +506,7 @@ function renderRevenueChart(donations) {
     data: {
       labels: months.map(m => m.label),
       datasets: [{
-        label: 'Galii',
+        label: tr('reports.annual.revenue', 'Galii'),
         data: totals,
         borderColor: '#22a06b',
         backgroundColor: 'rgba(34, 160, 107, 0.1)',
@@ -520,7 +531,13 @@ function renderRevenueChart(donations) {
 
 function renderTiersChart(donations) {
   const tiers = ['tier1', 'tier2', 'community', 'masjid', 'business'];
-  const labels = ['Sadarkaa 1', 'Sadarkaa 2', 'Hawaasa', 'Masgiidota', 'Daldala'];
+  const labels = [
+    tr('tiers.tier1', 'Sadarkaa 1'),
+    tr('tiers.tier2', 'Sadarkaa 2'),
+    tr('tiers.tier3', 'Hawaasa'),
+    tr('tiers.tier4', 'Masgiidota'),
+    tr('donate.form.tier.business', 'Daldala')
+  ];
   const colors = ['#d4a017', '#22a06b', '#6ee7b7', '#94a3b8', '#64748b'];
   const totals = tiers.map(t =>
     donations.filter(d => d.tier === t).reduce((s, d) => s + Number(d.amount), 0)
@@ -612,7 +629,7 @@ function renderComparisonChart(donations, expenses) {
       labels: months.map(m => m.label),
       datasets: [
         {
-          label: 'Galii',
+          label: tr('reports.annual.revenue', 'Galii'),
           data: revenues,
           borderColor: '#22a06b',
           backgroundColor: 'rgba(34, 160, 107, 0.1)',
@@ -621,7 +638,7 @@ function renderComparisonChart(donations, expenses) {
           borderWidth: 3
         },
         {
-          label: 'Baasii',
+          label: tr('reports.annual.expenses', 'Baasii'),
           data: exps,
           borderColor: '#dc2626',
           backgroundColor: 'rgba(220, 38, 38, 0.1)',
@@ -650,53 +667,51 @@ function renderComparisonChart(donations, expenses) {
 // ============================================
 window.exportMonthlyPDF = function() {
   const { jsPDF } = window.jspdf || {};
-  if (!jsPDF) return toast.error('Dogoggora', 'PDF library hin fe\'amne');
+  if (!jsPDF) return toast.error(tr('toast.error', 'Dogoggora'), 'PDF library hin fe\'amne');
 
   const doc = new jsPDF();
 
-  // Header
   doc.setFillColor(13, 59, 46);
   doc.rect(0, 0, 210, 35, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Malka Noonoo', 14, 18);
+  doc.text(tr('brand.name', 'Malka Noonoo'), 14, 18);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text('Monthly Report', 14, 26);
+  doc.text(tr('reports.monthly.title', 'Monthly Report'), 14, 26);
 
-  // Content
   doc.setTextColor(17, 24, 39);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text(`Guyyaa: ${new Date().toLocaleDateString()}`, 14, 50);
+  doc.text(`${tr('table.date', 'Guyyaa')}: ${new Date().toLocaleDateString()}`, 14, 50);
 
   const month = document.getElementById('monthSelect')?.selectedOptions[0]?.text || '—';
-  doc.text(`Ji'a: ${month}`, 14, 58);
+  doc.text(`${tr('reports.tab.monthly', 'Ji\'a')}: ${month}`, 14, 58);
 
   const data = [
-    ['Galii Ji\'aa', document.getElementById('monthlyRevenue')?.textContent || '0'],
-    ['Baasii Ji\'aa', document.getElementById('monthlyExpenses')?.textContent || '0'],
-    ['Bu\'aa Qulqulluu', document.getElementById('monthlyNet')?.textContent || '0']
+    [tr('reports.monthly.revenue', 'Galii Ji\'aa'), document.getElementById('monthlyRevenue')?.textContent || '0'],
+    [tr('reports.monthly.expenses', 'Baasii Ji\'aa'), document.getElementById('monthlyExpenses')?.textContent || '0'],
+    [tr('reports.monthly.net', 'Bu\'aa Qulqulluu'), document.getElementById('monthlyNet')?.textContent || '0']
   ];
 
   doc.autoTable({
     startY: 70,
-    head: [['Ramaddii', 'Gatii']],
+    head: [[tr('table.category', 'Ramaddii'), tr('table.amount', 'Gatii')]],
     body: data,
     styles: { fontSize: 11 },
     headStyles: { fillColor: [26, 107, 79] }
   });
 
   doc.save(`Malka-Noonoo-Monthly-${Date.now()}.pdf`);
-  if (window.toast) toast.success('Milkaa\'e', 'PDF buufameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'PDF buufameera');
 };
 
 // ============================================
 // 13. EXPORT — MONTHLY EXCEL
 // ============================================
 window.exportMonthlyExcel = function() {
-  if (typeof XLSX === 'undefined') return toast.error('Dogoggora', 'Excel library hin fe\'amne');
+  if (typeof XLSX === 'undefined') return toast.error(tr('toast.error', 'Dogoggora'), 'Excel library hin fe\'amne');
 
   const select = document.getElementById('monthSelect');
   const [year, month] = (select?.value || '').split('-').map(Number);
@@ -732,7 +747,7 @@ window.exportMonthlyExcel = function() {
   XLSX.utils.book_append_sheet(wb, ws2, 'Baasii');
   XLSX.writeFile(wb, `Malka-Noonoo-Monthly-${year}-${month + 1}.xlsx`);
 
-  if (window.toast) toast.success('Milkaa\'e', 'Excel buufameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Excel buufameera');
 };
 
 // ============================================
@@ -740,42 +755,40 @@ window.exportMonthlyExcel = function() {
 // ============================================
 window.exportAnnualPDF = function() {
   const { jsPDF } = window.jspdf || {};
-  if (!jsPDF) return toast.error('Dogoggora', 'PDF library hin fe\'amne');
+  if (!jsPDF) return toast.error(tr('toast.error', 'Dogoggora'), 'PDF library hin fe\'amne');
 
   const doc = new jsPDF();
   const year = document.getElementById('yearSelect')?.value || new Date().getFullYear();
 
-  // Header
   doc.setFillColor(13, 59, 46);
   doc.rect(0, 0, 210, 35, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Malka Noonoo', 14, 18);
+  doc.text(tr('brand.name', 'Malka Noonoo'), 14, 18);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Annual Report ${year}`, 14, 26);
+  doc.text(`${tr('reports.annual.title', 'Annual Report')} ${year}`, 14, 26);
 
   doc.setTextColor(17, 24, 39);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
 
   const data = [
-    ['Galii Waggaa', document.getElementById('annualRevenue')?.textContent || '0'],
-    ['Baasii Waggaa', document.getElementById('annualExpenses')?.textContent || '0'],
-    ['Bu\'aa Qulqulluu', document.getElementById('annualNet')?.textContent || '0'],
-    ['Gumaachitoota', document.getElementById('annualDonors')?.textContent || '0']
+    [tr('reports.annual.revenue', 'Galii Waggaa'), document.getElementById('annualRevenue')?.textContent || '0'],
+    [tr('reports.annual.expenses', 'Baasii Waggaa'), document.getElementById('annualExpenses')?.textContent || '0'],
+    [tr('reports.annual.net', 'Bu\'aa Qulqulluu'), document.getElementById('annualNet')?.textContent || '0'],
+    [tr('reports.annual.donors', 'Gumaachitoota'), document.getElementById('annualDonors')?.textContent || '0']
   ];
 
   doc.autoTable({
     startY: 50,
-    head: [['Ramaddii', 'Gatii']],
+    head: [[tr('table.category', 'Ramaddii'), tr('table.amount', 'Gatii')]],
     body: data,
     styles: { fontSize: 11 },
     headStyles: { fillColor: [26, 107, 79] }
   });
 
-  // Breakdown
   const breakdownRows = [];
   document.querySelectorAll('#annualBreakdownTable tbody tr').forEach(tr => {
     const cells = tr.querySelectorAll('td');
@@ -791,7 +804,7 @@ window.exportAnnualPDF = function() {
   if (breakdownRows.length) {
     doc.autoTable({
       startY: doc.lastAutoTable.finalY + 15,
-      head: [['Ramaddii', 'Baasii', '%']],
+      head: [[tr('table.category', 'Ramaddii'), tr('table.amount', 'Baasii'), tr('reports.percent_share', '%')]],
       body: breakdownRows,
       styles: { fontSize: 10 },
       headStyles: { fillColor: [26, 107, 79] }
@@ -799,22 +812,22 @@ window.exportAnnualPDF = function() {
   }
 
   doc.save(`Malka-Noonoo-Annual-${year}.pdf`);
-  if (window.toast) toast.success('Milkaa\'e', 'PDF buufameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'PDF buufameera');
 };
 
 // ============================================
 // 15. EXPORT — ANNUAL EXCEL
 // ============================================
 window.exportAnnualExcel = function() {
-  if (typeof XLSX === 'undefined') return toast.error('Dogoggora', 'Excel library hin fe\'amne');
+  if (typeof XLSX === 'undefined') return toast.error(tr('toast.error', 'Dogoggora'), 'Excel library hin fe\'amne');
 
   const year = Number(document.getElementById('yearSelect')?.value || new Date().getFullYear());
 
-  const donations = reportsState.data.donations.filter(d => 
+  const donations = reportsState.data.donations.filter(d =>
     new Date(d.created_at).getFullYear() === year && d.status === 'confirmed'
   );
 
-  const expenses = reportsState.data.expenses.filter(e => 
+  const expenses = reportsState.data.expenses.filter(e =>
     new Date(e.created_at).getFullYear() === year
   );
 
@@ -838,7 +851,7 @@ window.exportAnnualExcel = function() {
   XLSX.utils.book_append_sheet(wb, ws2, 'Baasii');
   XLSX.writeFile(wb, `Malka-Noonoo-Annual-${year}.xlsx`);
 
-  if (window.toast) toast.success('Milkaa\'e', 'Excel buufameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Excel buufameera');
 };
 
 // ============================================
@@ -846,43 +859,40 @@ window.exportAnnualExcel = function() {
 // ============================================
 window.exportAuditPDF = function() {
   const { jsPDF } = window.jspdf || {};
-  if (!jsPDF) return toast.error('Dogoggora', 'PDF library hin fe\'amne');
+  if (!jsPDF) return toast.error(tr('toast.error', 'Dogoggora'), 'PDF library hin fe\'amne');
 
   const doc = new jsPDF();
 
-  // Header
   doc.setFillColor(13, 59, 46);
   doc.rect(0, 0, 210, 35, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Malka Noonoo', 14, 18);
+  doc.text(tr('brand.name', 'Malka Noonoo'), 14, 18);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text('Audit Report', 14, 26);
+  doc.text(tr('reports.audit.title', 'Audit Report'), 14, 26);
 
   doc.setTextColor(17, 24, 39);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text(`Guyyaa: ${new Date().toLocaleString()}`, 14, 50);
+  doc.text(`${tr('table.date', 'Guyyaa')}: ${new Date().toLocaleString()}`, 14, 50);
 
-  // Audit summary
   const summary = [
-    ['Gumaacha Mirkanaa\'e', document.getElementById('auditConfirmed')?.textContent || '0'],
-    ['Pending', document.getElementById('auditPending')?.textContent || '0'],
-    ['Failed', document.getElementById('auditFailed')?.textContent || '0'],
-    ['Sochii Logs', document.getElementById('auditLogs')?.textContent || '0']
+    [tr('reports.audit.verified', 'Gumaacha Mirkanaa\'e'), document.getElementById('auditConfirmed')?.textContent || '0'],
+    [tr('reports.audit.pending', 'Pending'), document.getElementById('auditPending')?.textContent || '0'],
+    [tr('reports.audit.failed', 'Failed'), document.getElementById('auditFailed')?.textContent || '0'],
+    [tr('reports.audit.logs', 'Sochii Logs'), document.getElementById('auditLogs')?.textContent || '0']
   ];
 
   doc.autoTable({
     startY: 60,
-    head: [['Ramaddii', 'Baay\'ina']],
+    head: [[tr('table.category', 'Ramaddii'), tr('table.quantity', 'Baay\'ina')]],
     body: summary,
     styles: { fontSize: 11 },
     headStyles: { fillColor: [26, 107, 79] }
   });
 
-  // Audit log (recent 50)
   const logRows = reportsState.data.activity.slice(0, 50).map(a => [
     new Date(a.created_at).toLocaleDateString(),
     a.user_email || 'system',
@@ -893,7 +903,7 @@ window.exportAuditPDF = function() {
   if (logRows.length) {
     doc.autoTable({
       startY: doc.lastAutoTable.finalY + 15,
-      head: [['Guyyaa', 'Actor', 'Sochii', 'Action']],
+      head: [[tr('table.date', 'Guyyaa'), tr('reports.audit.actor', 'Actor'), tr('reports.audit.action', 'Sochii'), 'Action']],
       body: logRows,
       styles: { fontSize: 8 },
       headStyles: { fillColor: [26, 107, 79] }
@@ -901,7 +911,7 @@ window.exportAuditPDF = function() {
   }
 
   doc.save(`Malka-Noonoo-Audit-${Date.now()}.pdf`);
-  if (window.toast) toast.success('Milkaa\'e', 'Audit PDF buufameera');
+  if (window.toast) toast.success(tr('toast.success', 'Milkaa\'e'), 'Audit PDF buufameera');
 };
 
 // ============================================
@@ -912,21 +922,18 @@ function setText(id, text) {
   if (el) el.textContent = text;
 }
 
-function escapeHtml(str) {
-  return String(str || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
-}
-
 function getLast6Months() {
   const months = [];
   const now = new Date();
+  const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'om';
+  const locale = lang === 'am' ? 'am-ET' : lang === 'en' ? 'en-US' : 'om-ET';
+
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     months.push({
       month: d.getMonth(),
       year: d.getFullYear(),
-      label: d.toLocaleDateString('om-ET', { month: 'short' })
+      label: d.toLocaleDateString(locale, { month: 'short' })
     });
   }
   return months;
@@ -936,9 +943,12 @@ function getLast6Months() {
 // 18. LANGUAGE SYNC
 // ============================================
 window.addEventListener('languageChanged', () => {
+  console.log('🌐 Reports language changed — reloading');
   loadSummary();
   loadMonthly();
   loadAnnual();
   loadAudit();
   loadCharts();
+
+  if (typeof applyTranslations === 'function') applyTranslations();
 });
