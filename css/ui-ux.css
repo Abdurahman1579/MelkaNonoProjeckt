@@ -1,6 +1,7 @@
 /* ============================================
    UI-UX.CSS — Advanced Components
    Malka Noonoo Project
+   Complete v2.0
    ============================================ */
 
 /* ============================================
@@ -59,9 +60,10 @@ body * {
   border-bottom-color: #334155;
 }
 
-[data-theme="dark"] .hero {
-  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-}
+/* ⚠️ HUBACHIISA: [data-theme="dark"] .hero
+   HIN JIRU — suuraa Ka'baa dark mode keessatti
+   mul'achuu qaba! Overlay dukkana style.css/home.css
+   keessatti jijjiirama. */
 
 [data-theme="dark"] .card,
 [data-theme="dark"] .tier,
@@ -142,7 +144,6 @@ body * {
   100% { background-position: -200% 0; }
 }
 
-/* Skeleton variants */
 .skeleton-text {
   height: 14px;
   width: 100%;
@@ -272,7 +273,6 @@ body * {
 }
 .toast-close:hover { opacity: 1; }
 
-/* Toast types */
 .toast.success { border-left-color: var(--green-500); }
 .toast.success .toast-icon { color: var(--green-500); }
 
@@ -285,7 +285,6 @@ body * {
 .toast.info { border-left-color: #3b82f6; }
 .toast.info .toast-icon { color: #3b82f6; }
 
-/* Progress bar */
 .toast-progress {
   position: absolute;
   bottom: 0;
@@ -389,7 +388,6 @@ body * {
   transform: translateY(-2px);
 }
 
-/* Progress ring (yoo barbaadde) */
 .back-to-top svg {
   position: absolute;
   transform: rotate(-90deg);
@@ -413,7 +411,7 @@ body * {
 }
 
 /* ============================================
-   38. AOS ANIMATIONS (Custom — no library)
+   38. AOS ANIMATIONS
    ============================================ */
 [data-aos] {
   opacity: 0;
@@ -421,41 +419,25 @@ body * {
   will-change: transform, opacity;
 }
 
-[data-aos="fade-up"] {
-  transform: translateY(30px);
-}
-[data-aos="fade-down"] {
-  transform: translateY(-30px);
-}
-[data-aos="fade-right"] {
-  transform: translateX(-30px);
-}
-[data-aos="fade-left"] {
-  transform: translateX(30px);
-}
-[data-aos="zoom-in"] {
-  transform: scale(0.9);
-}
-[data-aos="zoom-out"] {
-  transform: scale(1.1);
-}
-[data-aos="flip-left"] {
-  transform: perspective(600px) rotateY(-15deg);
-}
+[data-aos="fade-up"] { transform: translateY(30px); }
+[data-aos="fade-down"] { transform: translateY(-30px); }
+[data-aos="fade-right"] { transform: translateX(-30px); }
+[data-aos="fade-left"] { transform: translateX(30px); }
+[data-aos="zoom-in"] { transform: scale(0.9); }
+[data-aos="zoom-out"] { transform: scale(1.1); }
+[data-aos="flip-left"] { transform: perspective(600px) rotateY(-15deg); }
 
 [data-aos].aos-animate {
   opacity: 1;
   transform: translate(0, 0) scale(1) rotateY(0);
 }
 
-/* Delays */
 [data-aos-delay="100"] { transition-delay: 0.1s; }
 [data-aos-delay="200"] { transition-delay: 0.2s; }
 [data-aos-delay="300"] { transition-delay: 0.3s; }
 [data-aos-delay="400"] { transition-delay: 0.4s; }
 [data-aos-delay="500"] { transition-delay: 0.5s; }
 
-/* Respect user preference */
 @media (prefers-reduced-motion: reduce) {
   [data-aos] {
     transition: none !important;
@@ -483,7 +465,6 @@ body * {
   margin: 0 auto;
 }
 
-/* Empty state */
 .empty-state {
   text-align: center;
   padding: 60px 20px;
@@ -506,7 +487,6 @@ body * {
   margin: 0 auto 20px;
 }
 
-/* Animated icons */
 .icon-bounce {
   animation: iconBounce 2s ease-in-out infinite;
 }
@@ -641,13 +621,12 @@ body * {
   padding: 11px 22px;
 }
 
-/* Modal sizes */
 .modal-base-content.modal-sm { max-width: 400px; }
 .modal-base-content.modal-lg { max-width: 900px; }
 .modal-base-content.modal-full { max-width: 95vw; }
 
 /* ============================================
-   RESPONSIVE
+   41. RESPONSIVE
    ============================================ */
 @media (max-width: 700px) {
   .toast-container {
@@ -686,7 +665,7 @@ body * {
 }
 
 /* ============================================
-   PRINT
+   42. PRINT
    ============================================ */
 @media print {
   .back-to-top,

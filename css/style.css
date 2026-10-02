@@ -30,12 +30,25 @@
 
 html { scroll-behavior: smooth; }
 
+/* ============================================
+   ✅ BODY — FULL PAGE BACKGROUND IMAGE
+   ============================================ */
 body {
   font-family: 'Inter', 'Noto Sans Ethiopic', system-ui, sans-serif;
   color: var(--neutral-900);
-  background: var(--white);
+  
+  /* ✅ Suuraa Ka'baa — fuula guutuu, xiqqoo mul'ata */
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)),
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat 
+      fixed;
+  
+  background-color: #f9fafb;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
 img { max-width: 100%; display: block; }
@@ -78,7 +91,7 @@ button { font-family: inherit; cursor: pointer; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.96);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--neutral-100);
 }
@@ -200,14 +213,22 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ============================================
-   HERO
+   ✅ HERO — SUURAA CIMAAN MUL'ATA
    ============================================ */
 .hero {
-  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 100%);
+  background: 
+    linear-gradient(135deg, 
+      rgba(13, 59, 46, 0.78) 0%, 
+      rgba(26, 107, 79, 0.68) 100%),
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat;
+  
   color: var(--white);
   padding: 80px 0 100px;
   position: relative;
   overflow: hidden;
+  min-height: 620px;
 }
 
 .hero::before {
@@ -217,6 +238,7 @@ button { font-family: inherit; cursor: pointer; }
   background-image:
     radial-gradient(circle at 20% 30%, rgba(212,160,23,0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 70%, rgba(110,231,183,0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .hero-inner {
@@ -248,9 +270,9 @@ button { font-family: inherit; cursor: pointer; }
 .hero-cta .btn-outline:hover { background: rgba(255,255,255,0.1); }
 
 .hero-card {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.1);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: var(--radius-lg);
   padding: 32px;
 }
@@ -291,10 +313,11 @@ button { font-family: inherit; cursor: pointer; }
 .hero-stats .stat span { font-size: 11px; color: rgba(255,255,255,0.7); }
 
 /* ============================================
-   STATS BAR
+   ✅ STATS BAR — SEMI-TRANSPARENT
    ============================================ */
 .stats-bar {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--neutral-100);
   padding: 32px 0;
 }
@@ -309,10 +332,17 @@ button { font-family: inherit; cursor: pointer; }
 .stat-item span { font-size: 13px; color: var(--neutral-500); }
 
 /* ============================================
-   SECTIONS
+   ✅ SECTIONS — SEMI-TRANSPARENT
    ============================================ */
-.section { padding: 80px 0; }
-.section-alt { background: var(--neutral-50); }
+.section { 
+  padding: 80px 0; 
+  position: relative;
+}
+
+.section-alt { 
+  background: rgba(249, 250, 251, 0.85);
+  backdrop-filter: blur(6px);
+}
 
 .section-head {
   text-align: center;
@@ -328,7 +358,7 @@ button { font-family: inherit; cursor: pointer; }
 .section-head p { color: var(--neutral-500); font-size: 16px; }
 
 /* ============================================
-   CARDS
+   CARDS — SOLID (suuraa keessa hin seenu)
    ============================================ */
 .cards {
   display: grid;
@@ -337,7 +367,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .card {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
   border: 1px solid var(--neutral-100);
   border-radius: var(--radius-md);
   padding: 24px;
@@ -385,7 +416,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ============================================
-   TIERS
+   TIERS — SOLID
    ============================================ */
 .tiers {
   display: grid;
@@ -394,7 +425,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .tier {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
   border: 2px solid var(--neutral-100);
   border-radius: var(--radius-md);
   padding: 28px 24px;
@@ -428,7 +460,8 @@ button { font-family: inherit; cursor: pointer; }
 .announcements { display: flex; flex-direction: column; gap: 16px; }
 
 .announcement {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
   border-left: 4px solid var(--gold-500);
   border-radius: var(--radius-sm);
   padding: 20px 24px;
@@ -459,7 +492,8 @@ button { font-family: inherit; cursor: pointer; }
    FOOTER
    ============================================ */
 .footer {
-  background: var(--neutral-900);
+  background: rgba(17, 24, 39, 0.98);
+  backdrop-filter: blur(6px);
   color: var(--neutral-300);
   padding: 60px 0 20px;
 }
@@ -524,7 +558,7 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 15px;
   font-family: inherit;
   transition: all 0.2s;
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.96);
   color: var(--neutral-900);
 }
 .form-row input:focus,
@@ -618,6 +652,77 @@ button { font-family: inherit; cursor: pointer; }
     font-weight: 700;
   }
 }
+
+/* ============================================
+   HERO — TABLET RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 550px;
+    background-position: center 35%;
+    background-attachment: scroll;
+  }
+}
+
+/* ============================================
+   HERO — MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+  .hero {
+    min-height: 500px;
+    background-position: center 30%;
+    padding: 60px 0 70px;
+  }
+  
+  /* Body — mobile irratti fixed hin hojjetu */
+  body {
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero { min-height: 480px; }
+}
+
+/* ============================================
+   HERO — DARK MODE
+   ============================================ */
+[data-theme="dark"] .hero {
+  background: 
+    linear-gradient(135deg, 
+      rgba(2, 6, 23, 0.92) 0%, 
+      rgba(4, 47, 46, 0.85) 100%),
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat;
+}
+
+/* Body — dark mode */
+[data-theme="dark"] body {
+  background: 
+    linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)),
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat 
+      fixed;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .section-alt {
+  background: rgba(30, 41, 59, 0.85);
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .tier,
+[data-theme="dark"] .announcement {
+  background: rgba(30, 41, 59, 0.96);
+  border-color: #334155;
+}
+
+[data-theme="dark"] .stats-bar {
+  background: rgba(30, 41, 59, 0.85);
+}
+
 /* ============================================
    WHATSAPP FLOATING BUTTON
    ============================================ */
@@ -656,29 +761,18 @@ button { font-family: inherit; cursor: pointer; }
   50% { transform: scale(1.15); }
 }
 
-.whatsapp-text {
-  white-space: nowrap;
-}
+.whatsapp-text { white-space: nowrap; }
 
-/* Mobile */
 @media (max-width: 600px) {
-  .whatsapp-float {
-    bottom: 80px;
-    right: 16px;
-    padding: 12px;
-  }
-  .whatsapp-text {
-    display: none;
-  }
-  .whatsapp-icon {
-    font-size: 24px;
-  }
+  .whatsapp-float { bottom: 80px; right: 16px; padding: 12px; }
+  .whatsapp-text { display: none; }
+  .whatsapp-icon { font-size: 24px; }
 }
 
-/* Dark mode */
 [data-theme="dark"] .whatsapp-float {
   box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
 }
+
 .telegram-float {
   position: fixed;
   bottom: 30px;
@@ -711,6 +805,7 @@ button { font-family: inherit; cursor: pointer; }
     height: 52px;
   }
 }
+
 /* ============================================
    AUTO-TRANSLATE LOADING
    ============================================ */

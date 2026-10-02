@@ -1,6 +1,6 @@
 // ============================================
-// REPORTS.JS — Reports & Analytics (i18n)
-// Malka Noonoo Project — Complete v2.0
+// REPORTS.JS — Reports & Analytics (i18n + DB)
+// Malka Noonoo Project — Complete v3.0
 // ============================================
 
 console.log('📊 reports.js loaded');
@@ -37,7 +37,8 @@ const reportsState = {
     donations: [],
     expenses: [],
     assets: [],
-    activity: []
+    activity: [],
+    publishedReports: []
   },
   currentMonth: new Date().getMonth(),
   currentYear: new Date().getFullYear(),
@@ -60,7 +61,9 @@ async function initReports() {
     setupMonthSelect();
     setupYearSelect();
     setupTabs();
+    setupPublishedFilter();
 
+    await loadPublishedReports();
     await loadSummary();
     await loadMonthly();
     await loadAnnual();
@@ -80,23 +83,203 @@ async function initReports() {
 // 3. LOAD ALL DATA
 // ============================================
 async function loadAllData() {
-  const [donRes, expRes, assetRes, logRes] = await Promise.all([
+  const [donRes, expRes, assetRes, logRes, repRes] = await Promise.all([
     db.from('mn_donations').select('*').order('created_at', { ascending: false }),
     db.from('mn_expenses').select('*').order('created_at', { ascending: false }),
     db.from('mn_assets').select('*').order('id', { ascending: false }),
-    db.from('mn_activity_log').select('*').order('created_at', { ascending: false }).limit(100)
+    db.from('mn_activity_log').select('*').order('created_at', { ascending: false }).limit(100),
+    db.from('mn_reports').select('*').eq('status', 'published').order('published_at', { ascending: false })
   ]);
 
   reportsState.data.donations = donRes.data || [];
   reportsState.data.expenses = expRes.data || [];
   reportsState.data.assets = assetRes.data || [];
   reportsState.data.activity = logRes.data || [];
+  reportsState.data.publishedReports = repRes.data || [];
 
-  console.log(`📊 Loaded: ${reportsState.data.donations.length} donations, ${reportsState.data.expenses.length} expenses`);
+  console.log(`📊 Loaded: ${reportsState.data.donations.length} donations, ${reportsState.data.publishedReports.length} published reports`);
 }
 
 // ============================================
-// 4. SUMMARY CARDS
+// 4. PUBLISHED REPORTS — LOAD + RENDER
+// ============================================
+async function loadPublishedReports() {
+  const grid = document.getElementById('publishedReportsGrid');
+  if (!grid) return;
+
+  try {
+    console.log('📄 Loading published reports...');
+
+    const { data, error } = await db
+      .from('mn_reports')
+      .select('*')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+
+    if (error) throw error;
+
+    reportsState.data.publishedReports = data || [];
+    applyPublishedFilter();
+
+    console.log(`✅ Loaded ${reportsState.data.publishedReports.length} published reports`);
+  } catch (err) {
+    console.error('❌ Published reports error:', err);
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="empty-state-illustration">📄</div>
+        <h3 class="empty-state-title">${tr('reports.published.empty', 'Gabaasni hin jiru')}</h3>
+        <p class="empty-state-desc">${tr('reports.published.empty.desc', 'Gabaasa Koree Mana Marii irraa maxxanfame hin jiru amma.')}</p>
+      </div>
+    `;
+  }
+}
+
+function setupPublishedFilter() {
+  document.getElementById('publishedFilter')?.addEventListener('change', applyPublishedFilter);
+}
+
+function applyPublishedFilter() {
+  const grid = document.getElementById('publishedReportsGrid');
+  if (!grid) return;
+
+  const filter = document.getElementById('publishedFilter')?.value || 'all';
+
+  const filtered = filter === 'all'
+    ? reportsState.data.publishedReports
+    : reportsState.data.publishedReports.filter(r => r.type === filter);
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="empty-state-illustration">📄</div>
+        <h3 class="empty-state-title">${tr('reports.published.empty', 'Gabaasni hin jiru')}</h3>
+        <p class="empty-state-desc">${tr('reports.published.empty.desc', 'Gabaasa Koree Mana Marii irraa maxxanfame hin jiru amma.')}</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(r => renderPublishedCard(r)).join('');
+
+  // Click handlers
+  grid.querySelectorAll('.published-report-card').forEach(card => {
+    card.addEventListener('click', () => viewPublishedReport(Number(card.dataset.id)));
+  });
+}
+
+function renderPublishedCard(r) {
+  const typeLabels = {
+    monthly: '📅 ' + tr('reports.tab.monthly', 'Ji\'aa'),
+    annual: '📆 ' + tr('reports.tab.annual', 'Waggaa'),
+    audit: '🔍 Audit',
+    custom: '🎯 ' + tr('reports.custom', 'Addaa')
+  };
+
+  const highlights = Array.isArray(r.highlights) ? r.highlights : [];
+
+  return `
+    <article class="published-report-card" data-id="${r.id}">
+      <div class="published-report-header">
+        <span class="published-report-type">${typeLabels[r.type] || r.type}</span>
+        <span class="published-report-date">📅 ${formatDate(r.published_at || r.created_at)}</span>
+      </div>
+      <h3 class="published-report-title">${escapeHtml(r.title)}</h3>
+      ${r.summary ? `<p class="published-report-summary">${escapeHtml(r.summary)}</p>` : ''}
+      ${r.revenue || r.expenses ? `
+        <div class="published-report-numbers">
+          ${r.revenue ? `<div><span>${tr('reports.annual.revenue', 'Galii')}</span><strong>${formatETB(r.revenue)}</strong></div>` : ''}
+          ${r.expenses ? `<div><span>${tr('reports.annual.expenses', 'Baasii')}</span><strong>${formatETB(r.expenses)}</strong></div>` : ''}
+          ${r.net ? `<div><span>${tr('reports.annual.net', 'Bu\'aa')}</span><strong>${formatETB(r.net)}</strong></div>` : ''}
+        </div>
+      ` : ''}
+      ${highlights.length ? `
+        <div class="published-report-highlights">
+          ${highlights.slice(0, 3).map(h => `<span class="highlight-chip">✓ ${escapeHtml(h)}</span>`).join('')}
+        </div>
+      ` : ''}
+      <div class="published-report-footer">
+        <span class="read-more">${tr('news.readmore', 'Dubbisi')} →</span>
+      </div>
+    </article>
+  `;
+}
+
+// ============================================
+// 5. VIEW PUBLISHED REPORT (Modal)
+// ============================================
+function viewPublishedReport(id) {
+  const r = reportsState.data.publishedReports.find(x => x.id === id);
+  if (!r) return;
+
+  const typeLabels = {
+    monthly: '📅 ' + tr('reports.tab.monthly', 'Ji\'aa'),
+    annual: '📆 ' + tr('reports.tab.annual', 'Waggaa'),
+    audit: '🔍 Audit',
+    custom: '🎯 ' + tr('reports.custom', 'Addaa')
+  };
+
+  const highlights = Array.isArray(r.highlights) ? r.highlights : [];
+
+  const body = `
+    <div class="report-view">
+      <div class="report-view-meta">
+        <span class="badge-status ${r.status}">${r.status}</span>
+        <span>${typeLabels[r.type] || r.type}</span>
+        ${r.period_start ? `<span>📅 ${formatDate(r.period_start)} — ${formatDate(r.period_end) || '...'}</span>` : ''}
+      </div>
+      ${r.summary ? `<div class="report-view-summary">${escapeHtml(r.summary)}</div>` : ''}
+      ${r.revenue || r.expenses || r.net ? `
+        <div class="report-view-numbers">
+          ${r.revenue ? `<div><span>${tr('reports.annual.revenue', 'Galii')}</span><strong>${formatETB(r.revenue)}</strong></div>` : ''}
+          ${r.expenses ? `<div><span>${tr('reports.annual.expenses', 'Baasii')}</span><strong>${formatETB(r.expenses)}</strong></div>` : ''}
+          ${r.net ? `<div><span>${tr('reports.annual.net', 'Bu\'aa')}</span><strong>${formatETB(r.net)}</strong></div>` : ''}
+        </div>` : ''}
+      ${highlights.length ? `
+        <div class="report-view-highlights">
+          <h4>${tr('reports.published.highlights', 'Qabiyyee Ijoo')}</h4>
+          <ul>${highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}</ul>
+        </div>` : ''}
+      <div class="report-view-content">${escapeHtml(r.content || '').replace(/\n/g, '<br>')}</div>
+    </div>
+  `;
+
+  if (typeof openModal === 'function') {
+    openModal({
+      title: r.title,
+      body: body,
+      size: 'lg',
+      showFooter: true,
+      footerHTML: `
+        <button class="btn btn-outline" onclick="closeModal()">${tr('modal.close', 'Cufi')}</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨 ${tr('action.print', 'Maxxansi')}</button>
+      `
+    });
+  }
+}
+
+// ============================================
+// 6. TABS
+// ============================================
+function setupTabs() {
+  document.querySelectorAll('.report-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+
+      document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+      document.querySelector(`.report-panel[data-tab="${target}"]`)?.classList.add('active');
+
+      if (target === 'charts') {
+        setTimeout(loadCharts, 100);
+      }
+    });
+  });
+}
+
+// ============================================
+// 7. SUMMARY CARDS
 // ============================================
 async function loadSummary() {
   const confirmed = reportsState.data.donations.filter(d => d.status === 'confirmed');
@@ -169,28 +352,7 @@ function updateTrend(id, percent) {
 }
 
 // ============================================
-// 5. TABS
-// ============================================
-function setupTabs() {
-  document.querySelectorAll('.report-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-
-      document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
-      document.querySelector(`.report-panel[data-tab="${target}"]`)?.classList.add('active');
-
-      if (target === 'charts') {
-        setTimeout(loadCharts, 100);
-      }
-    });
-  });
-}
-
-// ============================================
-// 6. MONTH SELECT
+// 8. MONTH SELECT
 // ============================================
 function setupMonthSelect() {
   const select = document.getElementById('monthSelect');
@@ -208,20 +370,20 @@ function getLast12Months() {
   const months = [];
   const now = new Date();
   const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'om';
+  const locale = lang === 'am' ? 'am-ET' : lang === 'en' ? 'en-US' : 'om-ET';
   for (let i = 0; i < 12; i++) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     months.push({
       year: d.getFullYear(),
       month: d.getMonth(),
-      label: d.toLocaleDateString(lang === 'am' ? 'am-ET' : lang === 'en' ? 'en-US' : 'om-ET',
-        { year: 'numeric', month: 'long' })
+      label: d.toLocaleDateString(locale, { year: 'numeric', month: 'long' })
     });
   }
   return months;
 }
 
 // ============================================
-// 7. LOAD MONTHLY
+// 9. LOAD MONTHLY
 // ============================================
 async function loadMonthly() {
   const select = document.getElementById('monthSelect');
@@ -297,7 +459,7 @@ function renderMonthlyExpenses(list) {
 }
 
 // ============================================
-// 8. YEAR SELECT
+// 10. YEAR SELECT
 // ============================================
 function setupYearSelect() {
   const select = document.getElementById('yearSelect');
@@ -314,7 +476,7 @@ function setupYearSelect() {
 }
 
 // ============================================
-// 9. LOAD ANNUAL
+// 11. LOAD ANNUAL
 // ============================================
 async function loadAnnual() {
   const select = document.getElementById('yearSelect');
@@ -442,7 +604,7 @@ function renderAnnualBreakdown(expenses) {
 }
 
 // ============================================
-// 10. LOAD AUDIT
+// 12. LOAD AUDIT
 // ============================================
 async function loadAudit() {
   const confirmed = reportsState.data.donations.filter(d => d.status === 'confirmed').length;
@@ -474,7 +636,7 @@ async function loadAudit() {
 }
 
 // ============================================
-// 11. LOAD CHARTS
+// 13. LOAD CHARTS
 // ============================================
 async function loadCharts() {
   const confirmed = reportsState.data.donations.filter(d => d.status === 'confirmed');
@@ -651,9 +813,7 @@ function renderComparisonChart(donations, expenses) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'bottom', labels: { padding: 12 } }
-      },
+      plugins: { legend: { position: 'bottom', labels: { padding: 12 } } },
       scales: {
         y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
         x: { grid: { display: false } }
@@ -663,14 +823,13 @@ function renderComparisonChart(donations, expenses) {
 }
 
 // ============================================
-// 12. EXPORT — MONTHLY PDF
+// 14. EXPORT — MONTHLY PDF
 // ============================================
 window.exportMonthlyPDF = function() {
   const { jsPDF } = window.jspdf || {};
   if (!jsPDF) return toast.error(tr('toast.error', 'Dogoggora'), 'PDF library hin fe\'amne');
 
   const doc = new jsPDF();
-
   doc.setFillColor(13, 59, 46);
   doc.rect(0, 0, 210, 35, 'F');
   doc.setTextColor(255, 255, 255);
@@ -708,7 +867,7 @@ window.exportMonthlyPDF = function() {
 };
 
 // ============================================
-// 13. EXPORT — MONTHLY EXCEL
+// 15. EXPORT — MONTHLY EXCEL
 // ============================================
 window.exportMonthlyExcel = function() {
   if (typeof XLSX === 'undefined') return toast.error(tr('toast.error', 'Dogoggora'), 'Excel library hin fe\'amne');
@@ -751,7 +910,7 @@ window.exportMonthlyExcel = function() {
 };
 
 // ============================================
-// 14. EXPORT — ANNUAL PDF
+// 16. EXPORT — ANNUAL PDF
 // ============================================
 window.exportAnnualPDF = function() {
   const { jsPDF } = window.jspdf || {};
@@ -816,7 +975,7 @@ window.exportAnnualPDF = function() {
 };
 
 // ============================================
-// 15. EXPORT — ANNUAL EXCEL
+// 17. EXPORT — ANNUAL EXCEL
 // ============================================
 window.exportAnnualExcel = function() {
   if (typeof XLSX === 'undefined') return toast.error(tr('toast.error', 'Dogoggora'), 'Excel library hin fe\'amne');
@@ -855,7 +1014,7 @@ window.exportAnnualExcel = function() {
 };
 
 // ============================================
-// 16. EXPORT — AUDIT PDF
+// 18. EXPORT — AUDIT PDF
 // ============================================
 window.exportAuditPDF = function() {
   const { jsPDF } = window.jspdf || {};
@@ -915,7 +1074,7 @@ window.exportAuditPDF = function() {
 };
 
 // ============================================
-// 17. HELPERS
+// 19. HELPERS
 // ============================================
 function setText(id, text) {
   const el = document.getElementById(id);
@@ -939,11 +1098,21 @@ function getLast6Months() {
   return months;
 }
 
+function formatDate(date) {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('om-ET', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+}
+
 // ============================================
-// 18. LANGUAGE SYNC
+// 20. LANGUAGE SYNC
 // ============================================
 window.addEventListener('languageChanged', () => {
   console.log('🌐 Reports language changed — reloading');
+  applyPublishedFilter();
   loadSummary();
   loadMonthly();
   loadAnnual();
@@ -952,3 +1121,10 @@ window.addEventListener('languageChanged', () => {
 
   if (typeof applyTranslations === 'function') applyTranslations();
 });
+
+// ============================================
+// 21. GLOBAL EXPORTS
+// ============================================
+window.loadPublishedReports = loadPublishedReports;
+window.viewPublishedReport = viewPublishedReport;
+window.renderPublishedCard = renderPublishedCard;

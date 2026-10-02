@@ -13,7 +13,6 @@
       rel="stylesheet"
     />
 
-    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/home.css" />
     <link rel="stylesheet" href="css/pages.css" />
@@ -21,7 +20,6 @@
     <link rel="stylesheet" href="css/reports.css" />
     <link rel="stylesheet" href="css/ui-ux.css" />
 
-    <!-- Supabase + Charts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -29,11 +27,7 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
   </head>
   <body data-page-title="reports.title">
-    <!-- NAV — Automatic (nav-master.js) -->
-
-    <!-- ==========================================
-       PAGE HERO
-       ========================================== -->
+    <!-- PAGE HERO -->
     <section class="page-hero">
       <div class="container">
         <h1 data-i18n="reports.title">Gabaasa fi Iftoomina</h1>
@@ -43,9 +37,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-       SUMMARY CARDS (Public Dashboard)
-       ========================================== -->
+    <!-- SUMMARY CARDS -->
     <section class="section">
       <div class="container">
         <div class="reports-summary">
@@ -59,7 +51,6 @@
               <span class="report-trend" id="repRaisedTrend">—</span>
             </div>
           </div>
-
           <div class="report-card">
             <div class="report-icon">💸</div>
             <div class="report-body">
@@ -70,7 +61,6 @@
               <span class="report-trend" id="repExpensesTrend">—</span>
             </div>
           </div>
-
           <div class="report-card">
             <div class="report-icon">🏢</div>
             <div class="report-body">
@@ -81,7 +71,6 @@
               <span class="report-trend" id="repAssetsTrend">—</span>
             </div>
           </div>
-
           <div class="report-card">
             <div class="report-icon">📊</div>
             <div class="report-body">
@@ -96,14 +85,15 @@
       </div>
     </section>
 
-    <!-- ==========================================
-       TABS — Monthly / Annual / Audit
-       ========================================== -->
+    <!-- TABS -->
     <section class="section section-alt">
       <div class="container">
-        <!-- Tab Navigation -->
         <div class="report-tabs">
-          <button type="button" class="report-tab active" data-tab="monthly">
+          <button type="button" class="report-tab active" data-tab="published">
+            <span>📄</span>
+            <span data-i18n="reports.tab.published">Gabaasa Maxxanfame</span>
+          </button>
+          <button type="button" class="report-tab" data-tab="monthly">
             <span>📅</span>
             <span data-i18n="reports.tab.monthly">Ji'aan</span>
           </button>
@@ -122,9 +112,54 @@
         </div>
 
         <!-- ======================================
+           TAB 0: PUBLISHED REPORTS (mn_reports)
+           ====================================== -->
+        <div class="report-panel active" data-tab="published">
+          <div class="report-header">
+            <div>
+              <h2 data-i18n="reports.published.title">Gabaasa Maxxanfame</h2>
+              <p class="text-muted" data-i18n="reports.published.sub">
+                Gabaasa Koree Mana Marii irraa maxxanfame — galii, baasii fi
+                auditii.
+              </p>
+            </div>
+            <div class="report-controls">
+              <select id="publishedFilter">
+                <option value="all" data-i18n="ui.all">Hunda</option>
+                <option value="monthly" data-i18n="reports.tab.monthly">
+                  📅 Ji'aa
+                </option>
+                <option value="annual" data-i18n="reports.tab.annual">
+                  📆 Waggaa
+                </option>
+                <option value="audit" data-i18n="reports.tab.audit">
+                  🔍 Audit
+                </option>
+                <option value="custom" data-i18n="reports.custom">
+                  🎯 Addaa
+                </option>
+              </select>
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="loadPublishedReports()"
+              >
+                🔄 <span data-i18n="action.refresh">Haaromsi</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="reports-published-grid" id="publishedReportsGrid">
+            <div class="loading" data-i18n="loading.generic">
+              Fe'amaa jira...
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================
            TAB 1: MONTHLY
            ====================================== -->
-        <div class="report-panel active" data-tab="monthly">
+        <div class="report-panel" data-tab="monthly">
           <div class="report-header">
             <div>
               <h2 data-i18n="reports.monthly.title">Gabaasa Ji'aa</h2>
@@ -151,7 +186,6 @@
             </div>
           </div>
 
-          <!-- Monthly Summary -->
           <div class="report-grid-3">
             <div class="metric-card">
               <span class="metric-label" data-i18n="reports.monthly.revenue"
@@ -173,7 +207,6 @@
             </div>
           </div>
 
-          <!-- Monthly Donations Table -->
           <div class="report-section">
             <h3 data-i18n="reports.monthly.donations">Gumaacha Ji'aa</h3>
             <div class="table-wrap">
@@ -198,7 +231,6 @@
             </div>
           </div>
 
-          <!-- Monthly Expenses Table -->
           <div class="report-section">
             <h3 data-i18n="reports.monthly.expenses_list">Baasii Ji'aa</h3>
             <div class="table-wrap">
@@ -254,7 +286,6 @@
             </div>
           </div>
 
-          <!-- Annual Summary -->
           <div class="report-grid-4">
             <div class="metric-card">
               <span class="metric-label" data-i18n="reports.annual.revenue"
@@ -282,7 +313,6 @@
             </div>
           </div>
 
-          <!-- Annual Chart -->
           <div class="report-section">
             <h3 data-i18n="reports.annual.chart">Galii/Baasii Ji'aan</h3>
             <div class="chart-wrap-lg">
@@ -290,7 +320,6 @@
             </div>
           </div>
 
-          <!-- Annual Breakdown -->
           <div class="report-section">
             <h3 data-i18n="reports.annual.breakdown">Ramaddii Baasii</h3>
             <div class="table-wrap">
@@ -330,11 +359,10 @@
               class="btn btn-primary"
               onclick="exportAuditPDF()"
             >
-              📄 Audit PDF
+              📄 <span data-i18n="reports.audit.export">Audit PDF</span>
             </button>
           </div>
 
-          <!-- Audit Summary -->
           <div class="audit-summary">
             <div class="audit-item">
               <div class="audit-item-icon">✅</div>
@@ -368,7 +396,6 @@
             </div>
           </div>
 
-          <!-- Audit Log Table -->
           <div class="report-section">
             <h3 data-i18n="reports.audit.recent">Sochii Dhiyoo</h3>
             <div class="table-wrap">
@@ -393,7 +420,6 @@
             </div>
           </div>
 
-          <!-- Audit Note -->
           <div class="audit-note">
             <div class="audit-note-icon">🔒</div>
             <div>
@@ -421,29 +447,19 @@
             </div>
           </div>
 
-          <!-- Charts Grid -->
           <div class="report-charts-grid">
             <div class="chart-card">
               <h3 data-i18n="reports.chart.revenue">📈 Galii Ji'aan</h3>
-              <div class="chart-wrap">
-                <canvas id="revenueChart"></canvas>
-              </div>
+              <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
             </div>
-
             <div class="chart-card">
               <h3 data-i18n="reports.chart.tiers">🥧 Sadarkaa Gumaachaa</h3>
-              <div class="chart-wrap">
-                <canvas id="tiersChart"></canvas>
-              </div>
+              <div class="chart-wrap"><canvas id="tiersChart"></canvas></div>
             </div>
-
             <div class="chart-card">
               <h3 data-i18n="reports.chart.expenses">📊 Baasii Ramaddii</h3>
-              <div class="chart-wrap">
-                <canvas id="expensesChart"></canvas>
-              </div>
+              <div class="chart-wrap"><canvas id="expensesChart"></canvas></div>
             </div>
-
             <div class="chart-card chart-card-wide">
               <h3 data-i18n="reports.chart.comparison">📉 Galii vs Baasii</h3>
               <div class="chart-wrap">
@@ -455,9 +471,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-       TRANSPARENCY CTA
-       ========================================== -->
+    <!-- TRANSPARENCY CTA -->
     <section class="cta">
       <div class="container cta-inner">
         <h2 data-i18n="reports.transparency.title">
@@ -476,9 +490,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-       FOOTER
-       ========================================== -->
+    <!-- FOOTER -->
     <footer class="footer">
       <div class="container footer-grid">
         <div>
@@ -513,9 +525,6 @@
       </div>
     </footer>
 
-    <!-- ==========================================
-       SCRIPTS
-       ========================================== -->
     <script src="js/config.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>

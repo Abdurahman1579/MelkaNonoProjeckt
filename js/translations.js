@@ -991,7 +991,16 @@ const TRANSLATIONS = {
         'gallery.cap.12': 'Karoora jaarmiyaa',
             // ---------- DASHBOARD ADDITIONAL ----------
     'dash.add.donation': '💰 Galii Haaraa Galmeessi (Manual)',
-    'dash.add.donation.desc': 'Maallaqa harkaa, baankii transfer, ykn odeeffannoo alaa irraa argame galmeessi.',
+        'dash.add.donation.desc': 'Maallaqa harkaa, baankii transfer, ykn odeeffannoo alaa irraa argame galmeessi.',
+        // ---------- REPORTS PUBLISHED ----------
+    'reports.tab.published': 'Gabaasa Maxxanfame',
+    'reports.published.title': 'Gabaasa Maxxanfame',
+    'reports.published.sub': 'Gabaasa Koree Mana Marii irraa maxxanfame — galii, baasii fi auditii.',
+    'reports.published.empty': 'Gabaasni hin jiru',
+    'reports.published.empty.desc': 'Gabaasa Koree Mana Marii irraa maxxanfame hin jiru amma.',
+    'reports.published.highlights': 'Qabiyyee Ijoo',
+    'reports.custom': 'Addaa',
+    'reports.audit.export': 'Audit PDF',
         // ---------- VOLUNTEER TESTIMONIALS ----------
     'volunteer.testimonial.reward.quote': 'Yeroo fedhii ta\'ee hawaasa tajaajile — jireenya koo jijjiirame. Nagaheen qalbii koo guddaa dha.',
     'volunteer.testimonial.reward.author': 'Ahmed A., Fedhii 2024',
@@ -2047,6 +2056,15 @@ const TRANSLATIONS = {
       // ---------- DASHBOARD ADDITIONAL ----------
     'dash.add.donation': '💰 አዲስ ገቢ ይመዝግቡ (በእጅ)',
       'dash.add.donation.desc': 'ጥሬ ገንዘብ፣ የባንክ ዝውውር ወይም ከውጭ የተገኘ መረጃ ይመዝግቡ።',
+          // ---------- REPORTS PUBLISHED ----------
+    'reports.tab.published': 'የታተሙ ሪፖርቶች',
+    'reports.published.title': 'የታተሙ ሪፖርቶች',
+    'reports.published.sub': 'ከምክር ቤቱ ኮሚቴ የታተሙ ሪፖርቶች — ገቢ፣ ወጪና ኦዲት።',
+    'reports.published.empty': 'ሪፖርት የለም',
+    'reports.published.empty.desc': 'ከምክር ቤቱ ኮሚቴ የታተመ ሪፖርት አልተገኘም።',
+    'reports.published.highlights': 'ቁልፍ ይዘቶች',
+    'reports.custom': 'ልዩ',
+    'reports.audit.export': 'የኦዲት PDF',
         // ---------- VOLUNTEER TESTIMONIALS ----------
     'volunteer.testimonial.reward.quote': 'በጎ ፈቃደኛ ሆኜ ማህበረሰብን ሳገለግል ሕይወቴ ተለወጠ። የልብ እረፍቴ ታላቅ ነው።',
     'volunteer.testimonial.reward.author': 'አህመድ አ.፣ በጎ ፈቃደኛ 2024',
@@ -3101,6 +3119,15 @@ const TRANSLATIONS = {
       // ---------- DASHBOARD ADDITIONAL ----------
     'dash.add.donation': '💰 Record New Income (Manual)',
     'dash.add.donation.desc': 'Record cash, bank transfer, or externally sourced information.', 
+        // ---------- REPORTS PUBLISHED ----------
+    'reports.tab.published': 'Published Reports',
+    'reports.published.title': 'Published Reports',
+    'reports.published.sub': 'Reports published by the Council Committee — income, expenses, and audit.',
+    'reports.published.empty': 'No reports yet',
+    'reports.published.empty.desc': 'No reports have been published by the Council Committee yet.',
+    'reports.published.highlights': 'Key Highlights',
+    'reports.custom': 'Custom',
+    'reports.audit.export': 'Audit PDF',
         // ---------- VOLUNTEER TESTIMONIALS ----------
     'volunteer.testimonial.reward.quote': 'When I volunteered and served the community, my life changed. My heart has great peace.',
     'volunteer.testimonial.reward.author': 'Ahmed A., Volunteer 2024',
