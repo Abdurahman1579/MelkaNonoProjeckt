@@ -1,6 +1,6 @@
 /* ============================================================
    DASHBOARD.CSS — Malka Noonoo Project
-   Complete Final Version — 30+ Sections
+   Complete Final Version v2.0 — FIXED
    ============================================================ */
 
 /* ============================================================
@@ -20,7 +20,16 @@
 .dash-body {
   display: flex;
   min-height: 100vh;
-  background: #f8fafc;
+  
+  /* ✅ Suuraa Ka'baa + overlay cimaa (92%) */
+  background: 
+    /* linear-gradient(rgba(248, 250, 252, 0.94), rgba(248, 250, 252, 0.94)), */
+    url('../assets/images/hero-kaaba.jpg') 
+      center 70% / cover 
+      no-repeat 
+      fixed;
+  
+  background-color: #f8fafc;
   font-family: 'Inter', 'Noto Sans Ethiopic', system-ui, -apple-system, sans-serif;
   color: #0f172a;
   line-height: 1.6;
@@ -37,12 +46,15 @@
 .dash-body textarea { font-family: inherit; }
 
 /* ============================================================
-   02. SIDEBAR
+   02. ✅ SIDEBAR — DARK GREEN (FIXED!)
    ============================================================ */
 .dash-sidebar {
   width: 260px;
-  background: #0d3b2e;
+  
+  /* ✅ Dark green (duraan "burlywood" ture — DOGOGGORA!) */
+  background: oklab(12.856000000000002% 0 -0.00001);
   color: #ffffff;
+  
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -54,6 +66,7 @@
   padding: 20px 12px 16px;
   transition: transform 0.3s ease;
   z-index: 100;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .dash-sidebar::-webkit-scrollbar { width: 6px; }
@@ -223,13 +236,19 @@
 }
 
 /* ============================================================
-   06. MAIN AREA
+   06. ✅ MAIN AREA — SEMI-TRANSPARENT BACKGROUND
+   Suuraan duubaan xiqqoo mul'ata
    ============================================================ */
 .dash-main {
   flex: 1;
   padding: 24px 32px;
   min-width: 0;
   overflow-x: auto;
+  
+  /* ✅ Background semi-transparent — suuraan duubaan mul'ata */
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* ============================================================
@@ -241,7 +260,7 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 18px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   gap: 16px;
   flex-wrap: wrap;
 }
@@ -262,7 +281,7 @@
 
 .dash-mobile-menu {
   display: none;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
   border: 1.5px solid #cbd5e1;
   width: 40px;
   height: 40px;
@@ -289,7 +308,7 @@
 .dash-user {
   font-size: 12px;
   color: #64748b;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
   padding: 7px 12px;
   border-radius: 999px;
   border: 1px solid #e2e8f0;
@@ -301,7 +320,7 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
   border: 1.5px solid #cbd5e1;
   cursor: pointer;
   font-size: 16px;
@@ -342,7 +361,8 @@
 }
 
 .kpi {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 18px;
@@ -414,7 +434,8 @@
 }
 
 .quick-stat {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   padding: 14px;
@@ -459,7 +480,8 @@
 }
 
 .chart-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 18px;
@@ -494,7 +516,8 @@
   gap: 10px;
   flex-wrap: wrap;
   padding: 14px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   margin-bottom: 14px;
@@ -558,7 +581,8 @@
    14. FORM CARDS
    ============================================================ */
 .form-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 20px;
@@ -760,7 +784,8 @@
    20. TABLES
    ============================================================ */
 .table-wrap {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   overflow-x: auto;
@@ -932,7 +957,8 @@ table input[type="checkbox"] {
   display: flex;
   gap: 8px;
   padding: 6px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   margin-bottom: 20px;
@@ -1071,7 +1097,8 @@ table input[type="checkbox"] {
 }
 
 .report-type-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(6px);
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   overflow: hidden;
@@ -1328,22 +1355,39 @@ table input[type="checkbox"] {
 }
 
 /* ============================================================
-   28. DARK MODE
+   28. ✅ DARK MODE
    ============================================================ */
-[data-theme="dark"] .dash-body { background: #0f172a; color: #f1f5f9; }
-[data-theme="dark"] .dash-main { background: #0f172a; }
+[data-theme="dark"] .dash-body {
+  background: 
+    linear-gradient(rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.94)),
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat 
+      fixed;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .dash-sidebar {
+  background: #020617;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .dash-main {
+  background: rgba(15, 23, 42, 0.75);
+}
+
 [data-theme="dark"] .dash-header { border-bottom-color: #334155; }
 [data-theme="dark"] .dash-header h1 { color: #f1f5f9; }
 
 [data-theme="dark"] .dash-user {
-  background: #1e293b;
+  background: rgba(30, 41, 59, 0.95);
   border-color: #334155;
   color: #94a3b8;
 }
 
 [data-theme="dark"] .dash-theme-toggle,
 [data-theme="dark"] .dash-mobile-menu {
-  background: #1e293b;
+  background: rgba(30, 41, 59, 0.95);
   border-color: #334155;
   color: #cbd5e1;
 }
@@ -1356,7 +1400,7 @@ table input[type="checkbox"] {
 [data-theme="dark"] .filter-bar,
 [data-theme="dark"] .report-type-card,
 [data-theme="dark"] .reports-subtabs {
-  background: #1e293b;
+  background: rgba(30, 41, 59, 0.98);
   border-color: #334155;
 }
 
@@ -1487,6 +1531,11 @@ table input[type="checkbox"] {
 
 @media (max-width: 900px) {
   .dash-body { flex-direction: column; }
+  
+  /* Mobile irratti fixed hin hojjetu */
+  .dash-body {
+    background-attachment: scroll;
+  }
 
   .dash-sidebar {
     position: fixed;

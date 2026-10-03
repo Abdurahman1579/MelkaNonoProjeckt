@@ -1,14 +1,27 @@
 /* ============================================
    AUTH.CSS — Login / Register / Forgot
    Malka Noonoo Project
+   + Ka'baa Background (v2.0)
    ============================================ */
 
 /* ============================================
-   AUTH PAGE LAYOUT
+   ✅ AUTH PAGE LAYOUT — KA'BAA BACKGROUND
    ============================================ */
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 100%);
+  
+  /* ✅ Suuraa Ka'baa + overlay dukkana */
+  background: 
+    /* linear-gradient(135deg, 
+      rgba(13, 59, 46, 0.82) 0%, 
+      rgba(26, 107, 79, 0.72) 100%), */
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat 
+      fixed;
+  
+  background-color: #0d3b2e; /* Fallback */
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,7 +32,7 @@
   font-family: 'Inter', 'Noto Sans Ethiopic', system-ui, sans-serif;
 }
 
-/* Background decoration */
+/* Background decoration — radial gold + green */
 .auth-page::before {
   content: '';
   position: absolute;
@@ -28,6 +41,7 @@
     radial-gradient(circle at 20% 30%, rgba(212, 160, 23, 0.15) 0%, transparent 55%),
     radial-gradient(circle at 80% 70%, rgba(110, 231, 183, 0.1) 0%, transparent 55%);
   pointer-events: none;
+  z-index: 0;
 }
 
 /* ============================================
@@ -149,13 +163,17 @@
 }
 
 /* ============================================
-   AUTH CARD
+   ✅ AUTH CARD — SEMI-TRANSPARENT
    ============================================ */
 .auth-card {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-lg);
   padding: 44px 36px 36px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
   text-align: center;
   animation: authSlideUp 0.4s ease;
 }
@@ -230,7 +248,6 @@
   letter-spacing: 0.2px;
 }
 
-/* Input wrap with icon */
 .input-wrap {
   position: relative;
   display: flex;
@@ -268,7 +285,6 @@
   color: var(--neutral-300);
 }
 
-/* Password toggle */
 .input-toggle {
   position: absolute;
   right: 8px;
@@ -467,20 +483,30 @@
 .auth-note {
   text-align: center;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   margin-top: 24px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================
-   DARK MODE
+   ✅ DARK MODE — AUTH PAGE
    ============================================ */
 [data-theme="dark"] .auth-page {
-  background: linear-gradient(135deg, #020617 0%, #064e3b 100%);
+  background: 
+    linear-gradient(135deg, 
+      rgba(2, 6, 23, 0.88) 0%, 
+      rgba(4, 47, 46, 0.78) 100%),
+    url('../assets/images/hero-kaaba.jpg') 
+      center 40% / cover 
+      no-repeat 
+      fixed;
 }
 
 [data-theme="dark"] .auth-card {
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: rgba(30, 41, 59, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
 }
 
 [data-theme="dark"] .auth-card h1 {
@@ -496,7 +522,7 @@
 }
 
 [data-theme="dark"] .input-wrap input {
-  background: #0f172a;
+  background: rgba(15, 23, 42, 0.96);
   border-color: #334155;
   color: #f1f5f9;
 }
@@ -539,6 +565,11 @@
 [data-theme="dark"] .auth-lang-item.active {
   background: #065f46;
   color: #d1fae5;
+}
+
+[data-theme="dark"] .auth-divider::before,
+[data-theme="dark"] .auth-divider::after {
+  background: #334155;
 }
 
 /* ============================================
@@ -587,6 +618,11 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  /* Mobile irratti fixed hin hojjetu */
+  .auth-page {
+    background-attachment: scroll;
   }
 }
 
